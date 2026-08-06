@@ -1,0 +1,28 @@
+{
+  "name": "aps-design-website",
+  "description": "APS Design Pro 官方组件文档网站。",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm verify:demos && vue-tsc --noEmit && vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "verify:demos": "node ./scripts/verify-document-demos.mjs",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "aps-design-pro": "^0.1.2",
+    "markdown-it": "^14.1.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.13.10",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.2",
+    "vue-tsc": "^2.2.8"
+  }
+}
