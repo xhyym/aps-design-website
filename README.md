@@ -16,3 +16,7 @@ pnpm build
 ```
 
 组件文档位于 `docs/`，演示源码位于 `src/demos/`。组件源码与 API 以 [APS Design Pro](https://gitee.com/xhyym/aps-design-pro) 为准。
+
+## 开源许可
+
+本项目采用 [MIT License](./LICENSE) 开源。
