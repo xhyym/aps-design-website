@@ -11,6 +11,7 @@ APS Design Pro 的官方文档与组件展示站。网站用 Vue 3 + Vite 构建
 - **组件**：按 `base`、`form`、`data`、`charts`、`navigation`、`feedback`、`overlay`、`content`、`layout` 分类浏览；每个页面展示实时效果、源码、Props、Events、Slots 和使用建议。
 - **赞助**：项目支持方式和合作入口。
 - **最佳实践**：后台页面布局、表格工作流、反馈状态和业务接入建议。
+- **共建名单**：读取仓库内 `docs/contributors.md`，按官网建设、组件拓展和后台管理模板展示公开贡献记录。
 
 页面顶部提供全局搜索，支持 `⌘ K`（Windows/Linux 可使用 `Ctrl K`）快速定位指南和组件。
 

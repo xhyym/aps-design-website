@@ -46,6 +46,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/views/BestPracticesView.vue"),
     meta: { title: "最佳实践" },
   },
+  {
+    path: "/contributors",
+    name: "contributors",
+    component: () => import("@/views/ContributorsView.vue"),
+    meta: { title: "共建名单" },
+  },
 ];
 
 const router = createRouter({

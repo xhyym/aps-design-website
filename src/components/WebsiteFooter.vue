@@ -29,6 +29,7 @@ import BrandMark from "./BrandMark.vue";
         <section>
           <strong>社区</strong>
           <RouterLink to="/sponsor">赞助支持</RouterLink>
+          <RouterLink to="/contributors">共建名单</RouterLink>
           <a href="https://gitee.com/xhyym/aps-design-pro/issues" target="_blank" rel="noopener noreferrer">反馈问题</a>
         </section>
       </nav>

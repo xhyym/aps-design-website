@@ -1,5 +1,6 @@
 import MarkdownIt from "markdown-it";
 import { highlightCode } from "@/utils/codeHighlight";
+import { CONTRIBUTOR_DOCUMENT_PATH } from "@/content/contributors";
 
 export type MarkdownDocumentKind = "component" | "guide";
 
@@ -224,6 +225,8 @@ function createDocument(modulePath: string, rawSource: string): MarkdownDocument
 
 function collectDocuments(): MarkdownDocument[] {
   return Object.entries(websiteDocumentModules)
+    // 共建名单由独立页面渲染，不应作为普通指南出现在组件/指南目录中。
+    .filter(([modulePath]) => getRelativeDocumentPath(modulePath) !== CONTRIBUTOR_DOCUMENT_PATH)
     .map(([modulePath, rawSource]) => createDocument(modulePath, rawSource))
     .sort((left, right) => left.title.localeCompare(right.title, "zh-CN"));
 }
