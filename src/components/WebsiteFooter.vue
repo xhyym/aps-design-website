@@ -2,6 +2,7 @@
 import { RouterLink } from "vue-router";
 import { AppIcon } from "aps-design-pro";
 import BrandMark from "./BrandMark.vue";
+import { ADMIN_DEMO_URL } from "@/data/navigation";
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import BrandMark from "./BrandMark.vue";
         <section>
           <strong>文档</strong>
           <RouterLink to="/guide/architecture">开始使用</RouterLink>
-          <RouterLink to="/best-practices">最佳实践</RouterLink>
+          <a :href="ADMIN_DEMO_URL" target="_blank" rel="noopener noreferrer">最佳实践</a>
         </section>
         <section>
           <strong>组件</strong>

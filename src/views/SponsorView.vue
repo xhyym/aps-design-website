@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { AppButton, AppCard, AppIcon } from "aps-design-pro";
-
-const router = useRouter();
+import { ADMIN_DEMO_URL } from "@/data/navigation";
 
 function openGiteeProject(): void {
   window.open("https://gitee.com/xhyym/aps-design-pro", "_blank", "noopener,noreferrer");
@@ -17,7 +15,9 @@ function openGiteeProject(): void {
       <span>赞助用于支持组件维护、文档完善、问题排查与示例建设。当前赞助方式将在项目仓库持续更新。</span>
       <div>
         <AppButton @click="openGiteeProject">前往 Gitee 项目</AppButton>
-        <AppButton variant="secondary" @click="router.push('/best-practices')">查看最佳实践</AppButton>
+        <a :href="ADMIN_DEMO_URL" target="_blank" rel="noopener noreferrer">
+          <AppButton variant="secondary">查看最佳实践</AppButton>
+        </a>
       </div>
     </section>
 

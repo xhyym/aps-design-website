@@ -40,6 +40,10 @@ function closeSearch(): void {
 function selectEntry(entry: SearchResult): void {
   closeSearch();
   query.value = "";
+  if (entry.externalUrl) {
+    window.open(entry.externalUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
   void router.push(entry.path);
 }
 

@@ -35,15 +35,26 @@ function openSearch(): void {
       </RouterLink>
 
       <nav class="website-header__navigation" :class="{ 'is-open': isMobileMenuOpen }" aria-label="主导航">
-        <RouterLink
-          v-for="item in WEBSITE_NAVIGATION"
-          :key="item.path"
-          :to="item.path"
-          :class="{ 'is-active': isActive(item.path) }"
-          @click="closeMobileMenu"
-        >
-          {{ item.label }}
-        </RouterLink>
+        <template v-for="item in WEBSITE_NAVIGATION" :key="item.path">
+          <a
+            v-if="item.externalUrl"
+            :href="item.externalUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="`打开${item.label}`"
+            @click="closeMobileMenu"
+          >
+            {{ item.label }}
+          </a>
+          <RouterLink
+            v-else
+            :to="item.path"
+            :class="{ 'is-active': isActive(item.path) }"
+            @click="closeMobileMenu"
+          >
+            {{ item.label }}
+          </RouterLink>
+        </template>
       </nav>
 
       <div class="website-header__actions">
