@@ -72,6 +72,184 @@ const options = [
 </style>
 ```
 
+### 2.3 多档尺寸
+
+```vue demo:select-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const size = ref("");
+const options = [
+  { label: "紧凑", value: "small" },
+  { label: "默认", value: "default" },
+  { label: "宽松", value: "large" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppSelect v-model="size" :options="options" size="small" placeholder="紧凑尺寸" aria-label="尺寸示例" />
+    <AppSelect v-model="size" :options="options" size="default" placeholder="默认尺寸" aria-label="尺寸示例" />
+    <AppSelect v-model="size" :options="options" size="large" placeholder="宽松尺寸" aria-label="尺寸示例" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 10px; width: min(100%, 360px); }
+</style>
+```
+
+### 2.4 本地筛选
+
+```vue demo:select-filterable title="可搜索"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const city = ref("");
+const options = [
+  { label: "北京", value: "beijing" },
+  { label: "上海", value: "shanghai" },
+  { label: "广州", value: "guangzhou" },
+  { label: "深圳", value: "shenzhen" },
+  { label: "杭州", value: "hangzhou" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppSelect v-model="city" :options="options" filterable placeholder="输入城市拼音或汉字筛选" aria-label="城市" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+### 2.5 禁用与错误态
+
+```vue demo:select-disabled title="禁用与错误"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const status = ref("");
+const options = [
+  { label: "草稿", value: "draft" },
+  { label: "已发布", value: "published" },
+  { label: "已下架", value: "offline", disabled: true },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppSelect v-model="status" :options="options" placeholder="禁用整个选择器" disabled aria-label="状态" />
+    <AppSelect v-model="status" :options="options" placeholder="字段校验未通过" invalid aria-label="状态" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 10px; width: min(100%, 360px); }
+</style>
+```
+
+### 2.6 可创建新项
+
+```vue demo:select-allow-create title="允许创建"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const tags = ref<string[]>(["vue"]);
+const options = [
+  { label: "Vue 3", value: "vue" },
+  { label: "React", value: "react" },
+  { label: "Svelte", value: "svelte" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppSelect v-model="tags" :options="options" multiple filterable allow-create clearable placeholder="选中或输入新标签" aria-label="技术栈" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.7 加载状态
+
+```vue demo:select-loading title="加载中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const member = ref("");
+const options = [
+  { label: "张讲师", value: "u1" },
+  { label: "李助教", value: "u2" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppSelect v-model="member" :options="options" loading placeholder="正在加载成员列表" aria-label="成员" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+### 2.8 远程搜索
+
+```vue demo:select-remote title="远程检索"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const course = ref("");
+const remoteOptions = ref<{ label: string; value: string }[]>([]);
+
+async function searchCourses(keyword: string): Promise<{ label: string; value: string }[]> {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  return [
+    { label: `${keyword} 入门`, value: `${keyword}-basic` },
+    { label: `${keyword} 进阶`, value: `${keyword}-pro` },
+  ];
+}
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppSelect
+      v-model="course"
+      :options="remoteOptions"
+      remote
+      filterable
+      :remote-method="searchCourses"
+      placeholder="搜索课程名称"
+      aria-label="课程"
+    />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

@@ -67,6 +67,163 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+### 2.3 不同尺寸
+
+`size` 以像素为单位控制图标大小，配合文字时可取与字号接近的值，保证视觉对齐。
+
+```vue demo:svg-icon-sizes title="不同尺寸"
+<script setup lang="ts">
+import { AppSvgIcon } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="svg-icon-demo-sizes">
+    <AppSvgIcon name="calendar" :size="14" label="小尺寸" />
+    <AppSvgIcon name="calendar" :size="18" label="默认尺寸" />
+    <AppSvgIcon name="calendar" :size="24" label="大尺寸" />
+    <AppSvgIcon name="calendar" :size="32" label="超大尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.svg-icon-demo-sizes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--aps-text);
+}
+</style>
+```
+
+### 2.4 颜色语义
+
+图标继承当前文字颜色，通过外层容器的 `color` 表达状态语义，避免孤立地依赖颜色传递关键信息。
+
+```vue demo:svg-icon-colors title="颜色语义"
+<script setup lang="ts">
+import { AppSvgIcon } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="svg-icon-demo-colors">
+    <span class="tone-default"><AppSvgIcon name="check" :size="18" label="成功" /> 完成</span>
+    <span class="tone-danger"><AppSvgIcon name="warning" :size="18" label="警告" /> 注意</span>
+    <span class="tone-muted"><AppSvgIcon name="bell" :size="18" label="消息" /> 通知</span>
+  </div>
+</template>
+
+<style scoped>
+.svg-icon-demo-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 14px;
+}
+.svg-icon-demo-colors span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tone-default { color: var(--aps-success, #16a34a); }
+.tone-danger { color: var(--aps-danger, #dc2626); }
+.tone-muted { color: var(--aps-muted, #6b7280); }
+</style>
+```
+
+### 2.5 带文字的元信息
+
+把图标和文字放在同一行内，让元信息更易读；图标负责视觉锚点，文字负责准确含义。
+
+```vue demo:svg-icon-list title="带文字的元信息"
+<script setup lang="ts">
+import { AppSvgIcon } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { name: "user", label: "用户" },
+  { name: "settings", label: "设置" },
+  { name: "bell", label: "通知" },
+  { name: "search", label: "搜索" },
+] as const;
+</script>
+
+<template>
+  <div class="svg-icon-demo-list">
+    <span v-for="item in items" :key="item.name">
+      <AppSvgIcon :name="item.name" :size="18" :label="item.label" />
+      {{ item.label }}
+    </span>
+  </div>
+</template>
+
+<style scoped>
+.svg-icon-demo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: var(--aps-text);
+  font-size: 14px;
+}
+.svg-icon-demo-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+</style>
+```
+
+### 2.6 图标总览
+
+需要挑选图标时，可直接遍历内置 `IconName` 集合渲染一张总览，方便设计与开发对齐。
+
+```vue demo:svg-icon-grid title="图标总览"
+<script setup lang="ts">
+import { AppSvgIcon, type IconName } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const iconNames: IconName[] = [
+  "grid", "settings", "users", "shield", "menu", "search", "bell",
+  "chevron-down", "plus", "minus", "dots", "arrow-up", "arrow-right",
+  "logout", "panel", "close", "user", "refresh", "check", "warning",
+  "edit", "trash", "columns", "sort", "sun", "moon", "lock", "eye",
+  "arrow-left", "chevron-up", "filter", "fullscreen", "pin", "calendar",
+];
+</script>
+
+<template>
+  <div class="svg-icon-demo-grid">
+    <div v-for="name in iconNames" :key="name" class="svg-icon-cell">
+      <AppSvgIcon :name="name" :size="20" :label="name" />
+      <code>{{ name }}</code>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.svg-icon-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 10px;
+}
+.svg-icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid var(--aps-border);
+  border-radius: 8px;
+  color: var(--aps-text);
+  font-size: 12px;
+}
+.svg-icon-cell code {
+  color: var(--aps-muted);
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 传入 `name` 和需要的像素尺寸即可。旁边已经有完整文案时，通常不用设置 `label`；当图标本身需要被单独读取时，再传入简短的业务说明。

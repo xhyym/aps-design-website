@@ -43,6 +43,39 @@ interface MarkdownRenderEnvironment {
   headingIndex?: number;
 }
 
+const componentCategoryLabels: Record<string, string> = {
+  base: "基础组件",
+  form: "表单组件",
+  data: "数据组件",
+  navigation: "导航组件",
+  feedback: "反馈组件",
+  content: "内容组件",
+  layout: "布局组件",
+  overlay: "浮层组件",
+  charts: "图表组件",
+};
+
+const componentCategoryOrder = ["base", "form", "data", "navigation", "feedback", "overlay", "content", "charts", "layout"];
+
+/** 指南侧边栏的阅读顺序，避免按中文标题字母序排列时顺序失真。 */
+const guideOrder: Record<string, number> = {
+  "quick-start": 1,
+  "architecture": 2,
+  "theming": 3,
+  "i18n": 4,
+  "changelog": 5,
+};
+
+/** 组件目录和左侧文档导航共用分类名称，避免同一组件在不同页面出现不同归属。 */
+export function getComponentCategoryLabel(category: string): string {
+  return componentCategoryLabels[category] ?? `${category} 组件`;
+}
+
+export function getComponentCategoryOrder(category: string): number {
+  const order = componentCategoryOrder.indexOf(category);
+  return order === -1 ? componentCategoryOrder.length : order;
+}
+
 /**
  * 文档演示约定：
  * ```vue demo:button-basic title="基础操作"
@@ -228,7 +261,15 @@ function collectDocuments(): MarkdownDocument[] {
     // 共建名单由独立页面渲染，不应作为普通指南出现在组件/指南目录中。
     .filter(([modulePath]) => getRelativeDocumentPath(modulePath) !== CONTRIBUTOR_DOCUMENT_PATH)
     .map(([modulePath, rawSource]) => createDocument(modulePath, rawSource))
-    .sort((left, right) => left.title.localeCompare(right.title, "zh-CN"));
+    .sort((left, right) => {
+    if (left.kind === right.kind && left.kind === "guide") {
+      const leftOrder = guideOrder[left.id] ?? Number.MAX_SAFE_INTEGER;
+      const rightOrder = guideOrder[right.id] ?? Number.MAX_SAFE_INTEGER;
+      if (leftOrder !== rightOrder) return leftOrder - rightOrder;
+    }
+
+    return left.title.localeCompare(right.title, "zh-CN");
+  });
 }
 
 export const markdownDocuments = collectDocuments();

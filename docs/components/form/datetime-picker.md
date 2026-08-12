@@ -46,6 +46,103 @@ const shortcuts: DatePickerShortcut[] = [{ label: "今天 10:00", value: "2026-0
 <template><AppDateTimePicker v-model="value" :shortcuts="shortcuts" min="2026-08-06T09:00" max="2026-08-08T18:00" /></template>
 ```
 
+### 2.3 分钟步长
+
+```vue demo:form-datetime-picker-step title="步长 30 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppDateTimePicker v-model="value" :step="30" clearable /></template>
+```
+
+### 2.4 禁用周末
+
+```vue demo:form-datetime-picker-disabled-date title="禁用日期"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker, type DatePickerDisabledDate } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const disableWeekend: DatePickerDisabledDate = (value) => {
+  const day = new Date(`${value.slice(0, 10)}T00:00:00`).getDay();
+  return day === 0 || day === 6;
+};
+</script>
+
+<template><AppDateTimePicker v-model="value" :disabled-date="disableWeekend" clearable /></template>
+```
+
+### 2.5 禁用
+
+```vue demo:form-datetime-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("2026-08-06T10:30");
+</script>
+
+<template><AppDateTimePicker v-model="value" disabled /></template>
+```
+
+### 2.6 校验状态
+
+```vue demo:form-datetime-picker-invalid title="校验状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppDateTimePicker v-model="value" invalid described-by="dt-hint" clearable />
+    <span id="dt-hint">请选择有效的发布时间</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-direction: column; gap: 8px; width: min(100%, 320px); }
+</style>
+```
+
+### 2.7 最早时间
+
+```vue demo:form-datetime-picker-min title="最早时间"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppDateTimePicker v-model="value" min="2026-08-10T00:00" clearable /></template>
+```
+
+### 2.8 自定义占位
+
+```vue demo:form-datetime-picker-placeholder title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppDateTimePicker v-model="value" placeholder="选择发布时间" aria-label="发布时间" clearable /></template>
+```
+
 ## 3. API 使用方式
 
 保持接口字段为组件输出的 ISO 分钟级字符串；范围限制应同样使用该格式，避免时区与格式比较歧义。

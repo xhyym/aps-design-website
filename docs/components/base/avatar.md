@@ -62,6 +62,132 @@ import "aps-design-pro/style.css";
 
 不要把头像作为纯装饰容器来塞入复杂按钮或菜单；可点击行为应放在头像外层的链接或按钮上。
 
+### 2.3 尺寸
+
+`size` 支持 `small`、`default`、`large` 关键字，也可以直接传像素数值。列表中建议固定尺寸，避免头像随数据变化造成布局跳动。
+
+```vue demo:avatar-sizes title="头像尺寸"
+<script setup lang="ts">
+import { AppAvatar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="avatar-demo-sizes">
+    <AppAvatar name="林知远" size="small" aria-label="小尺寸头像" />
+    <AppAvatar name="陈雨晨" size="default" aria-label="默认尺寸头像" />
+    <AppAvatar name="王宇航" size="large" aria-label="大尺寸头像" />
+    <AppAvatar name="赵晴" :size="48" aria-label="48 像素头像" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-demo-sizes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+</style>
+```
+
+### 2.4 形状
+
+`shape` 决定头像外观，圆形适合人物，方形适合实体或系统对象。
+
+```vue demo:avatar-shapes title="头像形状"
+<script setup lang="ts">
+import { AppAvatar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="avatar-demo-shapes">
+    <AppAvatar name="林知远" shape="circle" aria-label="圆形头像" />
+    <AppAvatar name="陈雨晨" shape="square" aria-label="方形头像" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-demo-shapes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+</style>
+```
+
+### 2.5 图片地址
+
+传入 `src` 时优先加载图片，图片缺失或加载失败时自动回退到文字方案。正式环境应同时提供 `alt` 或 `ariaLabel`，让读屏软件给出完整含义。
+
+```vue demo:avatar-image title="图片地址"
+<script setup lang="ts">
+import { AppAvatar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppAvatar
+    src="https://i.pravatar.cc/120?img=15"
+    alt="产品负责人头像"
+    size="large"
+    aria-label="产品负责人头像"
+  />
+</template>
+```
+
+### 2.6 图标回退
+
+没有图片也没有姓名时，可以用 `icon` 给出统一的图标回退，优先级低于默认插槽。
+
+```vue demo:avatar-icon title="图标回退"
+<script setup lang="ts">
+import { AppAvatar, AppIcon } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="avatar-demo-icon">
+    <AppAvatar icon="user" size="large" aria-label="用户头像" />
+    <AppAvatar icon="shield" shape="square" size="large" aria-label="安全角色头像" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-demo-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+</style>
+```
+
+### 2.7 填充模式
+
+`fit` 对应原生 `object-fit`；图片比例与头像框不一致时，用它控制裁剪或完整展示。
+
+```vue demo:avatar-fit title="填充模式"
+<script setup lang="ts">
+import { AppAvatar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="avatar-demo-fit">
+    <AppAvatar src="https://i.pravatar.cc/200?img=8" fit="cover" size="large" aria-label="cover 填充" />
+    <AppAvatar src="https://i.pravatar.cc/200?img=8" fit="contain" size="large" aria-label="contain 填充" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-demo-fit {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 优先传入稳定的 `src`，并同时提供 `alt` 或 `ariaLabel`。图片不存在时，组件会按“默认插槽 → `icon` → `initials` → `name`”的顺序回退。列表中建议固定 `size` 和 `shape`，避免头像尺寸随数据变化造成布局跳动。

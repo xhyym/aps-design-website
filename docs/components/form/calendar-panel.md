@@ -54,6 +54,62 @@ function disableWeekend(value: string) {
 </template>
 ```
 
+### 2.3 区间高亮
+
+```vue demo:form-calendar-panel-range title="区间高亮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendarPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-12");
+</script>
+
+<template><AppCalendarPanel v-model="date" range-start="2026-08-08" range-end="2026-08-16" aria-label="区间高亮" /></template>
+```
+
+### 2.4 边界
+
+```vue demo:form-calendar-panel-min-max title="日期边界"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendarPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-12");
+</script>
+
+<template><AppCalendarPanel v-model="date" min="2026-08-01" max="2026-08-31" aria-label="八月可选" /></template>
+```
+
+### 2.5 禁用
+
+```vue demo:form-calendar-panel-locked title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendarPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-08");
+</script>
+
+<template><AppCalendarPanel v-model="date" disabled aria-label="只读日期面板" /></template>
+```
+
+### 2.6 selectedDate 别名
+
+```vue demo:form-calendar-panel-selected title="selectedDate"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendarPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-08");
+</script>
+
+<template><AppCalendarPanel :selected-date="date" @select="(value) => (date = value)" aria-label="日期面板" /></template>
+```
+
 ## 3. API 使用方式
 
 ```vue

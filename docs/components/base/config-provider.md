@@ -69,6 +69,97 @@ const componentConfig = useAppComponentConfig();
 
 未放置 Provider 时，Hook 返回稳定默认值：`default`、`false`、`2000`、`zh-CN`。
 
+### 2.4 仅控制尺寸
+
+只传 `size`，让该子树内的控件默认使用统一密度，子级仍可用自己的 `size` 覆盖。
+
+```vue demo:config-provider-size title="仅控制尺寸"
+<script setup lang="ts">
+import { AppButton, AppConfigProvider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppConfigProvider size="small">
+    <AppButton>保存课程</AppButton>
+    <AppButton variant="secondary">预览</AppButton>
+    <AppButton variant="text">取消</AppButton>
+  </AppConfigProvider>
+</template>
+```
+
+### 2.5 嵌套覆盖
+
+内层 Provider 只覆盖自己传入的字段，其余继承父级；适合在只读区域中保留个别可操作入口。
+
+```vue demo:config-provider-nested title="嵌套覆盖"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppConfigProvider } from "aps-design-pro";
+
+const locked = ref(true);
+</script>
+
+<template>
+  <AppConfigProvider :disabled="locked">
+    <AppButton>主操作</AppButton>
+    <AppConfigProvider :disabled="false" size="large">
+      <AppButton variant="secondary">始终可操作的查看入口</AppButton>
+    </AppConfigProvider>
+  </AppConfigProvider>
+</template>
+```
+
+### 2.6 调整浮层层级
+
+`zIndex` 写入 `--aps-layer-base` 变量，影响使用该层级令牌的下游浮层；适合在弹窗套弹窗时抬高内层。
+
+```vue demo:config-provider-zindex title="调整浮层层级"
+<script setup lang="ts">
+import { AppButton, AppConfigProvider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppConfigProvider :z-index="3000">
+    <AppButton>浮层层级基准提升至 3000</AppButton>
+  </AppConfigProvider>
+</template>
+```
+
+### 2.7 切换语言环境
+
+`locale` 通过 `useAppComponentConfig()` 向下传递，依赖语言的子组件会随 Provider 变化而更新。
+
+```vue demo:config-provider-locale title="切换语言环境"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppConfigProvider, useAppComponentConfig } from "aps-design-pro";
+
+const locale = ref<"zh-CN" | "en-US">("zh-CN");
+const config = useAppComponentConfig();
+</script>
+
+<template>
+  <AppConfigProvider :locale="locale">
+    <div class="config-provider-locale">
+      <p>当前语言环境：{{ config.locale }}</p>
+      <button type="button" @click="locale = locale === 'zh-CN' ? 'en-US' : 'zh-CN'">
+        切换语言环境
+      </button>
+    </div>
+  </AppConfigProvider>
+</template>
+
+<style scoped>
+.config-provider-locale {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 通常只在应用入口设置一次默认值；局部只读区再嵌套 Provider 覆盖 `disabled`。自定义组件通过 `useAppComponentConfig()` 读取最近一层配置，未找到 Provider 时使用稳定默认值。

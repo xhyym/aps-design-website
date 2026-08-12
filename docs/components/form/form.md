@@ -47,6 +47,96 @@ const items: FormItem[] = [{ key: "publishMode", label: "发布方式", type: "r
 <template><AppForm v-model="model" :items="items" label-position="inline" /></template>
 ```
 
+### 2.3 栅格列数与间距
+
+```vue demo:form-grid-columns title="栅格列数布局"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppForm, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ a: "", b: "", c: "", d: "" });
+const items: FormItem[] = [
+  { key: "a", label: "字段 A", type: "input", span: 1 },
+  { key: "b", label: "字段 B", type: "input", span: 1 },
+  { key: "c", label: "字段 C", type: "input", span: 1 },
+  { key: "d", label: "字段 D", type: "input", span: 1 },
+];
+</script>
+
+<template>
+  <AppForm v-model="model" :items="items" :columns="2" :gap="20" />
+</template>
+```
+
+### 2.4 内联标签
+
+```vue demo:form-inline-labels title="内联标签表单"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppForm, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ name: "", email: "" });
+const items: FormItem[] = [
+  { key: "name", label: "姓名", type: "input", placeholder: "输入姓名", span: 6 },
+  { key: "email", label: "邮箱", type: "input", placeholder: "输入邮箱", span: 6 },
+];
+</script>
+
+<template>
+  <AppForm v-model="model" :items="items" label-position="inline" :label-width="'96px'" />
+</template>
+```
+
+### 2.5 禁用全部字段
+
+```vue demo:form-disabled-all title="禁用整个表单"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppForm, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ name: "已发布课程", status: "published" });
+const items: FormItem[] = [
+  { key: "name", label: "课程名称", type: "input", span: 6 },
+  { key: "status", label: "状态", type: "select", options: [{ label: "已发布", value: "published" }, { label: "草稿", value: "draft" }], span: 6 },
+];
+</script>
+
+<template>
+  <AppForm v-model="model" :items="items" disabled />
+</template>
+```
+
+### 2.6 自定义操作区
+
+```vue demo:form-custom-actions title="追加自定义操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppForm, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ name: "", level: "" });
+const items: FormItem[] = [
+  { key: "name", label: "课程名称", type: "input", placeholder: "输入课程名称", span: 6 },
+  { key: "level", label: "难度", type: "select", options: [{ label: "入门", value: "junior" }, { label: "进阶", value: "advanced" }], span: 6 },
+];
+
+function onSaveDraft() {
+  /* 仅保存草稿，不触发校验与提交 */
+}
+</script>
+
+<template>
+  <AppForm v-model="model" :items="items">
+    <template #actions>
+      <AppButton variant="text" @click="onSaveDraft">保存草稿</AppButton>
+    </template>
+  </AppForm>
+</template>
+```
+
 ## 3. API 使用方式
 
 使用组件引用调用 `validate`、`reset`、`scrollToField` 等方法；提交事件只会在校验通过后触发。

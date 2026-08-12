@@ -45,6 +45,146 @@ const color = ref("rgba(0, 113, 227, 0.7)");
 <template><AppColorPicker v-model="color" show-alpha format="rgb" :presets="['#0071e3', '#1d1d1f', '#f5f5f7']" clearable aria-label="遮罩颜色" /></template>
 ```
 
+### 2.3 禁用状态
+
+```vue demo:color-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" disabled aria-label="禁用颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+### 2.4 面板位置
+
+```vue demo:color-picker-placement-top title="上方展开"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" placement="top" aria-label="上方展开颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+`placement="top"` 让面板在触发器上方展开，适合颜色选择器位于页面底部时避免被遮挡。
+
+### 2.5 预设颜色
+
+```vue demo:color-picker-presets title="预设颜色"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" :presets="['#0071e3', '#34c759', '#ff3b30', '#ffcc00']" aria-label="预设颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+`presets` 在面板底部提供常用色快选，减少在色盘中反复取色。
+
+### 2.6 可清除
+
+```vue demo:color-picker-clearable title="可清除"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" clearable aria-label="可清除颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+### 2.7 HSL 格式
+
+```vue demo:color-picker-format-hsl title="HSL 格式"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("hsl(210, 100%, 46%)");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" format="hsl" aria-label="HSL 格式颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+`format` 决定确认后回传的颜色字符串格式，与后端约定保持一致即可，组件内部统一转换为目标格式。
+
+### 2.8 透明度
+
+```vue demo:color-picker-showalpha title="透明度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const color = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPicker v-model="color" show-alpha aria-label="带透明度颜色" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 240px); }
+</style>
+```
+
+`showAlpha` 在面板中加入透明度通道，输出值会包含 alpha 信息。
+
 ## 3. API 使用方式
 
 ```vue

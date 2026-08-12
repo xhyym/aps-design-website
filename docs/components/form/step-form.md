@@ -48,6 +48,124 @@ const steps: FormWorkflowStep[] = [{ key: "content", title: "内容确认", item
 <template><AppStepForm v-model="model" :steps="steps" finish-text="提交申请" /></template>
 ```
 
+### 2.3 双列步骤布局
+
+```vue demo:step-form-columns title="columns 布局"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppStepForm, type FormValue, type FormWorkflowStep } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const activeStep = ref(0);
+const model = ref<Record<string, FormValue>>({ title: "", summary: "", category: "", level: "" });
+const steps: FormWorkflowStep[] = [
+  {
+    key: "basic",
+    title: "基础信息",
+    description: "填写课程基础资料",
+    items: [
+      { key: "title", label: "课程标题", type: "input", span: 1, required: true, rules: [{ required: true, message: "请输入课程标题" }] },
+      { key: "summary", label: "课程简介", type: "input", span: 1 },
+    ],
+  },
+  {
+    key: "category",
+    title: "分类设置",
+    description: "选择课程所属分类",
+    items: [
+      { key: "category", label: "课程分类", type: "select", span: 1, options: [{ label: "前端", value: "frontend" }, { label: "后端", value: "backend" }] },
+      { key: "level", label: "难度", type: "select", span: 1, options: [{ label: "入门", value: "junior" }, { label: "进阶", value: "advanced" }] },
+    ],
+  },
+];
+</script>
+
+<template>
+  <AppStepForm v-model="model" v-model:active-step="activeStep" :steps="steps" :columns="2" />
+</template>
+```
+
+### 2.4 自定义步骤按钮文案
+
+```vue demo:step-form-custom-text title="按钮文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppStepForm, type FormValue, type FormWorkflowStep } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ name: "", category: "" });
+const steps: FormWorkflowStep[] = [
+  { key: "basic", title: "基本信息", items: [{ key: "name", label: "课程名称", type: "input", required: true, rules: [{ required: true, message: "请输入课程名称" }] }] },
+  { key: "category", title: "分类设置", items: [{ key: "category", label: "课程分类", type: "select", options: [{ label: "前端", value: "frontend" }, { label: "后端", value: "backend" }], required: true, rules: [{ required: true, message: "请选择课程分类" }] }] },
+];
+</script>
+
+<template>
+  <AppStepForm v-model="model" :steps="steps" previous-text="上一步" next-text="下一步" finish-text="确认创建" />
+</template>
+```
+
+### 2.5 禁用步骤切换
+
+```vue demo:step-form-disabled title="禁用流程"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppStepForm, type FormValue, type FormWorkflowStep } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ name: "", category: "" });
+const steps: FormWorkflowStep[] = [
+  { key: "basic", title: "基本信息", items: [{ key: "name", label: "课程名称", type: "input" }] },
+  { key: "category", title: "分类设置", items: [{ key: "category", label: "课程分类", type: "select", options: [{ label: "前端", value: "frontend" }, { label: "后端", value: "backend" }] }] },
+];
+</script>
+
+<template>
+  <AppStepForm v-model="model" :steps="steps" disabled />
+</template>
+```
+
+### 2.6 三步流程与业务准入
+
+```vue demo:step-form-before-next title="多步准入"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppStepForm, type FormValue, type FormWorkflowStep } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ title: "", price: 0, stock: 10, cover: "" });
+const steps: FormWorkflowStep[] = [
+  {
+    key: "info",
+    title: "商品信息",
+    description: "填写基础信息",
+    items: [{ key: "title", label: "商品标题", type: "input", required: true, rules: [{ required: true, message: "请输入商品标题" }] }],
+    beforeNext: (value) => (value.title ? true : "请先填写商品标题"),
+  },
+  {
+    key: "price",
+    title: "价格库存",
+    description: "设置价格与库存",
+    items: [
+      { key: "price", label: "价格", type: "input" },
+      { key: "stock", label: "库存", type: "input" },
+    ],
+    beforeNext: (value) => (Number(value.stock) > 0 ? true : "库存必须大于 0"),
+  },
+  {
+    key: "cover",
+    title: "封面上传",
+    description: "上传商品封面",
+    items: [{ key: "cover", label: "封面", type: "input" }],
+  },
+];
+</script>
+
+<template>
+  <AppStepForm v-model="model" :steps="steps" finish-text="提交商品" />
+</template>
+```
+
 ## 3. API 使用方式
 
 可通过组件引用调用 `next`、`previous`、`goTo` 和 `validate`。最后一步校验通过后触发 `submit`，由业务页面提交完整模型。

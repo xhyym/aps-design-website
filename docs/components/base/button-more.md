@@ -7,17 +7,20 @@ source: packages/ui/src/components/base/AppButtonMore.vue
 
 # 更多按钮（AppButtonMore）
 
-`AppButtonMore` 把低频、辅助或危险操作收敛到下拉菜单，避免一整排按钮挤占表格工具栏和卡片操作区。它在未使用 `v-model` 时自行管理展开状态；使用 `v-model` 后完全由父级控制。
+`AppButtonMore` 把低频、辅助、危险操作收进下拉抽屉，给工具栏留出主任务。组件不发起请求——展开态由页面控制。
 
 ## 1. 用处
 
-更多按钮用于收纳低频、辅助或危险操作，让工具栏保留主要任务。它可以自行管理菜单开合，也可以由父级通过 `v-model` 在路由切换、抽屉关闭时统一收起。
+- 把低频或危险操作收进抽屉，给工具栏留出主任务；可自管理展开，也可受控。
+- 菜单项的 `key` 是唯一回传值，业务层据此分发动作。
 
 ## 2. 代码演示
 
-### 2.1 最小可用的更多操作
+### 2.1 下拉菜单
 
-```vue demo:button-more-basic title="低频操作"
+把低频、辅助或危险操作收进下拉，让工具栏只留主任务。菜单项的 `key` 是唯一回传值，业务层据此分发动作。
+
+```vue demo:button-more-basic title="下拉菜单"
 <script setup lang="ts">
 import { AppButtonMore, type DropdownItem } from "aps-design-pro";
 import "aps-design-pro/style.css";
@@ -38,13 +41,13 @@ function handleAction(key: string): void {
 </template>
 ```
 
-菜单项的 `key` 是唯一回传值，业务层根据它执行权限判断、确认弹窗或接口请求。`danger` 只改变菜单项的视觉语义，不会自动执行二次确认。
+`danger` 只改变菜单项的视觉语义，不会自动执行二次确认；分隔线 `divided` 用于把危险操作从常规动作中隔开。
 
-### 2.2 受控展开状态
+### 2.2 受控开合
 
-当页面需要在抽屉关闭、路由切换或权限变化时主动收起菜单，使用 `v-model`：
+页面需要在抽屉关闭、路由切换或权限变化时主动收起菜单时，绑定 `v-model` 进入受控模式。
 
-```vue demo:button-more-controlled title="受控展开"
+```vue demo:button-more-controlled title="受控开合"
 <script setup lang="ts">
 import { ref } from "vue";
 import { AppButtonMore, type DropdownItem } from "aps-design-pro";
@@ -60,11 +63,134 @@ const actions: DropdownItem[] = [
 </template>
 ```
 
-传入 `modelValue` 后，组件不会再修改内部状态，只会通过 `update:modelValue` 请求父级更新。不要同时依赖内部状态与父级状态。
+传入 `modelValue` 后，组件不再修改内部状态，只通过 `update:modelValue` 请求父级更新；不要同时依赖内部状态与父级状态。
+
+### 2.3 仅图标触发
+
+`iconOnly` 时触发按钮只显示图标，适合已经用图标表达动作的紧凑工具条。
+
+```vue demo:button-more-icon-only title="仅图标触发"
+<script setup lang="ts">
+import { AppButtonMore, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const actions: DropdownItem[] = [
+  { key: "share", label: "分享", icon: "arrow-right" },
+  { key: "star", label: "收藏", icon: "pin" },
+  { key: "delete", label: "删除", icon: "trash", danger: true, divided: true },
+];
+
+function handleAction(key: string): void {
+  console.info("已选择操作", key);
+}
+</script>
+
+<template>
+  <AppButtonMore :items="actions" icon-only @select="handleAction" />
+</template>
+```
+
+### 2.4 危险操作分组
+
+把停用、移出等危险动作集中在一起，并用 `danger` 给出视觉警示，避免与常规操作混排。
+
+```vue demo:button-more-danger title="危险操作分组"
+<script setup lang="ts">
+import { AppButtonMore, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const actions: DropdownItem[] = [
+  { key: "disable", label: "停用成员", icon: "lock", danger: true },
+  { key: "remove", label: "移出项目", icon: "trash", danger: true, divided: true },
+];
+
+function handleAction(key: string): void {
+  console.info("已选择危险操作", key);
+}
+</script>
+
+<template>
+  <AppButtonMore :items="actions" label="成员管理" @select="handleAction" />
+</template>
+```
+
+### 2.5 不同尺寸
+
+`size` 控制触发按钮尺寸，表格行内或紧凑工具条常用 `size="small"`。
+
+```vue demo:button-more-sizes title="不同尺寸"
+<script setup lang="ts">
+import { AppButtonMore, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const actions: DropdownItem[] = [
+  { key: "export", label: "导出数据", icon: "arrow-right" },
+  { key: "archive", label: "归档", icon: "panel" },
+];
+
+function handleAction(key: string): void {
+  console.info("已选择操作", key);
+}
+</script>
+
+<template>
+  <AppButtonMore :items="actions" size="small" label="小尺寸菜单" @select="handleAction" />
+</template>
+```
+
+### 2.6 用分隔线分组
+
+`divided` 在某项顶部添加分隔线，把危险操作从常规动作中隔开，提升菜单可读性。
+
+```vue demo:button-more-divided title="用分隔线分组"
+<script setup lang="ts">
+import { AppButtonMore, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const actions: DropdownItem[] = [
+  { key: "rename", label: "重命名", icon: "edit" },
+  { key: "duplicate", label: "创建副本", icon: "plus" },
+  { key: "archive", label: "归档", icon: "panel", divided: true },
+  { key: "delete", label: "删除", icon: "trash", danger: true },
+];
+
+function handleAction(key: string): void {
+  console.info("已选择操作", key);
+}
+</script>
+
+<template>
+  <AppButtonMore :items="actions" label="课程操作" @select="handleAction" />
+</template>
+```
+
+### 2.7 自定义触发文本
+
+`label` 同时是触发按钮文本和菜单辅助名称，应准确描述这组操作的归属。
+
+```vue demo:button-more-custom-label title="自定义触发文本"
+<script setup lang="ts">
+import { AppButtonMore, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const actions: DropdownItem[] = [
+  { key: "columns", label: "选择列", icon: "columns" },
+  { key: "filter", label: "筛选", icon: "filter" },
+];
+
+function handleAction(key: string): void {
+  console.info("已选择视图操作", key);
+}
+</script>
+
+<template>
+  <AppButtonMore :items="actions" label="视图设置" @select="handleAction" />
+</template>
+```
 
 ## 3. API 使用方式
 
-给 `items` 传入稳定的菜单项数组，并在 `select` 事件中根据 `key` 分发业务动作。需要外部控制开合时绑定 `v-model`，不要同时维护一份内部开合状态。
+更多按钮给 `items` 传稳定的菜单项数组，在 `select` 中按 `key` 分发；需要外部控制开合时绑定 `v-model`：
 
 ```vue
 <AppButtonMore
@@ -86,7 +212,7 @@ const actions: DropdownItem[] = [
 | `label` | 触发按钮文本，也是菜单辅助名称。 | `string` | `"更多操作"` |
 | `size` | 触发按钮尺寸。 | `"small" \| "default" \| "large"` | `"default"` |
 
-### 4.2 `DropdownItem`
+### 4.2 DropdownItem
 
 | 字段 | 说明 |
 | --- | --- |
@@ -99,7 +225,7 @@ const actions: DropdownItem[] = [
 
 ### 4.3 Slots
 
-该组件没有业务内容插槽；若需要完全自定义触发器或菜单内容，直接使用 `AppDropdown`。
+`AppButtonMore` 无业务内容插槽；需完全自定义触发器或菜单内容时直接用 `AppDropdown`。
 
 ### 4.4 Events
 

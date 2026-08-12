@@ -45,6 +45,81 @@ const email = ref("invalid-address");
 <template><AppFormField label="通知邮箱" for="notice-email" label-position="inline" error="请输入有效的邮箱地址"><template #extra><AppButton size="small" variant="text">说明</AppButton></template><AppInput id="notice-email" v-model="email" invalid /></AppFormField></template>
 ```
 
+### 2.3 必填标记
+
+```vue demo:form-field-required title="必填字段"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppFormField, AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <AppFormField label="课程封面" for="cover" required description="支持 JPG/PNG，大小不超过 2MB">
+    <AppInput id="cover" v-model="value" placeholder="上传或填写封面地址" />
+  </AppFormField>
+</template>
+```
+
+### 2.4 错误优先于说明
+
+```vue demo:form-field-error-priority title="错误优先显示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppFormField, AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <AppFormField label="访问密钥" for="token" required description="用于接口鉴权" error="密钥格式不正确，应为 32 位字符串">
+    <AppInput id="token" v-model="value" invalid placeholder="输入访问密钥" />
+  </AppFormField>
+</template>
+```
+
+### 2.5 标签行补充操作
+
+```vue demo:form-field-extra title="extra 插槽"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppFormField, AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("13700000000");
+</script>
+
+<template>
+  <AppFormField label="手机号" for="phone" required>
+    <template #extra>
+      <AppButton size="small" variant="text">获取验证码</AppButton>
+    </template>
+    <AppInput id="phone" v-model="value" placeholder="输入手机号" />
+  </AppFormField>
+</template>
+```
+
+### 2.6 内联标签与自定义宽度
+
+```vue demo:form-field-inline-width title="内联宽度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppFormField, AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <AppFormField label="课程名称" for="name" label-position="inline" :label-width="'120px'" :label-gap="'16px'">
+    <AppInput id="name" v-model="value" placeholder="输入课程名称" />
+  </AppFormField>
+</template>
+```
+
 ## 3. API 使用方式
 
 当字段有说明或错误时，使用默认插槽参数把 `describedBy` 继续传给支持该属性的控件。

@@ -101,6 +101,248 @@ function selectSuggestion(item: { label: string }): void {
 
 聚焦后可以用上、下方向键跳过禁用建议项，按 Enter 选择当前建议；按 Escape 关闭面板。建议项的 `value` 缺省时会使用 `label` 写回输入框。
 
+### 2.3 远程搜索（真实 API）
+
+下面示例直接调用公开的 **GitHub 用户搜索 API**，输入时按 300ms 防抖拉取建议，无需任何后端。
+
+```vue demo:search-input-remote title="远程搜索"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput, type SearchSuggestion } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const suggestions = ref<SearchSuggestion[]>([]);
+const loading = ref(false);
+const picked = ref("尚未选择");
+
+async function searchUsers(value: string): Promise<void> {
+  const query = value.trim();
+  if (!query) {
+    suggestions.value = [];
+    return;
+  }
+  loading.value = true;
+  try {
+    const res = await fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=8`);
+    const data = await res.json();
+    suggestions.value = (data.items ?? []).map((user: { login: string }) => ({
+      key: user.login,
+      label: user.login,
+      value: user.login,
+      description: "GitHub 用户",
+    }));
+  } catch {
+    suggestions.value = [];
+  } finally {
+    loading.value = false;
+  }
+}
+
+function onSelect(item: SearchSuggestion): void {
+  picked.value = `已选择：${item.label}`;
+}
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput
+      v-model="keyword"
+      :suggestions="suggestions"
+      :loading="loading"
+      :debounce="300"
+      placeholder="搜索 GitHub 用户名"
+      @debounced-search="searchUsers"
+      @select="onSelect"
+      aria-label="GitHub 用户搜索"
+    />
+    <span>{{ picked }}</span>
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 360px);
+  color: var(--aps-muted);
+  font-size: 13px;
+}
+</style>
+```
+
+`debounced-search` 在输入停止达到 `debounce` 后触发；请求失败时清空建议并隐藏加载态，不会阻塞输入。GitHub 匿名接口有速率限制，仅作演示用途。
+
+### 2.4 禁用状态
+
+```vue demo:search-input-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("只读的搜索词");
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput v-model="keyword" disabled aria-label="禁用搜索框" />
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  width: min(100%, 320px);
+}
+</style>
+```
+
+### 2.5 加载状态
+
+```vue demo:search-input-loading title="加载中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput, type SearchSuggestion } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const suggestions: SearchSuggestion[] = [
+  { key: "a", label: "进行中的请求会保留建议面板", value: "a", description: "提示" },
+  { key: "b", label: "适合配合远程搜索展示等待状态", value: "b", description: "提示" },
+];
+const loading = ref(true);
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput
+      v-model="keyword"
+      :suggestions="suggestions"
+      :loading="loading"
+      placeholder="加载中（建议面板保持展开）"
+      aria-label="加载态搜索框"
+    />
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  width: min(100%, 320px);
+}
+</style>
+```
+
+`loading` 为 `true` 时右侧显示等待图标，同时保留已展开的建议面板，便于在远程搜索过程中提示用户。
+
+### 2.6 仅提交不展示建议
+
+```vue demo:search-input-no-suggestions title="无建议"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const status = ref("等待搜索");
+
+function search(value: string): void {
+  status.value = value ? `搜索：“${value}”` : "请输入关键词";
+}
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput
+      v-model="keyword"
+      :show-suggestions="false"
+      placeholder="仅提交关键词，不展示建议"
+      @search="search"
+      aria-label="无建议搜索框"
+    />
+    <span>{{ status }}</span>
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 320px);
+  color: var(--aps-muted);
+  font-size: 13px;
+}
+</style>
+```
+
+`showSuggestions="false"` 完全关闭建议面板，组件退化为“输入即提交”的搜索框，按 Enter 触发 `search`。
+
+### 2.7 清空事件
+
+```vue demo:search-input-clear title="清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const status = ref("等待操作");
+
+function onClear(): void {
+  status.value = "已清空搜索词";
+}
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput v-model="keyword" placeholder="点击清空按钮试试" @clear="onClear" aria-label="可清空搜索框" />
+    <span>{{ status }}</span>
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 320px);
+  color: var(--aps-muted);
+  font-size: 13px;
+}
+</style>
+```
+
+点击清空按钮会同步 `v-model` 为空并触发 `clear`，可在此重置关联的状态或重新拉取全量数据。
+
+### 2.8 含禁用建议项
+
+```vue demo:search-input-with-disabled title="禁用建议项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchInput, type SearchSuggestion } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const suggestions: SearchSuggestion[] = [
+  { key: "vue", label: "Vue 3 工程化实战", value: "Vue 3", description: "课程", disabled: true },
+  { key: "ts", label: "TypeScript 类型系统", value: "TypeScript", description: "课程" },
+  { key: "lin", label: "林知远", value: "林知远", description: "讲师" },
+];
+</script>
+
+<template>
+  <div class="search-demo-field">
+    <AppSearchInput v-model="keyword" :suggestions="suggestions" placeholder="含禁用建议项，键盘会跳过" aria-label="含禁用项搜索框" />
+  </div>
+</template>
+
+<style scoped>
+.search-demo-field {
+  width: min(100%, 320px);
+}
+</style>
+```
+
+标记为 `disabled` 的建议项在视觉上置灰，且键盘方向键会自动跳过，点击也不会触发 `select`。
+
 ## 3. API 使用方式
 
 页面负责将 `v-model` 绑定到筛选条件，并在 `search` 或 `debounced-search` 中调用数据查询。建议数据改变后直接传入新数组，组件不缓存业务查询结果。

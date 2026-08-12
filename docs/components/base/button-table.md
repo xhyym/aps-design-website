@@ -1,7 +1,7 @@
 ---
 title: 表格按钮
 component: AppButtonTable
-category: base
+category: data
 source: packages/ui/src/components/base/AppButtonTable.vue
 ---
 
@@ -66,9 +66,115 @@ function openOrderDetail(): void {
 </template>
 ```
 
-### 2.3 业务处理建议
+### 2.3 多高频入口
 
-`select` 返回的是稳定的菜单项 `key`。将权限判断、确认对话框和接口调用放在外部事件函数中，避免把业务逻辑写入列定义的展示层。
+默认插槽可以放多个高频行内操作，低频操作继续收进更多菜单，保持操作区清爽。
+
+```vue demo:button-table-many title="多高频入口"
+<script setup lang="ts">
+import { AppButton, AppButtonTable, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const moreActions: DropdownItem[] = [
+  { key: "copy", label: "创建副本", icon: "plus" },
+  { key: "archive", label: "归档", icon: "panel" },
+  { key: "delete", label: "删除", icon: "trash", danger: true, divided: true },
+];
+
+function handleMoreAction(key: string): void {
+  console.info("已选择表格行操作", key);
+}
+</script>
+
+<template>
+  <AppButtonTable :more-items="moreActions" more-label="更多" @select="handleMoreAction">
+    <AppButton size="small" variant="text">查看</AppButton>
+    <AppButton size="small" variant="text">编辑</AppButton>
+    <AppButton size="small" variant="text">权限</AppButton>
+  </AppButtonTable>
+</template>
+```
+
+### 2.4 危险操作菜单
+
+更多菜单中的危险项使用 `danger`，并在项之间加分隔线；实际的二次确认仍由页面处理。
+
+```vue demo:button-table-danger title="危险操作菜单"
+<script setup lang="ts">
+import { AppButton, AppButtonTable, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const moreActions: DropdownItem[] = [
+  { key: "disable", label: "停用", icon: "lock", danger: true },
+  { key: "delete", label: "删除", icon: "trash", danger: true, divided: true },
+];
+
+function handleMoreAction(key: string): void {
+  console.info("已选择危险行操作", key);
+}
+</script>
+
+<template>
+  <AppButtonTable :more-items="moreActions" @select="handleMoreAction">
+    <AppButton size="small" variant="text">查看</AppButton>
+  </AppButtonTable>
+</template>
+```
+
+### 2.5 自定义菜单文本
+
+`moreLabel` 控制更多菜单的按钮文本与辅助名称，按业务对象命名能降低理解成本。
+
+```vue demo:button-table-more-label title="自定义菜单文本"
+<script setup lang="ts">
+import { AppButton, AppButtonTable, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const moreActions: DropdownItem[] = [
+  { key: "export", label: "导出明细", icon: "arrow-right" },
+  { key: "print", label: "打印", icon: "panel" },
+];
+
+function handleMoreAction(key: string): void {
+  console.info("已选择资源操作", key);
+}
+</script>
+
+<template>
+  <AppButtonTable :more-items="moreActions" more-label="资源操作" @select="handleMoreAction">
+    <AppButton size="small" variant="text">查看</AppButton>
+    <AppButton size="small" variant="text">编辑</AppButton>
+  </AppButtonTable>
+</template>
+```
+
+### 2.6 视图类操作
+
+更多菜单也适合放列选择、筛选、导出等视图操作，避免它们挤占行内的高频入口。
+
+```vue demo:button-table-columns title="视图类操作"
+<script setup lang="ts">
+import { AppButton, AppButtonTable, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const moreActions: DropdownItem[] = [
+  { key: "columns", label: "选择列", icon: "columns" },
+  { key: "filter", label: "筛选", icon: "filter" },
+  { key: "export", label: "导出", icon: "arrow-right" },
+];
+
+function handleMoreAction(key: string): void {
+  console.info("已选择表格操作", key);
+}
+</script>
+
+<template>
+  <AppButtonTable :more-items="moreActions" @select="handleMoreAction">
+    <AppButton size="small" variant="text">查看</AppButton>
+    <AppButton size="small" variant="text">编辑</AppButton>
+  </AppButtonTable>
+</template>
+```
 
 ## 3. API 使用方式
 

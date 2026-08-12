@@ -52,6 +52,102 @@ import "aps-design-pro/style.css";
 
 禁用时组件改为渲染带 `role="link"`、`aria-disabled="true"` 的 `span`，不会保留可访问的地址。因此异步地址准备好后应重新传入 `href` 或 `to`，而不是在点击事件里绕过禁用态跳转。
 
+### 2.3 颜色语义
+
+`tone` 表达链接的重要程度：主要链接用于关键入口，弱化链接用于补充说明。
+
+```vue demo:link-tones title="链接颜色"
+<script setup lang="ts">
+import { AppLink } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>
+    <AppLink to="/primary" tone="primary">主要链接</AppLink>
+    <AppLink to="/default" tone="default">默认链接</AppLink>
+    <AppLink to="/muted" tone="muted">弱化链接</AppLink>
+  </p>
+</template>
+```
+
+### 2.4 下划线策略
+
+`underline` 控制下划线出现时机，默认在悬停时显示，与多数设计系统的链接习惯一致。
+
+```vue demo:link-underline title="下划线策略"
+<script setup lang="ts">
+import { AppLink } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>
+    <AppLink to="/always" underline="always">始终带下划线</AppLink>
+    <AppLink to="/hover" underline="hover">悬停显示下划线</AppLink>
+    <AppLink to="/none" underline="none">不显示下划线</AppLink>
+  </p>
+</template>
+```
+
+### 2.5 打开目标
+
+外站链接使用 `target="_blank"`，组件会自动补上 `noopener noreferrer` 等安全属性；站内跳转使用 `_self`。
+
+```vue demo:link-target title="打开目标"
+<script setup lang="ts">
+import { AppLink } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>
+    <AppLink href="https://gitee.com/xhyym/aps-design-pro" target="_blank">新窗口打开仓库</AppLink>
+    <AppLink href="/guide/quick-start" target="_self">当前窗口跳转</AppLink>
+  </p>
+</template>
+```
+
+### 2.6 带图标
+
+链接内部可以放置 `AppSvgIcon`，让文案拥有更明确的语义图标。
+
+```vue demo:link-icon title="带图标链接"
+<script setup lang="ts">
+import { AppLink, AppSvgIcon } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>
+    <AppLink href="https://gitee.com/xhyym/aps-design-pro" target="_blank">
+      <AppSvgIcon name="settings" :size="15" label="文档" /> 查看文档
+    </AppLink>
+  </p>
+</template>
+```
+
+### 2.7 行内上下文
+
+把不同 `tone` 的链接放进同一段正文，让主要动作和补充说明在视觉上自然分层。
+
+```vue demo:link-context title="行内上下文"
+<script setup lang="ts">
+import { AppLink } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>
+    规则已更新，详见
+    <AppLink to="/guide/theming" tone="primary">主题定制指南</AppLink>
+    ，仍有疑问可
+    <AppLink href="https://gitee.com/xhyym/aps-design-pro" target="_blank" tone="muted">在仓库提 Issue</AppLink>
+    。
+  </p>
+</template>
+```
+
 ## 3. API 使用方式
 
 页面内跳转传 `to`，外部链接传 `href`。以新窗口打开外站时使用 `target="_blank"`，组件会自动补上安全的 `rel` 属性。地址尚未准备好时，通过 `disabled` 明确反馈状态，不要用空链接占位。

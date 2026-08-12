@@ -63,6 +63,107 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+### 2.3 不同尺寸
+
+`size` 同样以像素为单位，迁移旧代码时可直接沿用原来的尺寸写法。
+
+```vue demo:theme-svg-sizes title="不同尺寸"
+<script setup lang="ts">
+import { AppThemeSvg } from "aps-design-pro";
+</script>
+
+<template>
+  <div class="theme-svg-demo-sizes">
+    <AppThemeSvg name="settings" :size="16" label="小" />
+    <AppThemeSvg name="settings" :size="22" label="中" />
+    <AppThemeSvg name="settings" :size="30" label="大" />
+  </div>
+</template>
+
+<style scoped>
+.theme-svg-demo-sizes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--aps-text);
+}
+</style>
+```
+
+### 2.4 带文字的元信息
+
+与 `AppSvgIcon` 写法一致，适合在迁移阶段保留旧导入名而不改变渲染效果。
+
+```vue demo:theme-svg-list title="带文字的元信息"
+<script setup lang="ts">
+import { AppThemeSvg } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { name: "bell", label: "消息" },
+  { name: "user", label: "用户" },
+  { name: "calendar", label: "日历" },
+] as const;
+</script>
+
+<template>
+  <div class="theme-svg-demo-list">
+    <span v-for="item in items" :key="item.name">
+      <AppThemeSvg :name="item.name" :size="18" :label="item.label" />
+      {{ item.label }}
+    </span>
+  </div>
+</template>
+
+<style scoped>
+.theme-svg-demo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 14px;
+  color: var(--aps-text);
+}
+.theme-svg-demo-list span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+</style>
+```
+
+### 2.5 在状态文案中使用
+
+旧模块迁移时把图标嵌入状态提示，渲染结果与新组件完全一致。
+
+```vue demo:theme-svg-context title="在状态文案中使用"
+<script setup lang="ts">
+import { AppThemeSvg } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="theme-svg-demo-context">
+    <span><AppThemeSvg name="bell" :size="16" label="消息提醒" /> 您有 3 条新消息</span>
+    <span><AppThemeSvg name="settings" :size="16" label="偏好设置" /> 偏好设置已更新</span>
+  </div>
+</template>
+
+<style scoped>
+.theme-svg-demo-context {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--aps-muted);
+  font-size: 14px;
+}
+.theme-svg-demo-context span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 调用方式与 `AppSvgIcon` 完全相同。只在保留旧 API 或分阶段迁移时使用；不要在同一个新模块中混用两个命名。

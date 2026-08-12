@@ -45,6 +45,112 @@ const value = ref("");
 <template><AppTimeSelect v-model="value" start="08:00" end="20:00" :step="15" min-time="09:00" max-time="18:00" placeholder="选择预约时间" /></template>
 ```
 
+### 2.3 尺寸
+
+```vue demo:form-time-select-sizes title="尺寸变体"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("");
+const medium = ref("");
+const large = ref("");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppTimeSelect v-model="small" size="small" clearable placeholder="小型" aria-label="小型时间" />
+    <AppTimeSelect v-model="medium" size="default" clearable placeholder="默认" aria-label="默认时间" />
+    <AppTimeSelect v-model="large" size="large" clearable placeholder="大型" aria-label="大型时间" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-wrap: wrap; gap: 12px; }
+.demo-stack > * { width: min(100%, 200px); }
+</style>
+```
+
+### 2.4 分钟步长
+
+```vue demo:form-time-select-step title="步长 15 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppTimeSelect v-model="value" :step="15" clearable placeholder="每 15 分钟" /></template>
+```
+
+### 2.5 禁用
+
+```vue demo:form-time-select-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("09:30");
+</script>
+
+<template><AppTimeSelect v-model="value" disabled /></template>
+```
+
+### 2.6 校验状态
+
+```vue demo:form-time-select-invalid title="校验状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppTimeSelect v-model="value" invalid described-by="ts-hint" clearable placeholder="选择时间" aria-label="时间" />
+    <span id="ts-hint">请选择一个预约时间</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-direction: column; gap: 8px; width: min(100%, 240px); }
+</style>
+```
+
+### 2.7 可选时段
+
+```vue demo:form-time-select-min-max-time title="时段限制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppTimeSelect v-model="value" start="08:00" end="20:00" min-time="09:00" max-time="18:00" clearable placeholder="可选预约时段" /></template>
+```
+
+### 2.8 不可清空
+
+```vue demo:form-time-select-no-clear title="禁用清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("09:30");
+</script>
+
+<template><AppTimeSelect v-model="value" :clearable="false" /></template>
+```
+
 ## 3. API 使用方式
 
 时间字符串使用 24 小时 `HH:mm` 格式。列表范围与允许范围可以分开设置：先展示完整营业时段，再禁用临时不可约的时间。

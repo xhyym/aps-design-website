@@ -71,6 +71,195 @@ const options = [
 </style>
 ```
 
+### 2.3 不同尺寸
+
+```vue demo:mention-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("");
+const medium = ref("");
+const large = ref("");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppMention v-model="small" :options="options" size="small" placeholder="size=small" aria-label="小尺寸提及" />
+    <AppMention v-model="medium" :options="options" placeholder="size=default" aria-label="默认尺寸提及" />
+    <AppMention v-model="large" :options="options" size="large" placeholder="size=large" aria-label="大尺寸提及" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 520px);
+}
+</style>
+```
+
+### 2.4 禁用与只读
+
+```vue demo:mention-disabled title="禁用与只读"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const disabledContent = ref("请 @林晨 跟进");
+const readonlyContent = ref("关联 #课程运营");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppMention v-model="disabledContent" :options="options" disabled aria-label="禁用提及" />
+    <AppMention v-model="readonlyContent" :options="options" readonly aria-label="只读提及" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 520px);
+}
+</style>
+```
+
+### 2.5 错误状态
+
+```vue demo:mention-invalid title="错误状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const content = ref("");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppMention v-model="content" :options="options" invalid described-by="mention-error" placeholder="输入评论，使用 @ 提及成员" aria-label="错误提及" />
+    <p id="mention-error" class="demo-error">评论内容不能为空。</p>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 520px); }
+.demo-error {
+  margin: 6px 0 0;
+  color: var(--aps-danger, #d4380d);
+  font-size: 13px;
+}
+</style>
+```
+
+### 2.6 多行高度
+
+```vue demo:mention-rows title="多行高度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const content = ref("");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppMention v-model="content" :options="options" :rows="6" placeholder="多行评论，使用 @ 提及成员" aria-label="多行提及" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 520px); }
+</style>
+```
+
+`rows` 控制编辑区初始高度，长评论场景下能减少页面滚动。
+
+### 2.7 自定义空文案
+
+```vue demo:mention-empty title="自定义空文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const content = ref("");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppMention v-model="content" :options="options" empty-text="没有匹配的成员，换个关键词试试" placeholder="输入 @ 后搜索成员" aria-label="自定义空文案提及" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 520px); }
+</style>
+```
+
+### 2.8 选择事件
+
+```vue demo:mention-events title="选择事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMention } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const content = ref("");
+const status = ref("等待提及");
+const options = [
+  { key: "lin", label: "林晨", value: "林晨", description: "产品设计" },
+  { key: "zhou", label: "周宁", value: "周宁", description: "前端研发" },
+];
+
+function onSelect(option: { label: string }): void {
+  status.value = `已提及：${option.label}`;
+}
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppMention v-model="content" :options="options" @select="onSelect" placeholder="输入 @ 选择成员" aria-label="提及事件" />
+    <span class="demo-status">{{ status }}</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-field {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 520px);
+}
+.demo-status {
+  color: var(--aps-muted);
+  font-size: 13px;
+}
+</style>
+```
+
+`select` 事件返回被选择的 `MentionOption`，需要持久化对象主键时在此同步维护结构化数据。
+
 ## 3. API 使用方式
 
 ```vue

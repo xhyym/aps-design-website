@@ -69,6 +69,156 @@ const reviewers: AvatarGroupItem[] = [
 
 插槽接管后，业务侧应自行确保内容可辨识；`item` 槽仅接收当前成员对象。
 
+### 2.3 尺寸
+
+`size` 统一控制组内每个头像的尺寸，适合在工具条、卡片等不同密度区域复用同一组数据。
+
+```vue demo:avatar-group-sizes title="成员组尺寸"
+<script setup lang="ts">
+import { AppAvatarGroup, type AvatarGroupItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const members: AvatarGroupItem[] = [
+  { key: "lin", name: "林知远" },
+  { key: "chen", name: "陈雨晨" },
+  { key: "wang", name: "王宇航" },
+  { key: "zhao", name: "赵晴" },
+];
+</script>
+
+<template>
+  <div class="avatar-group-sizes">
+    <AppAvatarGroup :items="members" size="small" aria-label="小尺寸成员组" />
+    <AppAvatarGroup :items="members" size="large" aria-label="大尺寸成员组" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-group-sizes {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+</style>
+```
+
+### 2.4 形状
+
+`shape` 同时作用于头像与溢出计数，统一整组的视觉语言。
+
+```vue demo:avatar-group-shapes title="成员组形状"
+<script setup lang="ts">
+import { AppAvatarGroup, type AvatarGroupItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const members: AvatarGroupItem[] = [
+  { key: "lin", name: "林知远" },
+  { key: "chen", name: "陈雨晨" },
+  { key: "wang", name: "王宇航" },
+];
+</script>
+
+<template>
+  <AppAvatarGroup :items="members" shape="square" aria-label="方形成员组" />
+</template>
+```
+
+### 2.5 重叠间距
+
+`overlap` 控制相邻头像的重叠像素，越小时头像越紧凑。负数会按 `0` 处理。
+
+```vue demo:avatar-group-overlap title="重叠间距"
+<script setup lang="ts">
+import { AppAvatarGroup, type AvatarGroupItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const members: AvatarGroupItem[] = [
+  { key: "lin", name: "林知远" },
+  { key: "chen", name: "陈雨晨" },
+  { key: "wang", name: "王宇航" },
+  { key: "zhao", name: "赵晴" },
+  { key: "qian", name: "钱多多" },
+];
+</script>
+
+<template>
+  <div class="avatar-group-overlap">
+    <AppAvatarGroup :items="members" :overlap="4" aria-label="紧凑重叠" />
+    <AppAvatarGroup :items="members" :overlap="14" aria-label="宽松重叠" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-group-overlap {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+</style>
+```
+
+### 2.6 最大展示数量
+
+`max` 控制首屏展示人数，超过部分自动折叠为 `+N`。`max="0"` 表示展示全部成员。
+
+```vue demo:avatar-group-max title="最大展示数量"
+<script setup lang="ts">
+import { AppAvatarGroup, type AvatarGroupItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const members: AvatarGroupItem[] = [
+  { key: "lin", name: "林知远" },
+  { key: "chen", name: "陈雨晨" },
+  { key: "wang", name: "王宇航" },
+  { key: "zhao", name: "赵晴" },
+  { key: "qian", name: "钱多多" },
+];
+</script>
+
+<template>
+  <div class="avatar-group-max">
+    <AppAvatarGroup :items="members" :max="3" aria-label="最多展示 3 人" />
+    <AppAvatarGroup :items="members" :max="0" aria-label="展示全部成员" />
+  </div>
+</template>
+
+<style scoped>
+.avatar-group-max {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+</style>
+```
+
+### 2.7 自定义溢出文案
+
+`moreLabel` 接收剩余人数并返回辅助说明，用于弱化“+N”的机械感，让读屏用户得到更友好的语义。
+
+```vue demo:avatar-group-custom-more title="自定义溢出文案"
+<script setup lang="ts">
+import { AppAvatarGroup, type AvatarGroupItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const members: AvatarGroupItem[] = [
+  { key: "lin", name: "林知远" },
+  { key: "chen", name: "陈雨晨" },
+  { key: "wang", name: "王宇航" },
+  { key: "zhao", name: "赵晴" },
+  { key: "qian", name: "钱多多" },
+  { key: "sun", name: "孙岚" },
+];
+
+function buildMoreLabel(count: number): string {
+  return `还有 ${count} 位协作者未显示`;
+}
+</script>
+
+<template>
+  <AppAvatarGroup :items="members" :max="3" :more-label="buildMoreLabel" aria-label="项目协作者" />
+</template>
+```
+
 ## 3. API 使用方式
 
 先准备带稳定 `key` 的成员数组，再把数组传给 `items`。`max` 控制首屏展示数量；超过数量的成员由组件生成溢出计数。需要自定义成员内容时，只替换 `item` 插槽，不要在业务层重新计算重叠位置。

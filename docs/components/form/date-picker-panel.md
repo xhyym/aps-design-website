@@ -49,6 +49,62 @@ const value = ref("2026-08");
 </template>
 ```
 
+### 2.3 多日期
+
+```vue demo:form-date-picker-panel-dates title="多日期"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDatePickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<string[]>(["2026-08-08", "2026-08-12"]);
+</script>
+
+<template><AppDatePickerPanel v-model="value" type="dates" aria-label="多日期选择" /></template>
+```
+
+### 2.4 年份
+
+```vue demo:form-date-picker-panel-year title="年份"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDatePickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("2026");
+</script>
+
+<template><AppDatePickerPanel v-model="value" type="year" aria-label="年份选择" /></template>
+```
+
+### 2.5 周
+
+```vue demo:form-date-picker-panel-week title="按周"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDatePickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppDatePickerPanel v-model="value" type="week" aria-label="周选择" /></template>
+```
+
+### 2.6 禁用
+
+```vue demo:form-date-picker-panel-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDatePickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("2026-08-08");
+</script>
+
+<template><AppDatePickerPanel v-model="value" disabled aria-label="只读日期面板" /></template>
+```
+
 ## 3. API 使用方式
 
 ```vue

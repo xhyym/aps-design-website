@@ -87,6 +87,198 @@ const password = ref("");
 
 `showPassword` 仅在 `type="password"` 时生效。登录与注册页应按场景设置 `autocomplete`，不要以自定义校验替代浏览器的密码管理能力。
 
+### 2.3 控件尺寸
+
+`size` 控制输入框高度；未传时继承 `AppConfigProvider`，与同页其它控件保持一致。
+
+```vue demo:input-sizes title="控件尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="input-demo-sizes">
+    <AppInput v-model="value" size="small" placeholder="小尺寸" aria-label="小尺寸示例" />
+    <AppInput v-model="value" size="default" placeholder="默认尺寸" aria-label="默认尺寸示例" />
+    <AppInput v-model="value" size="large" placeholder="大尺寸" aria-label="大尺寸示例" />
+  </div>
+</template>
+
+<style scoped>
+.input-demo-sizes {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 360px);
+}
+</style>
+```
+
+### 2.4 前后缀插槽
+
+`prefix` 与 `suffix` 插槽放置图标、区号或固定后缀；清空与密码切换入口位于后缀之后。
+
+```vue demo:input-prefix-suffix title="前后缀插槽"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppIcon, AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+</script>
+
+<template>
+  <div class="input-demo-affix">
+    <AppInput v-model="keyword" placeholder="搜索课程" aria-label="搜索课程">
+      <template #prefix><AppIcon name="search" :size="16" /></template>
+      <template #suffix>.course</template>
+    </AppInput>
+  </div>
+</template>
+
+<style scoped>
+.input-demo-affix {
+  width: min(100%, 360px);
+}
+</style>
+```
+
+### 2.5 一键清空
+
+`clearable` 仅在存在内容、且输入框非禁用和非只读时显示；点击会触发 `clear` 事件。
+
+```vue demo:input-clearable title="一键清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const title = ref("已填好的标题");
+</script>
+
+<template>
+  <div class="input-demo-clear">
+    <AppInput
+      v-model="title"
+      clearable
+      placeholder="输入标题后会出现清空入口"
+      aria-label="课程标题"
+    />
+  </div>
+</template>
+
+<style scoped>
+.input-demo-clear {
+  width: min(100%, 360px);
+}
+</style>
+```
+
+### 2.6 只读与禁用
+
+`readonly` 允许选中复制但不接收输入；`disabled` 完全不可交互。两者都不会触发校验与提交。
+
+```vue demo:input-disabled title="只读与禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const readOnly = ref("只读内容");
+const disabled = ref("禁用内容");
+</script>
+
+<template>
+  <div class="input-demo-disabled">
+    <AppInput v-model="readOnly" readonly placeholder="只读" aria-label="只读示例" />
+    <AppInput v-model="disabled" disabled placeholder="禁用" aria-label="禁用示例" />
+  </div>
+</template>
+
+<style scoped>
+.input-demo-disabled {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 360px);
+}
+</style>
+```
+
+### 2.7 错误状态
+
+`invalid` 只控制视觉与 `aria-invalid`；具体错误文案由表单项提供，并通过 `describedBy` 关联。
+
+```vue demo:input-invalid title="错误状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const email = ref("not-an-email");
+</script>
+
+<template>
+  <div class="input-demo-invalid">
+    <AppInput
+      v-model="email"
+      type="email"
+      invalid
+      placeholder="name@example.com"
+      aria-label="邮箱"
+      described-by="email-error"
+    />
+    <p id="email-error" class="input-demo-invalid__error">邮箱格式不正确</p>
+  </div>
+</template>
+
+<style scoped>
+.input-demo-invalid {
+  width: min(100%, 360px);
+}
+
+.input-demo-invalid__error {
+  margin: 6px 0 0;
+  color: var(--aps-red, #e5484d);
+  font-size: 13px;
+}
+</style>
+```
+
+### 2.8 原生输入类型
+
+`type` 映射原生输入类型，配合 `autocomplete` 让浏览器接管邮箱、电话与链接的管理能力。
+
+```vue demo:input-types title="原生输入类型"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const email = ref("");
+const tel = ref("");
+const url = ref("");
+</script>
+
+<template>
+  <div class="input-demo-types">
+    <AppInput v-model="email" type="email" placeholder="邮箱" aria-label="邮箱" />
+    <AppInput v-model="tel" type="tel" placeholder="手机号" aria-label="手机号" />
+    <AppInput v-model="url" type="url" placeholder="链接" aria-label="链接" />
+  </div>
+</template>
+
+<style scoped>
+.input-demo-types {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 360px);
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 使用 `v-model` 绑定单一字符串值，`invalid` 只控制视觉和 `aria-invalid`，具体错误提示应由表单项提供。通过模板引用可调用组件暴露的 `focus()`、`blur()` 和 `select()`。

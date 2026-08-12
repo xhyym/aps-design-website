@@ -49,6 +49,176 @@ const recoveryCode = ref("");
 </template>
 ```
 
+### 2.3 不同尺寸
+
+```vue demo:input-otp-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("");
+const medium = ref("");
+const large = ref("");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppInputOTP v-model="small" size="small" aria-label="小尺寸验证码" />
+    <AppInputOTP v-model="medium" aria-label="默认尺寸验证码" />
+    <AppInputOTP v-model="large" size="large" aria-label="大尺寸验证码" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack {
+  display: grid;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.4 禁用与只读
+
+```vue demo:input-otp-disabled title="禁用与只读"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const disabledCode = ref("123456");
+const readonlyCode = ref("654321");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppInputOTP v-model="disabledCode" disabled aria-label="禁用验证码" />
+    <AppInputOTP v-model="readonlyCode" readonly aria-label="只读验证码" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack {
+  display: grid;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.5 错误状态
+
+```vue demo:input-otp-invalid title="错误状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const code = ref("");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppInputOTP v-model="code" invalid described-by="otp-error" aria-label="错误验证码" />
+    <p id="otp-error" class="demo-error">验证码错误，请重新输入。</p>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 320px); }
+.demo-error {
+  margin: 6px 0 0;
+  color: var(--aps-danger, #d4380d);
+  font-size: 13px;
+}
+</style>
+```
+
+### 2.6 自动聚焦
+
+```vue demo:input-otp-autofocus title="自动聚焦"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const code = ref("");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppInputOTP v-model="code" autofocus aria-label="自动聚焦验证码" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 320px); }
+</style>
+```
+
+`autofocus` 在挂载后把焦点放到第一个未填写格，适合从短信深链进入的验证页。
+
+### 2.7 自定义长度
+
+```vue demo:input-otp-length4 title="自定义长度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const code = ref("");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppInputOTP v-model="code" :length="4" aria-label="四位验证码" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 320px); }
+</style>
+```
+
+`length` 决定输入格数量；数字模式会自动过滤非数字字符，文本模式去除空白。
+
+### 2.8 输入完成事件
+
+```vue demo:input-otp-complete title="输入完成"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInputOTP } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const code = ref("");
+const status = ref("等待输入完整验证码");
+
+function onComplete(value: string): void {
+  status.value = `验证码已输入完成：${value}`;
+}
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppInputOTP v-model="code" @complete="onComplete" aria-label="完整验证码" />
+    <span class="demo-status">{{ status }}</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-field {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 320px);
+}
+.demo-status {
+  color: var(--aps-muted);
+  font-size: 13px;
+}
+</style>
+```
+
+`complete` 在内容达到 `length` 时触发，可在此直接发起校验请求；服务端仍须最终确认有效性。
+
 ## 3. API 使用方式
 
 ```vue

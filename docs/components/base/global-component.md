@@ -75,6 +75,94 @@ import "aps-design-pro/style.css";
 - 不要向它传入 `class`、`id`、事件或 ARIA 属性。组件关闭了属性继承，这些属性不会透传给子元素。
 - 需要可控制布局或语义的容器时，使用布局类组件或原生语义元素。
 
+### 2.4 包裹多个子节点
+
+默认插槽可以放多个平级子节点，组件本身不产生额外包裹盒子，子节点直接挂到父级。
+
+```vue demo:global-component-slots title="包裹多个子节点"
+<script setup lang="ts">
+import { AppGlobalComponent } from "aps-design-pro";
+</script>
+
+<template>
+  <AppGlobalComponent>
+    <span>头像</span>
+    <span>名称</span>
+    <span>状态</span>
+  </AppGlobalComponent>
+</template>
+```
+
+### 2.5 作为浮层挂载边界
+
+把浮层宿主区域包在里面，既保留组件边界，又不干扰外层 Flex 或 Grid 的排布。
+
+```vue demo:global-component-overlay title="作为浮层挂载边界"
+<script setup lang="ts">
+import { AppGlobalComponent } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="global-component-overlay">
+    <AppGlobalComponent>
+      <section class="overlay-cell">浮层挂载区 A</section>
+      <section class="overlay-cell">浮层挂载区 B</section>
+    </AppGlobalComponent>
+  </div>
+</template>
+
+<style scoped>
+.global-component-overlay {
+  display: flex;
+  gap: 10px;
+}
+.overlay-cell {
+  padding: 12px 16px;
+  border: 1px solid var(--aps-border);
+  border-radius: 8px;
+  color: var(--aps-text);
+  font-size: 14px;
+}
+</style>
+```
+
+### 2.6 不干扰 Grid 子项
+
+被 `AppGlobalComponent` 包住的内容，在父级 `Grid` 中仍然是直接子项，不会被多包一层网格单元。
+
+```vue demo:global-component-layout title="不干扰 Grid 子项"
+<script setup lang="ts">
+import { AppGlobalComponent } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="global-component-layout">
+    <AppGlobalComponent>
+      <article class="layout-cell">内容卡片一</article>
+      <article class="layout-cell">内容卡片二</article>
+    </AppGlobalComponent>
+  </div>
+</template>
+
+<style scoped>
+.global-component-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 360px;
+}
+.layout-cell {
+  padding: 14px;
+  border: 1px solid var(--aps-border);
+  border-radius: 10px;
+  color: var(--aps-text);
+  font-size: 14px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 只将它作为无样式的组件边界包住原有内容，不向它传递样式、事件或 ARIA 属性。若内容需要语义或布局控制，直接使用 `main`、`section`、`div` 等原生元素。

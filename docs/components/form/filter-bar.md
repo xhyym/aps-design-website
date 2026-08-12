@@ -51,6 +51,113 @@ const categoryOptions = [{ label: "前端", value: "frontend" }, { label: "后�
 <template><AppFilterBar v-model:expanded="expanded" collapsible><AppInput v-model="keyword" placeholder="课程名称" /><AppSelect v-model="category" :options="categoryOptions" placeholder="课程分类" /><template #advanced><AppInput v-model="teacher" placeholder="讲师姓名" /></template></AppFilterBar></template>
 ```
 
+### 2.3 自定义查询操作
+
+```vue demo:filter-bar-actions title="自定义查询按钮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppFilterBar, AppInput, AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const status = ref("");
+const statusOptions = [{ label: "全部状态", value: "" }, { label: "已发布", value: "published" }, { label: "草稿", value: "draft" }];
+
+function onQuery() {
+  /* 通过 submit 事件拉取数据 */
+}
+</script>
+
+<template>
+  <AppFilterBar @submit="onQuery">
+    <AppInput v-model="keyword" placeholder="搜索课程名称" />
+    <AppSelect v-model="status" :options="statusOptions" placeholder="选择状态" />
+    <template #actions>
+      <AppButton type="submit">查询</AppButton>
+    </template>
+  </AppFilterBar>
+</template>
+```
+
+### 2.4 字段宽度边界
+
+```vue demo:filter-bar-field-width title="字段宽度与间距"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppFilterBar, AppInput, AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const category = ref("");
+const teacher = ref("");
+const categoryOptions = [{ label: "前端", value: "frontend" }, { label: "后端", value: "backend" }];
+</script>
+
+<template>
+  <AppFilterBar :field-min-width="160" :field-max-width="240" :gap="12">
+    <AppInput v-model="keyword" placeholder="课程名称" />
+    <AppSelect v-model="category" :options="categoryOptions" placeholder="课程分类" />
+    <template #advanced>
+      <AppInput v-model="teacher" placeholder="讲师姓名" />
+    </template>
+  </AppFilterBar>
+</template>
+```
+
+### 2.5 默认展开高级区
+
+```vue demo:filter-bar-expanded-default title="默认展开"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppFilterBar, AppInput, AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const expanded = ref(true);
+const keyword = ref("");
+const category = ref("");
+const teacher = ref("");
+const categoryOptions = [{ label: "前端", value: "frontend" }, { label: "后端", value: "backend" }];
+</script>
+
+<template>
+  <AppFilterBar v-model:expanded="expanded" collapsible>
+    <AppInput v-model="keyword" placeholder="课程名称" />
+    <AppSelect v-model="category" :options="categoryOptions" placeholder="课程分类" />
+    <template #advanced>
+      <AppInput v-model="teacher" placeholder="讲师姓名" />
+    </template>
+  </AppFilterBar>
+</template>
+```
+
+### 2.6 不带高级区
+
+```vue demo:filter-bar-no-advanced title="仅常用条件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppFilterBar, AppInput, AppSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const keyword = ref("");
+const status = ref("");
+const statusOptions = [{ label: "全部状态", value: "" }, { label: "已发布", value: "published" }, { label: "草稿", value: "draft" }];
+
+function onQuery() {
+  /* 自行接管查询逻辑 */
+}
+</script>
+
+<template>
+  <AppFilterBar :show-reset="false" @submit="onQuery">
+    <AppInput v-model="keyword" placeholder="搜索课程名称" />
+    <AppSelect v-model="status" :options="statusOptions" placeholder="选择状态" />
+    <template #actions>
+      <AppButton type="submit">查询</AppButton>
+    </template>
+  </AppFilterBar>
+</template>
+```
+
 ## 3. API 使用方式
 
 将筛选表单值置于页面，通过 `submit` 拉取数据，通过 `reset` 恢复筛选条件并重置页码。

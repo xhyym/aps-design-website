@@ -59,6 +59,135 @@ const options = [
 </template>
 ```
 
+### 2.3 纵向排列
+
+```vue demo:checkbox-group-vertical title="纵向布局"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref(["web"]);
+const options = [
+  { label: "Web 前端", value: "web" },
+  { label: "服务端", value: "server" },
+  { label: "人工智能", value: "ai" },
+  { label: "移动端", value: "mobile" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" direction="vertical" aria-label="技术方向" />
+</template>
+```
+
+### 2.4 网格列数
+
+```vue demo:checkbox-group-columns title="网格排列"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>([]);
+const options = [
+  { label: "视频", value: "video" },
+  { label: "音频", value: "audio" },
+  { label: "文档", value: "doc" },
+  { label: "图文", value: "article" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" :columns="2" aria-label="内容形式" />
+</template>
+```
+
+### 2.5 按钮样式
+
+```vue demo:checkbox-group-buttons title="按钮多选"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>(["push"]);
+const options = [
+  { label: "推送", value: "push" },
+  { label: "邮件", value: "email" },
+  { label: "短信", value: "sms" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" appearance="buttons" aria-label="通知方式" />
+</template>
+```
+
+### 2.6 整体禁用
+
+```vue demo:checkbox-group-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>(["free"]);
+const options = [
+  { label: "免费课", value: "free" },
+  { label: "会员课", value: "vip" },
+  { label: "训练营", value: "bootcamp" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" disabled aria-label="课程类型" />
+</template>
+```
+
+### 2.7 数量限制
+
+```vue demo:checkbox-group-limit title="最少最多"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>(["math"]);
+const options = [
+  { label: "数学", value: "math" },
+  { label: "英语", value: "english" },
+  { label: "物理", value: "physics" },
+  { label: "化学", value: "chemistry" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" :min="1" :max="2" aria-label="擅长科目" />
+</template>
+```
+
+### 2.8 带说明选项
+
+```vue demo:checkbox-group-described title="选项说明"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckboxGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>([]);
+const options = [
+  { label: "周报", value: "weekly", description: "每周一汇总" },
+  { label: "月报", value: "monthly", description: "每月初汇总" },
+  { label: "实时", value: "realtime", description: "数据变化即推送" },
+];
+</script>
+
+<template>
+  <AppCheckboxGroup v-model="values" :options="options" aria-label="报表订阅" />
+</template>
+```
+
 ## 3. API 使用方式
 
 ```vue

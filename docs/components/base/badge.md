@@ -101,6 +101,106 @@ const isBadgeHidden = ref(false);
 - `hidden` 可临时隐藏徽标，但不会移除默认插槽中的头像或按钮。
 - `offset` 使用 `[x, y]` 调整徽标相对右上角的位置，单位为 `px`；仅在包裹内容时生效。
 
+### 2.5 独立数量徽标
+
+没有业务入口时，徽标也能单独展示纯数量提醒，适合放在状态栏一角。
+
+```vue demo:badge-alone title="独立数量徽标"
+<script setup lang="ts">
+import { AppBadge } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppBadge :value="3" tone="blue" aria-label="草稿 3 条" />
+</template>
+```
+
+### 2.6 颜色语义
+
+`tone` 表达提醒的视觉语义，但不应作为错误、风险或审核结论的唯一判断依据；具体原因仍应给出文字。
+
+```vue demo:badge-tones title="颜色语义"
+<script setup lang="ts">
+import { AppBadge, AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="badge-demo-tones">
+    <AppBadge :value="5" tone="blue" aria-label="蓝色提醒 5 条"><AppIconButton icon="bell" label="通知" variant="secondary" /></AppBadge>
+    <AppBadge :value="5" tone="red" aria-label="红色提醒 5 条"><AppIconButton icon="warning" label="告警" variant="secondary" /></AppBadge>
+    <AppBadge :value="5" tone="green" aria-label="绿色提醒 5 条"><AppIconButton icon="check" label="完成" variant="secondary" /></AppBadge>
+    <AppBadge :value="5" tone="orange" aria-label="橙色提醒 5 条"><AppIconButton icon="settings" label="待办" variant="secondary" /></AppBadge>
+    <AppBadge :value="5" tone="neutral" aria-label="中性提醒 5 条"><AppIconButton icon="user" label="成员" variant="secondary" /></AppBadge>
+  </div>
+</template>
+
+<style scoped>
+.badge-demo-tones {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+</style>
+```
+
+### 2.7 调整徽标位置
+
+`offset` 以 `[x, y]` 平移徽标相对右上角的位置，常用于让提醒点贴到图标边缘而非正上方。
+
+```vue demo:badge-offset title="调整徽标位置"
+<script setup lang="ts">
+import { AppBadge, AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="badge-demo-offset">
+    <AppBadge :value="9" :offset="[0, 0]" tone="red" aria-label="默认位置"><AppIconButton icon="bell" label="通知中心" variant="secondary" /></AppBadge>
+    <AppBadge :value="9" :offset="[6, -2]" tone="red" aria-label="右下偏移"><AppIconButton icon="bell" label="通知中心" variant="secondary" /></AppBadge>
+  </div>
+</template>
+
+<style scoped>
+.badge-demo-offset {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+</style>
+```
+
+### 2.8 附着于头像
+
+徽标同样可以附着在 `AppAvatar` 上，用于表达某位成员有未读或状态更新。
+
+```vue demo:badge-avatar title="附着于头像"
+<script setup lang="ts">
+import { AppAvatar, AppBadge } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="badge-demo-avatar">
+    <AppBadge dot tone="green" aria-label="林知远有新的动态">
+      <AppAvatar name="林知远" size="large" />
+    </AppBadge>
+    <AppBadge :value="3" tone="red" aria-label="陈雨晨 3 条未读">
+      <AppAvatar name="陈雨晨" size="large" />
+    </AppBadge>
+  </div>
+</template>
+
+<style scoped>
+.badge-demo-avatar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

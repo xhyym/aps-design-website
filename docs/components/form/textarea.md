@@ -83,6 +83,201 @@ const reply = ref("欢迎补充具体的需求，我们会在一个工作日内�
 
 `autosize` 开启后高度会在 2 到 4 行之间变化，超出上限时在控件内部滚动，不会将整个页面或表单区域撑高。
 
+### 2.3 不同尺寸
+
+```vue demo:textarea-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("");
+const medium = ref("");
+const large = ref("");
+</script>
+
+<template>
+  <div class="textarea-demo-stack">
+    <AppTextarea v-model="small" size="small" :rows="2" placeholder="size=small" aria-label="小尺寸文本域" />
+    <AppTextarea v-model="medium" :rows="2" placeholder="size=default" aria-label="默认尺寸文本域" />
+    <AppTextarea v-model="large" size="large" :rows="2" placeholder="size=large" aria-label="大尺寸文本域" />
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 460px);
+}
+</style>
+```
+
+`size` 控制字号与内边距；在密集表单里用 `small` 可以减少纵向占用。
+
+### 2.4 固定行高
+
+```vue demo:textarea-fixed-rows title="固定行数"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const intro = ref("");
+</script>
+
+<template>
+  <div class="textarea-demo-field">
+    <AppTextarea
+      v-model="intro"
+      :rows="6"
+      placeholder="未开启自适应，高度固定为 6 行"
+      aria-label="固定行高文本域"
+    />
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-field {
+  width: min(100%, 460px);
+}
+</style>
+```
+
+未开启 `autosize` 时，`rows` 决定初始高度；内容超过该高度后控件内部滚动。
+
+### 2.5 禁用与只读
+
+```vue demo:textarea-disabled title="禁用与只读"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const disabledValue = ref("该字段当前不可编辑");
+const readonlyValue = ref("只读内容，可以选中复制但不能修改");
+</script>
+
+<template>
+  <div class="textarea-demo-stack">
+    <AppTextarea v-model="disabledValue" disabled aria-label="禁用文本域" />
+    <AppTextarea v-model="readonlyValue" readonly aria-label="只读文本域" />
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 460px);
+}
+</style>
+```
+
+`readonly` 仍可被选中复制，适合展示由系统生成、不允许手改的说明。
+
+### 2.6 错误状态
+
+```vue demo:textarea-invalid title="错误状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const remark = ref("");
+</script>
+
+<template>
+  <div class="textarea-demo-field">
+    <AppTextarea
+      v-model="remark"
+      :rows="3"
+      invalid
+      described-by="remark-error"
+      aria-label="审核意见"
+    />
+    <p id="remark-error" class="textarea-demo-error">审核意见不能为空，请补充说明。</p>
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-field {
+  width: min(100%, 460px);
+}
+.textarea-demo-error {
+  margin: 6px 0 0;
+  color: var(--aps-danger, #d4380d);
+  font-size: 13px;
+}
+</style>
+```
+
+`describedBy` 指向错误消息的元素 ID，屏幕阅读器会在聚焦时朗读该说明。
+
+### 2.7 布尔自适应
+
+```vue demo:textarea-autosize-boolean title="自适应（布尔）"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const reply = ref("");
+</script>
+
+<template>
+  <div class="textarea-demo-field">
+    <AppTextarea
+      v-model="reply"
+      :autosize="true"
+      placeholder="高度随内容增长，无固定上下限"
+      aria-label="自适应文本域"
+    />
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-field {
+  width: min(100%, 460px);
+}
+</style>
+```
+
+传入 `true` 时高度仅受内容约束；需要上下限时改用 `{ minRows, maxRows }` 对象形式。
+
+### 2.8 综合用法
+
+```vue demo:textarea-combined title="综合用法"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTextarea } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const feedback = ref("");
+</script>
+
+<template>
+  <div class="textarea-demo-field">
+    <AppTextarea
+      v-model="feedback"
+      :autosize="{ minRows: 3, maxRows: 5 }"
+      :max-length="200"
+      show-word-limit
+      placeholder="请输入您的反馈，最多 200 字"
+      aria-label="用户反馈"
+    />
+  </div>
+</template>
+
+<style scoped>
+.textarea-demo-field {
+  width: min(100%, 460px);
+}
+</style>
+```
+
+把自适应高度、长度限制与字符统计组合，是常见的反馈录入形态。
+
 ## 3. API 使用方式
 
 用 `v-model` 管理文本值；`invalid` 配合外部错误消息使用，`describedBy` 应指向该消息的元素 ID。实例方法 `focus()`、`blur()` 与 `resize()` 可用于弹窗打开后的聚焦和动态内容重算。

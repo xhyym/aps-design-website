@@ -76,6 +76,181 @@ async function fetchMembers({ query, signal }: { query: string; signal: AbortSig
 
 远程函数会收到关键词和 `AbortSignal`。请求库需要将该信号传入请求；组件会在输入变化和面板关闭时取消过期请求。
 
+### 2.3 禁用与只读
+
+```vue demo:autocomplete-disabled title="禁用与只读"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("Vue 3 组件开发");
+const readonlyValue = ref("TypeScript 工程化");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" disabled aria-label="禁用联想" />
+    <AppAutocomplete v-model="readonlyValue" :options="options" readonly aria-label="只读联想" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 360px);
+}
+</style>
+```
+
+`readonly` 仍展示下拉但不可编辑，适合回显已选课程。
+
+### 2.4 加载状态
+
+```vue demo:autocomplete-loading title="加载状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" :loading="true" placeholder="正在加载课程列表" aria-label="加载态联想" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+`loading` 为 `true` 时显示等待图标，常用于远程建议的请求过程中。
+
+### 2.5 关闭本地过滤
+
+```vue demo:autocomplete-filterable title="关闭本地过滤"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+  { key: "ts", label: "TypeScript 工程化", value: "TypeScript 工程化", description: "前端课程" },
+  { key: "node", label: "Node.js 服务端", value: "Node.js 服务端", description: "后端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" :filterable="false" placeholder="关闭本地过滤，展示全部" aria-label="不过滤联想" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+`filterable="false"` 后组件不再按关键词过滤 `options`，适合本地已做服务端过滤或需要完整展示的场景。
+
+### 2.6 自定义空文案
+
+```vue demo:autocomplete-empty title="自定义空文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" empty-text="没有找到相关课程" placeholder="搜索课程" aria-label="自定义空文案" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+### 2.7 不聚焦查询
+
+```vue demo:autocomplete-trigger title="不聚焦查询"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+  { key: "ts", label: "TypeScript 工程化", value: "TypeScript 工程化", description: "前端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" :trigger-on-focus="false" placeholder="聚焦不查询，输入才联想" aria-label="不聚焦查询" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
+`triggerOnFocus="false"` 关闭聚焦即查询，仅当输入变化时触发，减少无谓的远程请求。
+
+### 2.8 错误状态
+
+```vue demo:autocomplete-invalid title="错误状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAutocomplete } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { key: "vue", label: "Vue 3 组件开发", value: "Vue 3 组件开发", description: "前端课程" },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppAutocomplete v-model="value" :options="options" invalid described-by="course-error" placeholder="搜索课程" aria-label="错误联想" />
+    <p id="course-error" class="demo-error">未选择有效的课程。</p>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+.demo-error {
+  margin: 6px 0 0;
+  color: var(--aps-danger, #d4380d);
+  font-size: 13px;
+}
+</style>
+```
+
+`describedBy` 指向错误消息元素 ID，聚焦时屏幕阅读器会朗读该说明。
+
 ## 3. API 使用方式
 
 ```vue

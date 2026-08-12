@@ -88,6 +88,151 @@ const plan = ref("team");
 
 卡片单选适合选项本身需要解释时使用；简单的两三项切换不应为了视觉效果强行使用卡片。
 
+### 2.3 多档尺寸
+
+```vue demo:radio-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const mode = ref("live");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="mode" name="mode" value="live" size="small" label="直播" />
+    <AppRadio v-model="mode" name="mode" value="recorded" size="default" label="录播" />
+    <AppRadio v-model="mode" name="mode" value="mixed" size="large" label="混合" />
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: grid; gap: 10px; }
+</style>
+```
+
+### 2.4 禁用状态
+
+```vue demo:radio-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const plan = ref("free");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="plan" name="plan" value="free" label="免费版" />
+    <AppRadio v-model="plan" name="plan" value="team" disabled label="团队版（暂未开放）" />
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: grid; gap: 10px; }
+</style>
+```
+
+### 2.5 按钮样式
+
+```vue demo:radio-button title="按钮单选"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const layout = ref("list");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="layout" name="layout" value="list" appearance="button" label="列表" />
+    <AppRadio v-model="layout" name="layout" value="grid" appearance="button" label="网格" />
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: flex; gap: 10px; }
+</style>
+```
+
+### 2.6 带说明文字
+
+```vue demo:radio-description title="补充说明"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const channel = ref("wechat");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="channel" name="channel" value="wechat" label="微信" description="扫码即可支付" />
+    <AppRadio v-model="channel" name="channel" value="alipay" label="支付宝" description="跳转收银台支付" />
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: grid; gap: 10px; }
+</style>
+```
+
+### 2.7 自定义文案插槽
+
+```vue demo:radio-slot title="默认插槽"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const type = ref("person");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="type" name="type" value="person">
+      个人<strong>认证</strong>
+    </AppRadio>
+    <AppRadio v-model="type" name="type" value="org">
+      机构<strong>认证</strong>
+    </AppRadio>
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: grid; gap: 10px; }
+</style>
+```
+
+### 2.8 纵向多选列表
+
+```vue demo:radio-list title="纵向排列"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadio } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const level = ref("l1");
+</script>
+
+<template>
+  <div class="radio-demo-list">
+    <AppRadio v-model="level" name="level" value="l1" label="入门" />
+    <AppRadio v-model="level" name="level" value="l2" label="进阶" />
+    <AppRadio v-model="level" name="level" value="l3" label="高级" />
+    <AppRadio v-model="level" name="level" value="l4" label="专家" />
+  </div>
+</template>
+
+<style scoped>
+.radio-demo-list { display: grid; gap: 10px; width: min(100%, 360px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 每个单选项都传入同一个状态变量，并以 `value` 标识当前项。`invalid`、必填校验和错误文案应由外层 `AppFormField` 或业务表单负责。

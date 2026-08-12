@@ -94,6 +94,186 @@ function parseCurrency(value: string): number {
 
 `formatter` 只控制非编辑状态的显示文本，`parser` 负责把用户输入还原为数字。两者应成对设计，且 `parser` 必须返回有限数字。
 
+### 2.3 不同尺寸
+
+```vue demo:number-input-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref(1);
+const medium = ref(1);
+const large = ref(1);
+</script>
+
+<template>
+  <div class="number-demo-stack">
+    <AppNumberInput v-model="small" size="small" :min="0" aria-label="小尺寸数量" />
+    <AppNumberInput v-model="medium" :min="0" aria-label="默认尺寸数量" />
+    <AppNumberInput v-model="large" size="large" :min="0" aria-label="大尺寸数量" />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 240px);
+}
+</style>
+```
+
+`size` 改变输入框高度与步进按钮大小，与表单里其他控件保持一致。
+
+### 2.4 步进吸附
+
+```vue demo:number-input-step-strictly title="步进吸附"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const quantity = ref(0);
+</script>
+
+<template>
+  <div class="number-demo-field">
+    <AppNumberInput
+      v-model="quantity"
+      :min="0"
+      :step="5"
+      step-strictly
+      aria-label="步进数量"
+    />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-field {
+  width: min(100%, 240px);
+}
+</style>
+```
+
+`stepStrictly` 会把值吸附到 `min`（或 0）为基准的步长倍数，避免录入不规整的数量。
+
+### 2.5 右侧控制按钮
+
+```vue demo:number-input-controls-right title="右侧按钮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const pageSize = ref(20);
+</script>
+
+<template>
+  <div class="number-demo-field">
+    <AppNumberInput
+      v-model="pageSize"
+      :min="1"
+      controls-position="right"
+      aria-label="每页条数"
+    />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-field {
+  width: min(100%, 240px);
+}
+</style>
+```
+
+`controls-position="right"` 把步进按钮收拢到右侧，适合表格头的每页条数等紧凑场景。
+
+### 2.6 隐藏控制按钮
+
+```vue demo:number-input-no-controls title="无控制按钮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const weight = ref(50);
+</script>
+
+<template>
+  <div class="number-demo-field">
+    <AppNumberInput v-model="weight" :min="0" :max="100" :controls="false" aria-label="排序权重" />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-field {
+  width: min(100%, 240px);
+}
+</style>
+```
+
+`controls="false"` 隐藏步进按钮，只保留键盘方向键调整，适合排序权重这类非频繁微调。
+
+### 2.7 禁用与只读
+
+```vue demo:number-input-disabled title="禁用与只读"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const locked = ref(42);
+const frozen = ref(7);
+</script>
+
+<template>
+  <div class="number-demo-stack">
+    <AppNumberInput v-model="locked" disabled aria-label="禁用数值" />
+    <AppNumberInput v-model="frozen" readonly aria-label="只读数值" />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-stack {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 240px);
+}
+</style>
+```
+
+### 2.8 清空回写默认值
+
+```vue demo:number-input-value-on-clear title="清空默认值"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppNumberInput } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const stock = ref(5);
+</script>
+
+<template>
+  <div class="number-demo-field">
+    <AppNumberInput
+      v-model="stock"
+      :min="0"
+      :value-on-clear="0"
+      aria-label="库存数量"
+    />
+  </div>
+</template>
+
+<style scoped>
+.number-demo-field {
+  width: min(100%, 240px);
+}
+</style>
+```
+
+设置 `valueOnClear` 后，点击清空会写回该默认数值并触发 `clear`；未设置则恢复上一个有效值。
+
 ## 3. API 使用方式
 
 使用 `v-model` 绑定数值，而不是字符串。输入为空时仅在设置 `valueOnClear` 后才会写回该默认数值并触发 `clear`；未设置时组件会在失焦后恢复上一个有效值。

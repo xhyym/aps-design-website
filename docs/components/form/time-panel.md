@@ -45,6 +45,72 @@ const value = ref("");
 <template><AppTimePanel v-model="value" min="09:00" max="18:00" :step="30" :show-footer="false" aria-label="可选工作时间" /></template>
 ```
 
+### 2.3 分钟步长
+
+```vue demo:form-time-panel-step title="步长 15 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("10:00");
+</script>
+
+<template><AppTimePanel v-model="value" :step="15" aria-label="时间面板" /></template>
+```
+
+### 2.4 确认与取消
+
+```vue demo:form-time-panel-show-footer title="页脚操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const confirmed = ref("尚未确认");
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppTimePanel v-model="value" :show-footer="true" @confirm="(val: string) => (confirmed = `已确认：${val}`)" aria-label="时间面板" />
+    <span>{{ confirmed }}</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.5 最早时间
+
+```vue demo:form-time-panel-min-only title="最早时间"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppTimePanel v-model="value" min="09:00" aria-label="可选时间" /></template>
+```
+
+### 2.6 最晚时间
+
+```vue demo:form-time-panel-max-only title="最晚时间"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template><AppTimePanel v-model="value" max="18:00" aria-label="可选时间" /></template>
+```
+
 ## 3. API 使用方式
 
 ```vue

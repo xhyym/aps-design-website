@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
-import { componentDocuments } from "@/content/markdown";
+import { componentDocuments, guideDocuments } from "@/content/markdown";
 
 /** 官网初期使用 Hash 路由，静态部署时不要求服务器额外配置重写规则。 */
 const routes: RouteRecordRaw[] = [
@@ -12,7 +12,9 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: "/guide",
-    redirect: "/guide/architecture",
+    name: "guide",
+    redirect: () => guideDocuments[0]?.route ?? "/",
+    meta: { title: "指南" },
   },
   {
     path: "/guide/:slug",

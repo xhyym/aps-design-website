@@ -40,6 +40,142 @@ const value = ref("rgba(0, 113, 227, 0.6)");
 <template><AppColorPickerPanel v-model="value" format="rgb" show-alpha :predefine="['#0071e3', '#1d1d1f']" aria-label="透明颜色面板" /></template>
 ```
 
+### 2.3 禁用状态
+
+```vue demo:color-picker-panel-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" disabled aria-label="禁用颜色面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+### 2.4 HSL 格式
+
+```vue demo:color-picker-panel-format-hsl title="HSL 格式"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("hsl(210, 100%, 46%)");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" format="hsl" aria-label="HSL 格式面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+### 2.5 预定义颜色
+
+```vue demo:color-picker-panel-predefine title="预定义颜色"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" :predefine="['#0071e3', '#34c759', '#ff3b30']" aria-label="预定义颜色面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+`predefine` 在面板底部展示业务预定义色板，适合品牌主题等需要统一取色的场景。
+
+### 2.6 透明度
+
+```vue demo:color-picker-panel-showalpha title="透明度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" show-alpha aria-label="带透明度面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+### 2.7 RGB 与预定义
+
+```vue demo:color-picker-panel-rgb-predefine title="RGB 预定义"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("#0071e3");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" format="rgb" :predefine="['#0071e3', '#1d1d1f', '#f5f5f7']" aria-label="RGB 预定义面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+### 2.8 透明 HEX
+
+```vue demo:color-picker-panel-alpha-hex title="透明 HEX"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColorPickerPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("rgba(0, 113, 227, 0.5)");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppColorPickerPanel v-model="value" show-alpha format="hex" aria-label="透明 HEX 面板" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 280px); }
+</style>
+```
+
+`showAlpha` 与 `format="hex"` 组合时，确认值会以 8 位 HEX（含 alpha）形式回传。
+
 ## 3. API 使用方式
 
 ```vue

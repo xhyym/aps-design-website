@@ -15,9 +15,11 @@ source: packages/ui/src/components/base/AppIconButton.vue
 
 ## 2. 代码演示
 
-### 2.1 基础操作
+### 2.1 基础用法
 
-```vue demo:icon-button-basic title="工具栏操作"
+`label` 为必填项，不能用空字符串代替。若用户必须通过图标理解动作，说明它更适合有文字的 `AppButton`。
+
+```vue demo:icon-button-basic title="基础用法"
 <script setup lang="ts">
 import { AppIconButton } from "aps-design-pro";
 import "aps-design-pro/style.css";
@@ -37,9 +39,9 @@ function refreshOrders(): void {
 </template>
 ```
 
-`label` 为必填项，不能用空字符串代替。若用户必须通过图标理解动作，说明它更适合有文字的 `AppButton`。
+### 2.2 加载状态
 
-### 2.2 同步异步状态
+`loading` 时组件显示旋转图标并自动禁用；请求结束后由业务将 `loading` 改回 `false`。`circle` 只改变外观，不会降低 `label` 的必要性。
 
 ```vue demo:icon-button-loading title="加载状态"
 <script setup lang="ts">
@@ -75,7 +77,178 @@ onBeforeUnmount(() => window.clearTimeout(refreshTimerId));
 </template>
 ```
 
-`loading` 时组件显示旋转图标并自动禁用；请求结束后由业务将 `loading` 改回 `false`。`circle` 只改变外观，不会降低 `label` 的必要性。
+### 2.3 样式变体
+
+`variant` 决定按钮视觉权重：`ghost` 用于弱背景工具条，`secondary` 用于常规操作，`primary`/`danger` 用于主操作与危险操作。
+
+```vue demo:icon-button-variants title="样式变体"
+<script setup lang="ts">
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="icon-button-demo">
+    <AppIconButton icon="refresh" label="刷新" variant="ghost" />
+    <AppIconButton icon="edit" label="编辑" variant="secondary" />
+    <AppIconButton icon="check" label="保存" variant="primary" />
+    <AppIconButton icon="trash" label="删除" variant="danger" />
+  </div>
+</template>
+
+<style scoped>
+.icon-button-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.4 尺寸
+
+`size` 控制按钮尺寸，未传时继承最近的 `AppConfigProvider`；在紧凑工具条中常用 `size="small"`。
+
+```vue demo:icon-button-sizes title="尺寸"
+<script setup lang="ts">
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="icon-button-demo">
+    <AppIconButton icon="settings" label="偏好设置" size="small" variant="secondary" />
+    <AppIconButton icon="settings" label="偏好设置" size="default" variant="secondary" />
+    <AppIconButton icon="settings" label="偏好设置" size="large" variant="secondary" />
+  </div>
+</template>
+
+<style scoped>
+.icon-button-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.5 激活态
+
+`active` 表示筛选、视图等开关处于生效状态，适合在工具条中标识当前选中的操作。
+
+```vue demo:icon-button-active title="激活态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const filterOpen = ref(true);
+</script>
+
+<template>
+  <AppIconButton
+    icon="filter"
+    label="筛选交易订单"
+    variant="secondary"
+    :active="filterOpen"
+    @click="filterOpen = !filterOpen"
+  />
+</template>
+```
+
+### 2.6 圆形轮廓
+
+`circle` 让按钮显示为圆形轮廓，适合悬浮工具条中的独立动作。
+
+```vue demo:icon-button-circle title="圆形轮廓"
+<script setup lang="ts">
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="icon-button-demo">
+    <AppIconButton icon="plus" label="新增" variant="primary" circle />
+    <AppIconButton icon="close" label="关闭" variant="secondary" circle />
+  </div>
+</template>
+
+<style scoped>
+.icon-button-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.7 禁用态
+
+`disabled` 时按钮不可点击；未传时继承全局配置。危险操作进入禁用态后，仍应保留清晰的视觉语义。
+
+```vue demo:icon-button-disabled title="禁用态"
+<script setup lang="ts">
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="icon-button-demo">
+    <AppIconButton icon="refresh" label="刷新" variant="secondary" disabled />
+    <AppIconButton icon="trash" label="删除" variant="danger" disabled />
+  </div>
+</template>
+
+<style scoped>
+.icon-button-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
+
+### 2.8 工具栏组合
+
+把多个图标按钮排成工具栏，用 `active` 表达当前视图，配合 `ghost` 的次要入口。
+
+```vue demo:icon-button-toolbar title="工具栏组合"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppIconButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const activeView = ref("list");
+</script>
+
+<template>
+  <div class="icon-button-demo">
+    <AppIconButton
+      icon="grid"
+      label="卡片视图"
+      variant="secondary"
+      :active="activeView === 'grid'"
+      @click="activeView = 'grid'"
+    />
+    <AppIconButton
+      icon="menu"
+      label="列表视图"
+      variant="secondary"
+      :active="activeView === 'list'"
+      @click="activeView = 'list'"
+    />
+    <AppIconButton icon="refresh" label="刷新" variant="ghost" />
+  </div>
+</template>
+
+<style scoped>
+.icon-button-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+</style>
+```
 
 ## 3. API 使用方式
 
@@ -98,7 +271,7 @@ onBeforeUnmount(() => window.clearTimeout(refreshTimerId));
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | `icon` | 必填，显示的内置图标。 | `IconName` | — |
-| `label` | 必填，按钮辅助名称与提示文本。 | `string` | — |
+| `label` | 必填，按钮辅助名称与提示文本。 | `string` | "" |
 | `variant` | 按钮样式。 | `"ghost" \| "secondary" \| "primary" \| "danger"` | `"ghost"` |
 | `size` | 控件尺寸；未传时继承 `AppConfigProvider`。 | `"small" \| "default" \| "large"` | 继承全局配置 |
 | `type` | 原生按钮类型。 | `"button" \| "submit" \| "reset"` | `"button"` |

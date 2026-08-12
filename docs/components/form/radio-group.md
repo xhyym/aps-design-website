@@ -59,6 +59,144 @@ const options = [
 </template>
 ```
 
+### 2.3 纵向排列
+
+```vue demo:radio-group-vertical title="纵向布局"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("public");
+const options = [
+  { label: "公开", value: "public", description: "所有人可查看" },
+  { label: "组织内", value: "organization", description: "仅成员可查看" },
+  { label: "私密", value: "private", description: "仅自己可查看" },
+];
+</script>
+
+<template>
+  <AppRadioGroup v-model="value" :options="options" direction="vertical" aria-label="可见范围" />
+</template>
+```
+
+### 2.4 网格列数
+
+```vue demo:radio-group-columns title="网格排列"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("standard");
+const options = [
+  { label: "标准版", value: "standard" },
+  { label: "团队版", value: "team" },
+  { label: "企业版", value: "enterprise" },
+  { label: "旗舰版", value: "ultimate" },
+];
+</script>
+
+<template>
+  <AppRadioGroup v-model="value" :options="options" :columns="2" aria-label="套餐类型" />
+</template>
+```
+
+### 2.5 按钮样式
+
+```vue demo:radio-group-buttons title="按钮单选"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("edit");
+const options = [
+  { label: "编辑", value: "edit" },
+  { label: "预览", value: "preview" },
+  { label: "分享", value: "share" },
+];
+</script>
+
+<template>
+  <AppRadioGroup v-model="value" :options="options" appearance="buttons" aria-label="视图模式" />
+</template>
+```
+
+### 2.6 整体禁用
+
+```vue demo:radio-group-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("standard");
+const options = [
+  { label: "标准版", value: "standard" },
+  { label: "团队版", value: "team" },
+  { label: "企业版", value: "enterprise" },
+];
+</script>
+
+<template>
+  <AppRadioGroup v-model="value" :options="options" disabled aria-label="套餐类型" />
+</template>
+```
+
+### 2.7 多档尺寸
+
+```vue demo:radio-group-size title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("a");
+const large = ref("a");
+const smallOptions = [
+  { label: "选项一", value: "a" },
+  { label: "选项二", value: "b" },
+];
+const largeOptions = [
+  { label: "选项一", value: "a" },
+  { label: "选项二", value: "b" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppRadioGroup v-model="small" :options="smallOptions" size="small" aria-label="小尺寸" />
+    <AppRadioGroup v-model="large" :options="largeOptions" size="large" aria-label="大尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 12px; }
+</style>
+```
+
+### 2.8 卡片带说明
+
+```vue demo:radio-group-described title="卡片说明"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRadioGroup } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("push");
+const options = [
+  { label: "站内信", value: "push", description: "实时性强" },
+  { label: "邮件", value: "email", description: "适合摘要" },
+  { label: "短信", value: "sms", description: "触达率高" },
+];
+</script>
+
+<template>
+  <AppRadioGroup v-model="value" :options="options" appearance="cards" :columns="3" aria-label="通知渠道" />
+</template>
+```
+
 ## 3. API 使用方式
 
 ```vue

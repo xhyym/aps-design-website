@@ -2,7 +2,13 @@
 import { computed, createApp, nextTick, onBeforeUnmount, ref, watch } from "vue";
 import { RouterLink, useRoute } from "vue-router";
 import { AppButton, AppIcon } from "aps-design-pro";
-import { getMarkdownDocument, markdownDocuments, renderMarkdownDocument } from "@/content/markdown";
+import {
+  getComponentCategoryLabel,
+  getComponentCategoryOrder,
+  getMarkdownDocument,
+  markdownDocuments,
+  renderMarkdownDocument,
+} from "@/content/markdown";
 import BlockDemo from "@/components/BlockDemo.vue";
 
 const props = defineProps<{
@@ -12,16 +18,6 @@ const props = defineProps<{
 const route = useRoute();
 const documentContent = computed(() => getMarkdownDocument(route.path));
 const sectionDocuments = computed(() => markdownDocuments.filter((document) => document.kind === props.kind));
-const componentCategoryLabels: Record<string, string> = {
-  base: "基础组件",
-  form: "表单组件",
-  data: "数据组件",
-  navigation: "导航组件",
-  feedback: "反馈组件",
-  content: "内容组件",
-  layout: "布局组件",
-  overlay: "浮层组件",
-};
 const componentGroups = computed(() => {
   if (props.kind !== "component") return [];
 
@@ -32,19 +28,36 @@ const componentGroups = computed(() => {
     groups.set(document.category, documents);
   }
 
-  return [...groups.entries()].map(([key, documents]) => ({
-    key,
-    label: componentCategoryLabels[key] ?? `${key} 组件`,
-    documents,
-  }));
+  return [...groups.entries()]
+    .map(([key, documents]) => ({
+      key,
+      label: getComponentCategoryLabel(key),
+      documents,
+    }))
+    .sort((left, right) => getComponentCategoryOrder(left.key) - getComponentCategoryOrder(right.key));
 });
 const renderedContent = computed(() => documentContent.value ? renderMarkdownDocument(documentContent.value) : "");
 const pageTitle = computed(() => props.kind === "component" ? "组件" : "指南");
-const documentHeadings = computed(() => props.kind === "component" ? documentContent.value?.headings ?? [] : []);
+const documentHeadings = computed(() => documentContent.value?.headings ?? []);
 const activeHeadingId = ref("");
 const markdownBody = ref<HTMLElement | null>(null);
+const expandedComponentGroupKey = ref("");
 const mountedDemoApps: ReturnType<typeof createApp>[] = [];
 let headingObserver: IntersectionObserver | undefined;
+
+/** 路由切换时始终展开当前文档所在分类，避免活动组件入口被折叠后失去定位。 */
+watch(() => documentContent.value?.category, (category) => {
+  if (props.kind === "component" && category) expandedComponentGroupKey.value = category;
+}, { immediate: true });
+
+function isComponentGroupExpanded(groupKey: string): boolean {
+  return expandedComponentGroupKey.value === groupKey;
+}
+
+/** 左侧目录采用手风琴模式，分类较多时仍能在一个视口内快速扫描。 */
+function toggleComponentGroup(groupKey: string): void {
+  expandedComponentGroupKey.value = isComponentGroupExpanded(groupKey) ? "" : groupKey;
+}
 
 function unmountDemos(): void {
   while (mountedDemoApps.length) mountedDemoApps.pop()?.unmount();
@@ -95,12 +108,14 @@ async function mountDemos(): Promise<void> {
     return;
   }
 
-  for (const demo of documentContent.value.demos) {
+  for (const [index, demo] of documentContent.value.demos.entries()) {
     const placeholder = markdownBody.value.querySelector<HTMLElement>(`[data-demo-id="${demo.id}"]`);
     if (!placeholder) continue;
     const demoApp = createApp(BlockDemo, {
       demoId: demo.id,
+      index: index + 1,
       source: demo.source,
+      title: demo.title,
     });
     demoApp.mount(placeholder);
     mountedDemoApps.push(demoApp);
@@ -124,16 +139,32 @@ onBeforeUnmount(() => {
         <nav>
           <template v-if="props.kind === 'component'">
             <section v-for="group in componentGroups" :key="group.key" class="documentation-sidebar__group" :aria-labelledby="`sidebar-group-${group.key}`">
-              <h2 :id="`sidebar-group-${group.key}`">{{ group.label }}</h2>
-              <div class="documentation-sidebar__links">
-                <RouterLink
-                  v-for="entry in group.documents"
-                  :key="entry.route"
-                  :to="entry.route"
-                  :class="{ 'is-active': entry.route === $route.path }"
+              <h2>
+                <button
+                  :id="`sidebar-group-${group.key}`"
+                  type="button"
+                  :aria-controls="`sidebar-links-${group.key}`"
+                  :aria-expanded="isComponentGroupExpanded(group.key)"
+                  @click="toggleComponentGroup(group.key)"
                 >
-                  {{ entry.title }}
-                </RouterLink>
+                  <span>{{ group.label }}</span>
+                  <span class="documentation-sidebar__group-meta">
+                    {{ group.documents.length }}
+                    <AppIcon :name="isComponentGroupExpanded(group.key) ? 'chevron-up' : 'chevron-down'" :size="14" />
+                  </span>
+                </button>
+              </h2>
+              <div :id="`sidebar-links-${group.key}`" class="documentation-sidebar__links-wrapper" :class="{ 'is-expanded': isComponentGroupExpanded(group.key) }">
+               <div class="documentation-sidebar__links">
+                  <RouterLink
+                    v-for="entry in group.documents"
+                    :key="entry.route"
+                    :to="entry.route"
+                    :class="{ 'is-active': entry.route === $route.path }"
+                  >
+                    {{ entry.title }}
+                  </RouterLink>
+                </div>
               </div>
             </section>
           </template>
@@ -165,7 +196,7 @@ onBeforeUnmount(() => {
           <div ref="markdownBody" class="markdown-content__body" v-html="renderedContent"></div>
         </article>
 
-        <aside v-if="documentHeadings.length" class="documentation-outline" aria-label="当前组件目录">
+        <aside v-if="documentHeadings.length" class="documentation-outline" aria-label="本页目录">
           <nav>
             <button
               v-for="heading in documentHeadings"
@@ -213,8 +244,11 @@ onBeforeUnmount(() => {
 .documentation-sidebar {
   position: sticky;
   top: 86px;
-  display: grid;
+  display: flex;
+  max-height: calc(100vh - 108px);
+  flex-direction: column;
   gap: 12px;
+  overflow: hidden;
 }
 
 .documentation-sidebar > p {
@@ -226,7 +260,12 @@ onBeforeUnmount(() => {
 
 .documentation-sidebar nav {
   display: grid;
-  gap: 22px;
+  min-height: 0;
+  gap: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
+  scrollbar-color: var(--aps-line) transparent;
 }
 
 .documentation-outline {
@@ -277,19 +316,71 @@ onBeforeUnmount(() => {
 }
 
 .documentation-sidebar__group {
-  gap: 7px;
+  gap: 2px;
 }
 
 .documentation-sidebar__group h2 {
-  margin: 0 10px;
+  margin: 0;
+}
+
+.documentation-sidebar__group h2 button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
   color: var(--aps-ink);
+  font: inherit;
   font-size: 12px;
   font-weight: 700;
   line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.documentation-sidebar__group h2 button:hover {
+  background: var(--aps-surface-soft);
+}
+
+.documentation-sidebar__group h2 button:focus-visible {
+  outline: 3px solid rgba(0, 113, 227, 0.25);
+  outline-offset: 2px;
+}
+
+.documentation-sidebar__group-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--aps-faint);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.documentation-sidebar__links-wrapper {
+  gap: 2px;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 180ms ease, opacity 160ms ease;
+}
+
+.documentation-sidebar__links-wrapper.is-expanded {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
 .documentation-sidebar__links {
+  display: grid;
+  min-height: 0;
+  overflow: hidden;
   gap: 2px;
+  padding: 0 0 3px;
 }
 
 .documentation-sidebar a {
@@ -539,20 +630,22 @@ onBeforeUnmount(() => {
 
   .documentation-sidebar {
     position: static;
+    max-height: min(42vh, 300px);
     overflow-x: auto;
   }
 
   .documentation-sidebar nav {
-    gap: 18px;
-    min-width: max-content;
+    gap: 6px;
+    min-width: 0;
+    overflow-y: auto;
   }
 
   .documentation-sidebar__group {
-    min-width: max-content;
+    min-width: 0;
   }
 
   .documentation-sidebar__links {
-    display: flex;
+    display: grid;
   }
 
   .documentation-outline {
@@ -574,6 +667,8 @@ onBeforeUnmount(() => {
 
 @media (prefers-reduced-motion: reduce) {
   .documentation-sidebar a,
+  .documentation-sidebar__group h2 button,
+  .documentation-sidebar__links-wrapper,
   .documentation-outline button {
     transition: none;
   }

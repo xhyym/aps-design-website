@@ -2,7 +2,11 @@
 import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { AppButton, AppIcon } from "aps-design-pro";
-import { componentDocuments } from "@/content/markdown";
+import {
+  componentDocuments,
+  getComponentCategoryLabel,
+  getComponentCategoryOrder,
+} from "@/content/markdown";
 
 const documentGroups = computed(() => {
   const groups = new Map<string, typeof componentDocuments>();
@@ -11,7 +15,9 @@ const documentGroups = computed(() => {
     group.push(document);
     groups.set(document.category, group);
   }
-  return [...groups.entries()];
+  return [...groups.entries()]
+    .map(([category, documents]) => ({ category, documents }))
+    .sort((left, right) => getComponentCategoryOrder(left.category) - getComponentCategoryOrder(right.category));
 });
 </script>
 
@@ -23,11 +29,11 @@ const documentGroups = computed(() => {
       <span>当前已加载 {{ componentDocuments.length }} 篇组件说明；维护官网 docs 目录后，构建产物会自动更新目录与搜索索引。</span>
     </section>
 
-    <section v-for="[category, documents] in documentGroups" :key="category" class="catalog-section" :aria-label="`${category} 组件`">
+    <section v-for="{ category, documents } in documentGroups" :key="category" class="catalog-section" :aria-label="`${getComponentCategoryLabel(category)}目录`">
       <header>
         <div>
           <p>{{ category }}</p>
-          <h2>{{ category === "base" ? "基础组件" : category }}</h2>
+          <h2>{{ getComponentCategoryLabel(category) }}</h2>
         </div>
         <span>{{ documents.length }} 个组件</span>
       </header>

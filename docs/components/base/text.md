@@ -65,6 +65,156 @@ const courseDescription = "本课程覆盖 Vue 3 工程化、状态管理、权�
 
 > 单行省略依赖宽度约束。示例用 CSS 类限定宽度；生产页面同样应使用项目的 CSS 类控制布局。
 
+### 2.3 语义色
+
+`type` 补充业务语义，例如成功、警告与危险状态。关键状态不要只依赖颜色，附近仍应有文字说明。
+
+```vue demo:text-types title="语义色"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="text-demo-types">
+    <AppText type="default">默认文字</AppText>
+    <AppText type="primary">主要文字</AppText>
+    <AppText type="success">成功文字</AppText>
+    <AppText type="warning">警告文字</AppText>
+    <AppText type="info">信息文字</AppText>
+    <AppText type="danger">危险文字</AppText>
+  </div>
+</template>
+
+<style scoped>
+.text-demo-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+</style>
+```
+
+### 2.4 字号
+
+`size` 统一行内文字尺寸，未传时继承最近的 `AppConfigProvider` 配置。
+
+```vue demo:text-sizes title="字号"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="text-demo-sizes">
+    <AppText size="small">小号文字</AppText>
+    <AppText size="default">默认文字</AppText>
+    <AppText size="large">大号文字</AppText>
+  </div>
+</template>
+
+<style scoped>
+.text-demo-sizes {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+</style>
+```
+
+### 2.5 字重
+
+`weight` 控制字重，适合在表格、卡片标题等位置强调局部文字。
+
+```vue demo:text-weights title="字重"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="text-demo-weights">
+    <AppText weight="regular">常规字重</AppText>
+    <AppText weight="medium">中等字重</AppText>
+    <AppText weight="semibold">半粗字重</AppText>
+  </div>
+</template>
+
+<style scoped>
+.text-demo-weights {
+  display: flex;
+  gap: 14px;
+}
+</style>
+```
+
+### 2.6 斜体
+
+`italic` 用于轻量强调，例如引用、备注或术语定义。
+
+```vue demo:text-italic title="斜体"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppText :italic="true">斜体强调文字</AppText>
+</template>
+```
+
+### 2.7 多行截断
+
+`lineClamp` 大于 `0` 时启用多行截断，并优先于 `truncated`。建议同步传入 `title`。
+
+```vue demo:text-line-clamp title="多行截断"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const description = "本课程覆盖 Vue 3 工程化、状态管理、权限模型和大型项目协作流程，适合有一定基础的开发者系统性提升。";
+</script>
+
+<template>
+  <div class="text-demo-clamp">
+    <AppText :line-clamp="2" :title="description">{{ description }}</AppText>
+  </div>
+</template>
+
+<style scoped>
+.text-demo-clamp {
+  max-width: 260px;
+}
+</style>
+```
+
+### 2.8 文本载体
+
+`tag` 决定渲染元素，让语义与样式分离：强调用 `strong`、术语用 `em`、独立段落用 `div`。
+
+```vue demo:text-tag title="文本载体"
+<script setup lang="ts">
+import { AppText } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="text-demo-tag">
+    <AppText tag="strong">加粗载体</AppText>
+    <AppText tag="em">强调载体</AppText>
+    <AppText tag="div">独立块级文字</AppText>
+  </div>
+</template>
+
+<style scoped>
+.text-demo-tag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+</style>
+```
+
 ## 3. API 使用方式
 
 使用 `tag` 选择合适的文本载体，`type` 只补充视觉语义，关键状态仍要有文字说明。需要截断时给外层提供稳定宽度；单行使用 `truncated`，多行使用 `lineClamp`，并在必要时提供查看完整内容的入口。

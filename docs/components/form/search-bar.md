@@ -48,6 +48,103 @@ const items: FormItem[] = [{ key: "keyword", label: "关键词", type: "input", 
 <template><AppSearchBar v-model="model" v-model:expanded="expanded" :items="items" :primary-count="2" /></template>
 ```
 
+### 2.3 控制默认显示数量
+
+```vue demo:search-bar-primary-count title="primaryCount"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchBar, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ keyword: "", status: "", author: "", level: "", tag: "" });
+const items: FormItem[] = [
+  { key: "keyword", label: "关键词", type: "input", placeholder: "课程名称" },
+  { key: "status", label: "状态", type: "select", options: [{ label: "已发布", value: "published" }, { label: "草稿", value: "draft" }] },
+  { key: "author", label: "讲师", type: "input", placeholder: "讲师姓名" },
+  { key: "level", label: "难度", type: "select", options: [{ label: "入门", value: "junior" }, { label: "进阶", value: "advanced" }] },
+  { key: "tag", label: "标签", type: "input", placeholder: "标签" },
+];
+</script>
+
+<template>
+  <AppSearchBar v-model="model" :items="items" :primary-count="3" />
+</template>
+```
+
+### 2.4 自定义搜索与重置事件
+
+```vue demo:search-bar-custom-events title="事件回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchBar, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(1);
+const model = ref<Record<string, FormValue>>({ keyword: "", status: "" });
+const items: FormItem[] = [
+  { key: "keyword", label: "关键词", type: "input", placeholder: "课程名称", span: 4 },
+  { key: "status", label: "状态", type: "select", options: [{ label: "已发布", value: "published" }, { label: "草稿", value: "draft" }], span: 4 },
+];
+
+function onSearch() {
+  page.value = 1;
+  /* reload() 重置页码后请求列表 */
+}
+function onReset() {
+  /* reload() 直接重新请求 */
+}
+</script>
+
+<template>
+  <AppSearchBar v-model="model" :items="items" @search="onSearch" @reset="onReset" />
+</template>
+```
+
+### 2.5 隐藏搜索按钮
+
+```vue demo:search-bar-hide-search title="隐藏操作按钮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchBar, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const model = ref<Record<string, FormValue>>({ keyword: "", status: "", author: "", level: "" });
+const items: FormItem[] = [
+  { key: "keyword", label: "关键词", type: "input", placeholder: "课程名称" },
+  { key: "status", label: "状态", type: "select", options: [{ label: "已发布", value: "published" }, { label: "草稿", value: "draft" }] },
+  { key: "author", label: "讲师", type: "input", placeholder: "讲师姓名" },
+  { key: "level", label: "难度", type: "select", options: [{ label: "入门", value: "junior" }, { label: "进阶", value: "advanced" }] },
+];
+</script>
+
+<template>
+  <AppSearchBar v-model="model" :items="items" :primary-count="2" :show-search="false" :show-reset="false" />
+</template>
+```
+
+### 2.6 始终展开全部条件
+
+```vue demo:search-bar-expanded-bind title="始终展开"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSearchBar, type FormItem, type FormValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const expanded = ref(true);
+const model = ref<Record<string, FormValue>>({ keyword: "", status: "", author: "", level: "" });
+const items: FormItem[] = [
+  { key: "keyword", label: "关键词", type: "input", placeholder: "课程名称" },
+  { key: "status", label: "状态", type: "select", options: [{ label: "已发布", value: "published" }, { label: "草稿", value: "draft" }] },
+  { key: "author", label: "讲师", type: "input", placeholder: "讲师姓名" },
+  { key: "level", label: "难度", type: "select", options: [{ label: "入门", value: "junior" }, { label: "进阶", value: "advanced" }] },
+];
+</script>
+
+<template>
+  <AppSearchBar v-model="model" v-model:expanded="expanded" :items="items" :primary-count="2" :collapsible="false" />
+</template>
+```
+
 ## 3. API 使用方式
 
 页面持有查询模型，搜索事件中重置页码后请求列表；重置事件可直接调用同一请求。

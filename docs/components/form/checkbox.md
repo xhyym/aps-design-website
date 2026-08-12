@@ -70,6 +70,135 @@ function selectAll(value: boolean): void {
 
 半选状态应由当前页已选数量推导；用户点击全选后由业务层同步更新所有子项和 `indeterminate`。
 
+### 2.3 多档尺寸
+
+```vue demo:checkbox-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const a = ref(false);
+const b = ref(false);
+const c = ref(false);
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppCheckbox v-model="a" size="small" label="紧凑尺寸" />
+    <AppCheckbox v-model="b" size="default" label="默认尺寸" />
+    <AppCheckbox v-model="c" size="large" label="宽松尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 8px; }
+</style>
+```
+
+### 2.4 禁用状态
+
+```vue demo:checkbox-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const enabled = ref(true);
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppCheckbox v-model="enabled" disabled label="不可更改的开关" />
+    <AppCheckbox v-model="enabled" label="可操作的开关" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 8px; }
+</style>
+```
+
+### 2.5 带边框样式
+
+```vue demo:checkbox-bordered title="边框样式"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const notify = ref(true);
+</script>
+
+<template>
+  <AppCheckbox
+    v-model="notify"
+    bordered
+    label="接收开课提醒"
+    description="新章节上线时通过站内信通知你"
+  />
+</template>
+```
+
+### 2.6 值映射
+
+```vue demo:checkbox-mapped title="映射业务值"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const receiveNews = ref("enabled");
+</script>
+
+<template>
+  <AppCheckbox
+    v-model="receiveNews"
+    true-value="enabled"
+    false-value="disabled"
+    label="接收课程资讯"
+  />
+</template>
+```
+
+### 2.7 带说明文字
+
+```vue demo:checkbox-with-description title="补充说明"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const beta = ref(false);
+</script>
+
+<template>
+  <AppCheckbox
+    v-model="beta"
+    label="加入体验计划"
+    description="抢先体验未稳定的新功能，可能会影响正常使用"
+  />
+</template>
+```
+
+### 2.8 自定义文案插槽
+
+```vue demo:checkbox-slot title="默认插槽"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckbox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const agree = ref(false);
+</script>
+
+<template>
+  <AppCheckbox v-model="agree">
+    我已阅读并同意<strong>服务协议</strong>与<strong>隐私政策</strong>
+  </AppCheckbox>
+</template>
+```
+
 ## 3. API 使用方式
 
 默认按布尔值工作；也可以用 `trueValue` 和 `falseValue` 映射业务字段。半选不改变 `modelValue`，只改变展示状态。

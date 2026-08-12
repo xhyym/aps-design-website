@@ -53,6 +53,129 @@ const value = ref({ start: "", end: "" });
 </style>
 ```
 
+### 2.3 分钟步长
+
+```vue demo:form-time-range-picker-step title="步长 15 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "", end: "" });
+</script>
+
+<template>
+  <div class="demo-field"><AppTimeRangePicker v-model="value" :step="15" clearable aria-label="直播时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.4 自定义端点标签
+
+```vue demo:form-time-range-picker-custom-labels title="自定义标签"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "09:00", end: "10:30" });
+</script>
+
+<template>
+  <div class="demo-field"><AppTimeRangePicker v-model="value" start-label="开始" end-label="结束" compact clearable aria-label="值班时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.5 禁用
+
+```vue demo:form-time-range-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "09:00", end: "10:30" });
+</script>
+
+<template>
+  <div class="demo-field"><AppTimeRangePicker v-model="value" disabled /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.6 校验状态
+
+```vue demo:form-time-range-picker-invalid title="校验状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "", end: "" });
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTimeRangePicker v-model="value" invalid described-by="tr-hint" clearable aria-label="时间范围" />
+    <span id="tr-hint">请选择完整的时间区间</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.7 边界
+
+```vue demo:form-time-range-picker-min-max title="时间边界"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "", end: "" });
+</script>
+
+<template>
+  <div class="demo-field"><AppTimeRangePicker v-model="value" min="09:00" max="18:00" clearable aria-label="营业时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.8 不可清空
+
+```vue demo:form-time-range-picker-no-clear title="禁用清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimeRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "09:00", end: "10:30" });
+</script>
+
+<template>
+  <div class="demo-field"><AppTimeRangePicker v-model="value" :clearable="false" compact aria-label="固定时段" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

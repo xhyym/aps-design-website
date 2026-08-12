@@ -46,6 +46,103 @@ const shortcuts: DateTimeRangePickerShortcut[] = [{ label: "今日工作时间",
 <template><AppDateTimeRangePicker v-model="value" :shortcuts="shortcuts" start-label="开始会议" end-label="结束会议" /></template>
 ```
 
+### 2.3 分钟步长
+
+```vue demo:form-datetime-range-picker-step title="步长 15 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+</script>
+
+<template><AppDateTimeRangePicker v-model="value" :step="15" clearable /></template>
+```
+
+### 2.4 禁用周末
+
+```vue demo:form-datetime-range-picker-disabled-date title="禁用日期"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DatePickerDisabledDate, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+const disableWeekend: DatePickerDisabledDate = (value) => {
+  const day = new Date(`${value.slice(0, 10)}T00:00:00`).getDay();
+  return day === 0 || day === 6;
+};
+</script>
+
+<template><AppDateTimeRangePicker v-model="value" :disabled-date="disableWeekend" clearable /></template>
+```
+
+### 2.5 禁用
+
+```vue demo:form-datetime-range-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "2026-08-06T09:00", end: "2026-08-06T18:00" });
+</script>
+
+<template><AppDateTimeRangePicker v-model="value" disabled /></template>
+```
+
+### 2.6 校验状态
+
+```vue demo:form-datetime-range-picker-invalid title="校验状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppDateTimeRangePicker v-model="value" invalid described-by="dtr-hint" clearable />
+    <span id="dtr-hint">请选择完整的起止日期时间</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-direction: column; gap: 8px; width: min(100%, 420px); }
+</style>
+```
+
+### 2.7 边界
+
+```vue demo:form-datetime-range-picker-min-max title="时间边界"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+</script>
+
+<template><AppDateTimeRangePicker v-model="value" min="2026-08-01T00:00" max="2026-08-31T23:59" clearable /></template>
+```
+
+### 2.8 自定义端点标签
+
+```vue demo:form-datetime-range-picker-custom-labels title="自定义标签"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateTimeRangePicker, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+</script>
+
+<template><AppDateTimeRangePicker v-model="value" start-label="开始会议" end-label="结束会议" compact clearable /></template>
+```
+
 ## 3. API 使用方式
 
 将范围对象直接传入查询或保存模型。对服务端接口，应明确按 `start`、`end` 两个字段传输，不建议依赖展示字符串解析。

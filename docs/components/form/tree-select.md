@@ -69,6 +69,176 @@ const options = [
 </style>
 ```
 
+### 2.3 尺寸变体
+
+```vue demo:form-tree-select-sizes title="尺寸变体"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("");
+const medium = ref("");
+const large = ref("");
+const options = [
+  { label: "产品中心", value: "product", children: [{ label: "产品设计", value: "design" }, { label: "产品运营", value: "operation" }] },
+  { label: "研发中心", value: "engineering", children: [{ label: "前端研发", value: "frontend" }, { label: "服务端研发", value: "backend" }] },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppTreeSelect v-model="small" :options="options" size="small" clearable placeholder="小型" aria-label="小型树选择" />
+    <AppTreeSelect v-model="medium" :options="options" size="default" clearable placeholder="默认" aria-label="默认树选择" />
+    <AppTreeSelect v-model="large" :options="options" size="large" clearable placeholder="大型" aria-label="大型树选择" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-wrap: wrap; gap: 12px; }
+.demo-stack > * { width: min(100%, 200px); }
+</style>
+```
+
+### 2.4 关键词筛选节点
+
+```vue demo:form-tree-select-search title="可搜索"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const options = [
+  { label: "产品中心", value: "product", children: [{ label: "产品设计", value: "design" }, { label: "产品运营", value: "operation" }] },
+  { label: "研发中心", value: "engineering", children: [{ label: "前端研发", value: "frontend" }, { label: "服务端研发", value: "backend" }, { label: "测试", value: "qa" }] },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTreeSelect v-model="value" :options="options" filterable clearable placeholder="按关键词筛选节点" aria-label="团队筛选" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 380px); }
+</style>
+```
+
+### 2.5 默认展开与手风琴
+
+```vue demo:form-tree-select-default-expanded title="默认展开"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("design");
+const options = [
+  { label: "产品中心", value: "product", children: [{ label: "产品设计", value: "design" }, { label: "产品运营", value: "operation" }] },
+  { label: "研发中心", value: "engineering", children: [{ label: "前端研发", value: "frontend" }, { label: "服务端研发", value: "backend" }] },
+  { label: "市场中心", value: "marketing", children: [{ label: "品牌", value: "brand" }, { label: "增长", value: "growth" }] },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTreeSelect v-model="value" :options="options" :default-expanded-keys="['product']" accordion clearable placeholder="默认展开产品中心" aria-label="部门" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 400px); }
+</style>
+```
+
+### 2.6 点击文本即可勾选
+
+```vue demo:form-tree-select-check-on-click title="点击勾选"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<string[]>(["dashboard"]);
+const options = [
+  { label: "内容管理", value: "content", children: [{ label: "文章编辑", value: "article" }, { label: "素材管理", value: "asset" }] },
+  { label: "数据中心", value: "data", children: [{ label: "数据看板", value: "dashboard" }, { label: "导出报表", value: "export" }] },
+];
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTreeSelect v-model="values" :options="options" multiple check-on-click-node collapse-tags placeholder="点击文本即可勾选" aria-label="权限范围" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.7 展开节点时异步加载子级
+
+```vue demo:form-tree-select-lazy title="懒加载"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect, type TreeOption, type TreeSelectLoadRequest } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+const rootOptions: TreeOption[] = [{ label: "组织根", value: "root" }];
+
+const loadData: TreeSelectLoadRequest = async ({ option, signal }) => {
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  if (signal.aborted) return [];
+  if (option.value === "root") {
+    return [{ label: "前端研发", value: "frontend" }, { label: "服务端研发", value: "backend" }];
+  }
+  return [];
+};
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTreeSelect v-model="value" :options="rootOptions" lazy :load-data="loadData" clearable placeholder="展开节点时加载子级" aria-label="组织架构" />
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 380px); }
+</style>
+```
+
+### 2.8 禁用状态与禁用项
+
+```vue demo:form-tree-select-disabled title="禁用状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTreeSelect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("design");
+const options = [
+  { label: "产品中心", value: "product", children: [{ label: "产品设计", value: "design" }, { label: "产品运营", value: "operation", disabled: true }] },
+  { label: "研发中心", value: "engineering", children: [{ label: "前端研发", value: "frontend" }, { label: "服务端研发", value: "backend" }] },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppTreeSelect v-model="value" :options="options" disabled aria-label="禁用树选择" />
+    <AppTreeSelect v-model="value" :options="options" clearable placeholder="含禁用子节点" aria-label="含禁用项" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: flex; flex-wrap: wrap; gap: 12px; }
+.demo-stack > * { width: min(100%, 220px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

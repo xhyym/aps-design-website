@@ -57,6 +57,137 @@ const value = ref({ start: "2026-03", end: "2026-08" });
 </style>
 ```
 
+### 2.3 年份范围
+
+```vue demo:form-date-range-picker-year title="年份范围"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "2025", end: "2026" });
+</script>
+
+<template>
+  <div class="demo-field"><AppDateRangePicker v-model="value" type="yearrange" clearable aria-label="招生年份" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.4 快捷范围
+
+```vue demo:form-date-range-picker-shortcuts title="快捷范围"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker, type DateRangePickerShortcut, type DateRangeValue } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref<DateRangeValue>({ start: "", end: "" });
+const shortcuts: DateRangePickerShortcut[] = [
+  { label: "本周", value: { start: "2026-08-10", end: "2026-08-16" } },
+  { label: "本月", value: { start: "2026-08-01", end: "2026-08-31" } },
+];
+</script>
+
+<template>
+  <div class="demo-field"><AppDateRangePicker v-model="value" :shortcuts="shortcuts" clearable aria-label="统计周期" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.5 自定义端点标签
+
+```vue demo:form-date-range-picker-custom-labels title="自定义标签"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "2026-08-01", end: "2026-08-15" });
+</script>
+
+<template>
+  <div class="demo-field"><AppDateRangePicker v-model="value" start-label="开始日期" end-label="结束日期" compact clearable aria-label="活动周期" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.6 禁用周末
+
+```vue demo:form-date-range-picker-disabled-date title="禁用日期"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker, type DatePickerDisabledDate } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "", end: "" });
+const disableWeekend: DatePickerDisabledDate = (value) => {
+  const day = new Date(`${value}T00:00:00`).getDay();
+  return day === 0 || day === 6;
+};
+</script>
+
+<template>
+  <div class="demo-field"><AppDateRangePicker v-model="value" :disabled-date="disableWeekend" clearable aria-label="排期" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.7 禁用
+
+```vue demo:form-date-range-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "2026-08-01", end: "2026-08-15" });
+</script>
+
+<template>
+  <div class="demo-field"><AppDateRangePicker v-model="value" disabled /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); }
+</style>
+```
+
+### 2.8 边界与校验
+
+```vue demo:form-date-range-picker-min-max title="边界限制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDateRangePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref({ start: "", end: "" });
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppDateRangePicker v-model="value" min="2026-08-01" max="2026-08-31" invalid described-by="range-hint" clearable aria-label="报名周期" />
+    <span id="range-hint">仅接受 2026 年 8 月内的区间</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 420px); display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

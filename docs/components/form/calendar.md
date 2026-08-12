@@ -49,6 +49,98 @@ const date = ref("2026-08-12");
 </template>
 ```
 
+### 2.3 禁用
+
+```vue demo:form-calendar-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-08");
+</script>
+
+<template><AppCalendar v-model="date" disabled aria-label="固定日期" /></template>
+```
+
+### 2.4 隐藏页脚
+
+```vue demo:form-calendar-no-footer title="隐藏页脚"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-08");
+</script>
+
+<template><AppCalendar v-model="date" :show-footer="false" aria-label="排期日期" /></template>
+```
+
+### 2.5 边界
+
+```vue demo:form-calendar-min-max title="日期边界"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-12");
+</script>
+
+<template><AppCalendar v-model="date" min="2026-08-01" max="2026-08-31" clearable aria-label="八月可选日期" /></template>
+```
+
+### 2.6 区间高亮
+
+```vue demo:form-calendar-range-only title="区间高亮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-12");
+</script>
+
+<template><AppCalendar v-model="date" range-start="2026-08-05" range-end="2026-08-20" aria-label="高亮区间" /></template>
+```
+
+### 2.7 不可清空
+
+```vue demo:form-calendar-clearable-false title="禁用清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("2026-08-08");
+</script>
+
+<template><AppCalendar v-model="date" :clearable="false" show-footer aria-label="固定日期" /></template>
+```
+
+### 2.8 不早于今天
+
+```vue demo:form-calendar-today-min title="不早于今天"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCalendar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const date = ref("");
+const now = new Date();
+const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+</script>
+
+<template>
+  <div class="demo-field"><AppCalendar v-model="date" :min="today" clearable aria-label="不可选择过去的日期" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 360px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

@@ -1,23 +1,94 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { RouterLink } from "vue-router";
-import {
-  AppBadge,
-  AppButton,
-  AppCard,
-  AppCollapse,
-  AppIcon,
-  AppInput,
-} from "aps-design-pro";
+import { AppBadge, AppButton, AppCard, AppCollapse, AppIcon, AppInput } from "aps-design-pro";
 import CodePanel from "@/components/CodePanel.vue";
+import { ADMIN_DEMO_URL } from "@/data/navigation";
+import {
+  CATEGORY_COUNT,
+  COMPONENT_CATEGORIES,
+  COMPONENT_COUNT,
+  GITEE_ISSUES_URL,
+  GITEE_URL,
+  LIB_VERSION,
+  LICENSE,
+} from "@/data/site";
 
-const pendingReviewCount = ref(7);
-const courseKeyword = ref("Vue 3");
-const openQuestions = ref<string[]>(["element-plus"]);
-const installCommand = "pnpm add aps-design-pro";
 const heroHeadline = "一款简洁到极致的开源组件库";
 const typedHeroHeadline = ref("");
 let heroTypingTimerId: number | undefined;
+
+const installCommand = "pnpm add aps-design-pro";
+
+/** 首屏下方的事实指标：用单一数据源，避免像此前那样多处口径不一致。 */
+const facts = [
+  { value: String(COMPONENT_COUNT), label: "公开组件" },
+  { value: String(CATEGORY_COUNT), label: "能力域覆盖" },
+  { value: "Vue 3", label: "Composition API" },
+  { value: LICENSE, label: "开源协议" },
+];
+
+/** 通用后台筛选场景：组件只负责展示，数据来自你的应用。 */
+const keyword = ref("订单");
+const orders = [
+  "订单 1024 · 待发货",
+  "订单 1025 · 已付款",
+  "退款申请 88 · 待处理",
+  "商品 201 · 库存预警",
+  "订单 1031 · 待审核",
+];
+const matched = computed(() => orders.filter((order) => order.includes(keyword.value)));
+
+/** 演示源码跟随实时筛选状态变化，避免展示代码与界面脱节。 */
+const componentExampleCode = computed(() =>
+  [
+    "<" + "script setup lang=\"ts\">",
+    'import { ref, computed } from "vue";',
+    'import { AppInput, AppBadge } from "aps-design-pro";',
+    'import "aps-design-pro/style.css";',
+    "",
+    `const keyword = ref(${JSON.stringify(keyword.value)});`,
+    "// 数据由你的应用持有，组件只负责展示",
+    "const orders = [/* 来自接口的订单数据 */];",
+    "const matched = computed(() => orders.filter((o) => o.includes(keyword.value)));",
+    "<" + "/script>",
+    "",
+    "<template>",
+    '  <AppInput v-model="keyword" placeholder="搜索订单或商品" />',
+    '  <AppBadge :value="matched.length">匹配结果</AppBadge>',
+    "</template>",
+  ].join("\n"),
+);
+
+type ResourceIcon = "grid" | "shield" | "users" | "panel";
+interface Resource {
+  label: string;
+  description: string;
+  href?: string;
+  to?: string;
+  icon: ResourceIcon;
+}
+
+/** 社区与资源入口，统一在此维护，避免在外链散落。 */
+const resources: Resource[] = [
+  { label: "Gitee 源码", description: "查看组件库完整源码与更新记录", href: GITEE_URL, icon: "grid" },
+  { label: "提交 Issue", description: "反馈问题或提出需求", href: GITEE_ISSUES_URL, icon: "shield" },
+  { label: "共建名单", description: "查看公开贡献记录", to: "/contributors", icon: "users" },
+  { label: "管理后台演示", description: "打开 APS Design Pro 演示站点", href: ADMIN_DEMO_URL, icon: "panel" },
+];
+
+/** 各能力域的统一线性图标，保证视觉风格一致（不再混用真组件与手绘）。 */
+const categoryGlyphs: Record<string, string> = {
+  base: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>',
+  form: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="8" width="18" height="8" rx="2"/><line x1="7" y1="12" x2="10" y2="12"/></svg>',
+  data: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="9" y1="10" x2="9" y2="20"/></svg>',
+  content: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h8l4 4v14H6z"/><line x1="9" y1="11" x2="15" y2="11"/><line x1="9" y1="15" x2="15" y2="15"/></svg>',
+  navigation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="13" y2="17"/></svg>',
+  layout: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="4" height="16" rx="1"/><rect x="16" y="4" width="5" height="16" rx="1"/></svg>',
+  charts: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="10" width="3" height="10"/><rect x="11" y="6" width="3" height="14"/><rect x="16" y="13" width="3" height="7"/></svg>',
+  overlay: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="12" height="12" rx="2"/><rect x="8" y="8" width="12" height="12" rx="2"/></svg>',
+  feedback: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>',
+};
 
 const questions = [
   {
@@ -46,32 +117,7 @@ const questions = [
     content: "欢迎在 Gitee 仓库提交 Issue 或 Pull Request，并附上最小复现和预期表现，便于快速定位问题。",
   },
 ];
-
-/** 演示源码跟随实时预览的状态变化，避免展示代码与界面脱节。 */
-const componentExampleCode = computed(() => [
-  "<" + "script setup lang=\"ts\">",
-  "import { ref } from \"vue\";",
-  "import { AppBadge, AppButton, AppInput } from \"aps-design-pro\";",
-  "import \"aps-design-pro/style.css\";",
-  "",
-  `const courseKeyword = ref(${JSON.stringify(courseKeyword.value)});`,
-  `const pendingReviewCount = ref(${pendingReviewCount.value});`,
-  "<" + "/script>",
-  "",
-  "<template>",
-  "  <AppInput v-model=\"courseKeyword\" placeholder=\"搜索课程或讲师\" />",
-  "",
-  "  <AppBadge :value=\"pendingReviewCount\" :max=\"99\" tone=\"orange\">",
-  "    <AppButton variant=\"secondary\">待审核课程</AppButton>",
-  "  </AppBadge>",
-  "",
-  "  <AppButton @click=\"pendingReviewCount += 1\">新建课程</AppButton>",
-  "</template>",
-].join("\n"));
-
-function increasePendingReviewCount(): void {
-  pendingReviewCount.value = Math.min(99, pendingReviewCount.value + 1);
-}
+const openQuestions = ref<string[]>(["element-plus"]);
 
 /** 逐字呈现首屏标题；减少动态效果时直接输出全文，避免干扰阅读。 */
 function startHeroTyping(): void {
@@ -100,13 +146,13 @@ onBeforeUnmount(() => window.clearTimeout(heroTypingTimerId));
   <main class="home-page">
     <section class="home-hero" aria-labelledby="home-title">
       <div class="home-hero__content">
-        <span class="home-release"><i aria-hidden="true"></i> v0.1.1 · 持续维护中</span>
+        <span class="home-release"><i aria-hidden="true"></i> v{{ LIB_VERSION }} · 持续维护中</span>
         <h1 id="home-title" :aria-label="heroHeadline">
           <span aria-hidden="true">{{ typedHeroHeadline }}</span><span class="home-hero__caret" aria-hidden="true"></span>
         </h1>
         <p>
-          一款果子风味儿的 Vue 3 管理后台组件库。<br class="home-hero__break" />
-          为表单、表格、图表、导航和反馈建立统一的前端基础。
+          为 Vue 3 管理后台的表单、表格、图表、导航与反馈<br class="home-hero__break" />
+          建立统一、可组合的前端基础。
         </p>
         <div class="home-hero__actions">
           <RouterLink to="/guide/architecture">
@@ -123,21 +169,9 @@ onBeforeUnmount(() => window.clearTimeout(heroTypingTimerId));
     </section>
 
     <section class="home-facts" aria-label="组件库基础信息">
-      <article>
-        <strong>177</strong>
-        <span>组件导出入口</span>
-      </article>
-      <article>
-        <strong>Vue 3</strong>
-        <span>Composition API</span>
-      </article>
-      <article>
-        <strong>TypeScript</strong>
-        <span>完整类型定义</span>
-      </article>
-      <article>
-        <strong>按需导入</strong>
-        <span>按业务需要接入</span>
+      <article v-for="fact in facts" :key="fact.label">
+        <strong>{{ fact.value }}</strong>
+        <span>{{ fact.label }}</span>
       </article>
     </section>
 
@@ -151,109 +185,89 @@ onBeforeUnmount(() => window.clearTimeout(heroTypingTimerId));
         <AppCard class="home-workbench" padding="large" shadow="never">
           <div class="home-workbench__header">
             <div>
-              <span>课程中心</span>
-              <strong>内容审核</strong>
+              <span>内容管理</span>
+              <strong>订单与商品</strong>
             </div>
             <span class="home-workbench__status"><i aria-hidden="true"></i> 系统正常</span>
           </div>
           <div class="home-workbench__search">
-            <label for="home-course-search">搜索待处理内容</label>
+            <label for="home-search">搜索订单或商品</label>
             <AppInput
-              id="home-course-search"
-              v-model="courseKeyword"
+              id="home-search"
+              v-model="keyword"
               clearable
-              placeholder="搜索课程或讲师"
+              placeholder="搜索订单或商品"
             >
               <template #prefix><AppIcon name="search" :size="16" /></template>
             </AppInput>
           </div>
-          <div class="home-workbench__actions">
-            <AppBadge :value="pendingReviewCount" :max="99" tone="orange">
-              <AppButton variant="secondary">待审核课程</AppButton>
-            </AppBadge>
-            <AppButton leading-icon="plus" @click="increasePendingReviewCount">新建课程</AppButton>
+          <div class="home-workbench__list">
+            <p v-for="order in matched" :key="order">{{ order }}</p>
+            <p v-if="matched.length === 0" class="home-workbench__empty">没有匹配的结果</p>
           </div>
           <div class="home-workbench__summary">
             <span>当前筛选</span>
-            <strong>{{ courseKeyword || "全部课程" }}</strong>
-            <small>组件表现与业务数据彼此独立</small>
+            <strong>{{ keyword || "全部" }}</strong>
+            <small>组件只负责展示，数据来自你的应用</small>
           </div>
         </AppCard>
 
         <CodePanel class="home-purpose__code" label="同源演示代码" :code="componentExampleCode" />
       </div>
-      <p class="home-purpose__caption">修改左侧的关键词或点击“新建课程”，右侧代码会同步更新。</p>
+      <p class="home-purpose__caption">修改上方关键词，右侧代码会同步更新。</p>
     </section>
 
-    <section class="home-section home-design" aria-labelledby="design-title">
-      <div class="home-section__heading home-section__heading--center">
-        <h2 id="design-title">让界面保持克制<br />让业务自由生长</h2>
-        <p>设计系统应减少重复决策，而不是把应用锁进固定模板。</p>
-      </div>
-
-      <div class="home-design__principles">
-        <article class="home-design__principle">
-          <span class="home-design__signal is-positive"><AppIcon name="check" :size="16" /></span>
-          <div>
-            <h3>从基础层开始</h3>
-            <p>表单、数据展示、导航和反馈共享同一套尺度、状态与交互节奏，业务页面不再各自修补细节。</p>
-          </div>
-        </article>
-        <article class="home-design__principle">
-          <span class="home-design__signal is-positive"><AppIcon name="check" :size="16" /></span>
-          <div>
-            <h3>组件可单独使用</h3>
-            <p>按页面实际需求导入，不要求把路由、状态管理、请求封装或项目骨架一并替换。</p>
-          </div>
-        </article>
-        <article class="home-design__principle">
-          <span class="home-design__signal is-neutral"><AppIcon name="close" :size="16" /></span>
-          <div>
-            <h3>不隐藏业务状态</h3>
-            <p>请求、权限、数据加载和错误恢复由业务应用明确管理，组件只提供清楚的呈现与操作边界。</p>
-          </div>
-        </article>
-        <article class="home-design__principle">
-          <span class="home-design__signal is-neutral"><AppIcon name="close" :size="16" /></span>
-          <div>
-            <h3>不绑定特定后端</h3>
-            <p>对接 REST、RPC 或既有服务均可；数据结构和接口格式始终留在你的项目内。</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="home-ecosystem" aria-labelledby="ecosystem-title">
-      <div class="home-ecosystem__intro">
+    <section class="home-eco" aria-labelledby="eco-title">
+      <div class="home-eco__intro">
         <div>
-          <h2 id="ecosystem-title">从一处开始，覆盖常见界面</h2>
+          <h2 id="eco-title">从一处开始，覆盖常见界面</h2>
           <p>基础能力、表单录入、数据操作、内容承载与反馈交互都可以在组件目录中按需查看。</p>
         </div>
         <RouterLink to="/components" class="home-text-link">查看全部组件 <AppIcon name="arrow-right" :size="16" /></RouterLink>
       </div>
 
-      <div class="home-ecosystem__rows">
-        <article>
-          <span class="home-ecosystem__icon"><AppButton size="small">按钮</AppButton></span>
-          <div><h3>基础组件</h3><p>按钮、徽标、图标、文字与布局基础。</p></div>
-          <span class="home-ecosystem__name">AppButton · AppBadge</span>
-        </article>
-        <article>
-          <span class="home-ecosystem__icon"><AppInput model-value="" size="small" placeholder="输入内容" aria-label="输入框预览" /></span>
-          <div><h3>表单与选择</h3><p>输入、选择、日期、校验与搜索控制。</p></div>
-          <span class="home-ecosystem__name">AppInput · AppSelect</span>
-        </article>
-        <article>
-          <span class="home-ecosystem__icon home-ecosystem__icon--table"><i></i><i></i><i></i></span>
-          <div><h3>数据展示</h3><p>表格、分页、图表、统计与视图配置。</p></div>
-          <span class="home-ecosystem__name">AppTable · AppChart</span>
-        </article>
-        <article>
-          <span class="home-ecosystem__icon home-ecosystem__icon--notice"><AppIcon name="check" :size="16" /></span>
-          <div><h3>反馈与浮层</h3><p>弹窗、抽屉、通知、确认与任务引导。</p></div>
-          <span class="home-ecosystem__name">AppDialog · AppMessage</span>
-        </article>
+      <div class="home-eco__grid">
+        <RouterLink
+          v-for="category in COMPONENT_CATEGORIES"
+          :key="category.key"
+          to="/components"
+          class="home-eco__card"
+        >
+          <span class="home-eco__glyph" :class="`home-eco__glyph--${category.key}`" v-html="categoryGlyphs[category.key]" />
+          <div class="home-eco__meta">
+            <h3>{{ category.label }}</h3>
+            <p>{{ category.description }}</p>
+          </div>
+        </RouterLink>
       </div>
+    </section>
+
+    <section class="home-trust" aria-labelledby="trust-title">
+      <div class="home-section__heading home-section__heading--center">
+        <h2 id="trust-title">开放、可商用、持续维护</h2>
+        <p>以 MIT 协议开源，源码托管于 Gitee，欢迎通过 Issue 与共建名单参与。</p>
+      </div>
+
+      <div class="home-trust__grid">
+        <component
+          :is="resource.href ? 'a' : RouterLink"
+          v-for="resource in resources"
+          :key="resource.label"
+          class="home-trust__card"
+          :href="resource.href"
+          :target="resource.href ? '_blank' : undefined"
+          :rel="resource.href ? 'noopener noreferrer' : undefined"
+          :to="resource.to"
+        >
+          <AppIcon :name="resource.icon" :size="20" />
+          <div>
+            <h3>{{ resource.label }}</h3>
+            <p>{{ resource.description }}</p>
+          </div>
+        </component>
+      </div>
+
+      <p class="home-trust__note">适用于中后台管理系统：ERP、CRM、数据看板与内部工具。</p>
     </section>
 
     <section class="home-section home-faq" aria-labelledby="faq-title">
@@ -267,11 +281,11 @@ onBeforeUnmount(() => window.clearTimeout(heroTypingTimerId));
     <section class="home-closing" aria-labelledby="closing-title">
       <div>
         <h2 id="closing-title">从第一个清晰的页面开始</h2>
-        <p>安装组件库，查看指南，再根据自己的业务逐步扩展。</p>
+        <p>阅读指南，了解如何把组件接入你自己的业务。</p>
       </div>
       <div class="home-closing__actions">
         <RouterLink to="/guide/architecture"><AppButton size="large" trailing-icon="arrow-right">阅读指南</AppButton></RouterLink>
-        <RouterLink to="/components"><AppButton size="large" variant="ghost">查看组件目录</AppButton></RouterLink>
+        <RouterLink to="/contributors"><AppButton size="large" variant="ghost">参与共建</AppButton></RouterLink>
       </div>
     </section>
   </main>
@@ -285,7 +299,8 @@ onBeforeUnmount(() => window.clearTimeout(heroTypingTimerId));
 
 .home-hero,
 .home-section,
-.home-ecosystem,
+.home-eco,
+.home-trust,
 .home-closing {
   width: min(100% - 48px, 1120px);
   margin: 0 auto;
@@ -342,11 +357,11 @@ p {
 
 .home-hero__caret {
   display: inline-block;
-  width: .075em;
-  height: .8em;
-  margin-left: .08em;
+  width: 0.075em;
+  height: 0.8em;
+  margin-left: 0.08em;
   background: var(--aps-blue);
-  vertical-align: -.03em;
+  vertical-align: -0.03em;
   animation: home-hero-caret 880ms steps(1, end) infinite;
 }
 
@@ -371,7 +386,6 @@ p {
 }
 
 .home-hero__actions,
-.home-workbench__actions,
 .home-closing__actions {
   display: flex;
   flex-wrap: wrap;
@@ -441,14 +455,15 @@ p {
 
 .home-section__heading {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, .72fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
   align-items: end;
   gap: 48px;
   margin-bottom: 48px;
 }
 
 .home-section__heading h2,
-.home-ecosystem h2,
+.home-eco h2,
+.home-trust h2,
 .home-closing h2 {
   color: var(--aps-ink);
   font-size: clamp(28px, 3.5vw, 42px);
@@ -458,7 +473,8 @@ p {
 }
 
 .home-section__heading p,
-.home-ecosystem__intro p,
+.home-eco__intro p,
+.home-trust p,
 .home-closing p {
   color: var(--aps-muted);
   font-size: 15px;
@@ -477,7 +493,7 @@ p {
 
 .home-purpose__body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, .92fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
   align-items: stretch;
   gap: 28px;
 }
@@ -489,7 +505,6 @@ p {
 }
 
 .home-workbench__header,
-.home-workbench__actions,
 .home-workbench__summary {
   display: flex;
   align-items: center;
@@ -539,16 +554,35 @@ p {
   font-weight: 650;
 }
 
-.home-workbench__actions {
-  justify-content: flex-start;
-  margin-top: 20px;
+.home-workbench__list {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  max-height: 168px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.home-workbench__list p {
+  padding: 10px 12px;
+  border: 1px solid var(--aps-line-soft);
+  border-radius: 9px;
+  background: var(--aps-surface);
+  color: var(--aps-ink);
+  font-size: 13px;
+}
+
+.home-workbench__empty {
+  color: var(--aps-faint) !important;
+  border-style: dashed !important;
+  text-align: center;
 }
 
 .home-workbench__summary {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 4px 10px;
-  margin-top: 38px;
+  margin-top: 22px;
   padding-top: 18px;
   border-top: 1px solid var(--aps-line-soft);
 }
@@ -588,68 +622,11 @@ p {
   text-align: center;
 }
 
-.home-design {
-  width: 100%;
-  padding: 128px max(24px, calc((100% - 1120px) / 2));
-  background: var(--aps-surface-soft);
-}
-
-.home-design__principles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  overflow: hidden;
-  border: 1px solid var(--aps-line-soft);
-  border-radius: 20px;
-  background: var(--aps-line-soft);
-}
-
-.home-design__principle {
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 14px;
-  min-height: 158px;
-  padding: 28px;
-  background: var(--aps-surface);
-}
-
-.home-design__signal {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border-radius: 8px;
-}
-
-.home-design__signal.is-positive {
-  background: var(--aps-green-soft);
-  color: var(--aps-green);
-}
-
-.home-design__signal.is-neutral {
-  background: var(--aps-red-soft);
-  color: var(--aps-red);
-}
-
-.home-design__principle h3 {
-  color: var(--aps-ink);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.home-design__principle p {
-  margin-top: 8px;
-  color: var(--aps-muted);
-  font-size: 13px;
-  line-height: 1.75;
-}
-
-.home-ecosystem {
+.home-eco {
   padding: 132px 0;
 }
 
-.home-ecosystem__intro {
+.home-eco__intro {
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -657,7 +634,7 @@ p {
   margin-bottom: 44px;
 }
 
-.home-ecosystem__intro p {
+.home-eco__intro p {
   max-width: 600px;
   margin-top: 12px;
 }
@@ -672,79 +649,118 @@ p {
   font-weight: 650;
 }
 
-.home-ecosystem__rows {
-  border-top: 1px solid var(--aps-line-soft);
+.home-eco__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.home-ecosystem__rows article {
+.home-eco__card {
   display: grid;
-  grid-template-columns: 126px minmax(0, 1fr) minmax(180px, .65fr);
+  grid-template-columns: 44px minmax(0, 1fr);
   align-items: center;
-  gap: 32px;
-  min-height: 114px;
-  border-bottom: 1px solid var(--aps-line-soft);
-}
-
-.home-ecosystem__icon {
-  display: grid;
-  width: 126px;
-  min-height: 54px;
-  place-items: center;
-}
-
-.home-ecosystem__icon :deep(.app-input-field) {
-  width: 118px;
-}
-
-.home-ecosystem__icon--table {
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  width: 76px;
-  min-height: 42px;
-  padding: 5px;
+  gap: 16px;
+  padding: 22px;
   border: 1px solid var(--aps-line-soft);
-  border-radius: 8px;
+  border-radius: 16px;
+  background: var(--aps-surface);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+}
+
+.home-eco__card:hover,
+.home-eco__card:focus-visible {
+  border-color: var(--aps-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -18px rgba(0, 113, 227, 0.55);
+  outline: 0;
+}
+
+.home-eco__glyph {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 11px;
   background: var(--aps-surface-soft);
+  color: var(--aps-blue);
 }
 
-.home-ecosystem__icon--table i {
-  display: block;
-  height: 100%;
-  border-radius: 3px;
-  background: repeating-linear-gradient(to bottom, rgba(29, 29, 31, .12) 0 4px, transparent 4px 9px);
+.home-eco__glyph :deep(svg) {
+  width: 24px;
+  height: 24px;
 }
 
-.home-ecosystem__icon--notice {
-  width: 38px;
-  min-height: 38px;
-  border-radius: 10px;
-  background: var(--aps-blue);
-  color: #ffffff;
-}
-
-.home-ecosystem__rows h3 {
+.home-eco__meta h3 {
   color: var(--aps-ink);
   font-size: 16px;
   font-weight: 700;
 }
 
-.home-ecosystem__rows p,
-.home-ecosystem__name {
+.home-eco__meta p {
+  margin-top: 4px;
   color: var(--aps-muted);
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
-.home-ecosystem__rows p {
+.home-trust {
+  padding: 132px 0;
+}
+
+.home-trust__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.home-trust__card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid var(--aps-line-soft);
+  border-radius: 16px;
+  background: var(--aps-surface);
+  color: var(--aps-blue);
+  text-decoration: none;
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.home-trust__card:hover,
+.home-trust__card:focus-visible {
+  border-color: var(--aps-blue);
+  transform: translateY(-2px);
+  outline: 0;
+}
+
+.home-trust__card :deep(svg) {
+  width: 22px;
+  height: 22px;
+}
+
+.home-trust__card h3 {
+  margin: 0;
+  color: var(--aps-ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.home-trust__card p {
   margin-top: 4px;
+  color: var(--aps-muted);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-.home-ecosystem__name {
-  justify-self: end;
+.home-trust__note {
+  margin-top: 28px;
+  text-align: center;
   color: var(--aps-faint);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
-  text-align: right;
+  font-size: 13px;
 }
 
 .home-faq {
@@ -779,7 +795,8 @@ p {
 @media (max-width: 840px) {
   .home-hero,
   .home-section,
-  .home-ecosystem,
+  .home-eco,
+  .home-trust,
   .home-closing {
     width: min(100% - 40px, 1120px);
   }
@@ -797,13 +814,18 @@ p {
     gap: 16px;
   }
 
-  .home-ecosystem__rows article {
-    grid-template-columns: 100px minmax(0, 1fr);
-    gap: 20px;
+  .home-eco__intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
   }
 
-  .home-ecosystem__name {
-    display: none;
+  .home-eco__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-trust__grid {
+    grid-template-columns: 1fr;
   }
 
   .home-closing {
@@ -815,7 +837,8 @@ p {
 @media (max-width: 640px) {
   .home-hero,
   .home-section,
-  .home-ecosystem,
+  .home-eco,
+  .home-trust,
   .home-closing {
     width: min(100% - 32px, 1120px);
   }
@@ -851,58 +874,13 @@ p {
   }
 
   .home-section,
-  .home-ecosystem {
+  .home-eco,
+  .home-trust {
     padding: 82px 0;
-  }
-
-  .home-design {
-    padding: 82px 16px;
-  }
-
-  .home-design__principles {
-    grid-template-columns: 1fr;
-  }
-
-  .home-design__principle {
-    min-height: auto;
-    padding: 22px;
-  }
-
-  .home-ecosystem__intro {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .home-ecosystem__rows article {
-    grid-template-columns: 78px minmax(0, 1fr);
-    gap: 12px;
-    min-height: 98px;
-  }
-
-  .home-ecosystem__icon {
-    width: 78px;
-  }
-
-  .home-ecosystem__icon :deep(.app-input-field) {
-    width: 76px;
   }
 
   .home-workbench :deep(.card-content) {
     padding: 22px;
-  }
-
-  .home-workbench__header {
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .home-workbench__status {
-    flex: 0 0 auto;
-  }
-
-  .home-workbench__actions {
-    justify-content: flex-start;
   }
 
   .home-purpose__code :deep(pre) {
@@ -921,12 +899,13 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-workbench {
-    background: var(--aps-surface);
-  }
-
   .home-hero__caret {
     animation: none;
+  }
+
+  .home-eco__card,
+  .home-trust__card {
+    transition: none;
   }
 }
 </style>

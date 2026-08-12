@@ -53,6 +53,129 @@ const value = ref("");
 </style>
 ```
 
+### 2.3 分钟步长
+
+```vue demo:form-time-picker-step title="步长 15 分钟"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-field"><AppTimePicker v-model="value" :step="15" clearable placeholder="每 15 分钟" aria-label="提醒时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); }
+</style>
+```
+
+### 2.4 禁用
+
+```vue demo:form-time-picker-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("09:30");
+</script>
+
+<template>
+  <div class="demo-field"><AppTimePicker v-model="value" disabled aria-label="固定时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); }
+</style>
+```
+
+### 2.5 校验状态
+
+```vue demo:form-time-picker-invalid title="校验状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-field">
+    <AppTimePicker v-model="value" invalid described-by="time-hint" placeholder="选择时间" aria-label="时间" />
+    <span id="time-hint">请选择有效的时间点</span>
+  </div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.6 最早时间
+
+```vue demo:form-time-picker-min title="最早时间"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-field"><AppTimePicker v-model="value" min="13:00" clearable placeholder="下午时段起" aria-label="下午时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); }
+</style>
+```
+
+### 2.7 自定义占位
+
+```vue demo:form-time-picker-custom-label title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("");
+</script>
+
+<template>
+  <div class="demo-field"><AppTimePicker v-model="value" placeholder="请选择开播时间" aria-label="课程开播时间" clearable /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); }
+</style>
+```
+
+### 2.8 不可清空
+
+```vue demo:form-time-picker-no-clear title="禁用清空"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTimePicker } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("20:00");
+</script>
+
+<template>
+  <div class="demo-field"><AppTimePicker v-model="value" :clearable="false" aria-label="固定时间" /></div>
+</template>
+
+<style scoped>
+.demo-field { width: min(100%, 300px); }
+</style>
+```
+
 ## 3. API 使用方式
 
 ```vue

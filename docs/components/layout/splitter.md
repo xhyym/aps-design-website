@@ -7,13 +7,14 @@ source: packages/ui/src/components/layout/AppSplitter.vue
 
 # 分栏面板（AppSplitter）
 
-`AppSplitter` 在两个内容区域之间提供可拖动、可键盘操作的分隔条，并以百分比受控值保存当前比例。
+`AppSplitter` 在两个内容区域之间提供可拖动、可键盘操作的分隔条，并以百分比受控值保存当前比例。需要收起左侧导航时，可开启内置折叠控制，不必在业务区域额外放置按钮。
 
 ## 1. 用处
 
 - 用于文件管理、代码编辑、日志查看等需要用户调整工作区比例的双栏界面。
 - 限制 `min` 和 `max`，避免一侧被拖到无法阅读的宽度或高度。
 - 保持 `modelValue` 在业务状态中，以便以后保存个人偏好。
+- 开启 `collapsible` 后，可将第一面板拖到边缘完全收起，并通过分隔条上的控制块恢复原宽度。
 
 ## 2. 代码演示
 
@@ -64,6 +65,26 @@ const ratio = ref(55);
 </style>
 ```
 
+### 2.3 可折叠导航面板
+
+```vue
+<script setup lang="ts">
+import { ref } from "vue";
+
+const panelRatio = ref(28);
+const panelCollapsed = ref(false);
+</script>
+
+<template>
+  <AppSplitter v-model="panelRatio" v-model:collapsed="panelCollapsed" collapsible first-panel-label="文件目录">
+    <template #first><NavigationTree /></template>
+    <template #second><EditorWorkspace /></template>
+  </AppSplitter>
+</template>
+```
+
+分隔条中部会显示收起或展开控制块。向左（垂直分栏时向上）拖动到边缘也会收起；展开时恢复收起前的比例。键盘可使用 `Home` 收起、朝展开方向的方向键恢复。
+
 ## 3. API 使用方式
 
 ```vue
@@ -86,6 +107,8 @@ const ratio = ref(55);
 | `min` / `max` | 第一个面板的最小与最大百分比。 | `number` | `20` / `80` |
 | `step` | 键盘调整的百分比步长。 | `number` | `2` |
 | `disabled` | 是否禁用拖动与键盘调整。 | `boolean` | `false` |
+| `collapsible` | 是否允许收起第一个面板。 | `boolean` | `false` |
+| `collapsed` | 第一个面板是否收起，支持 `v-model:collapsed`。 | `boolean` | `false` |
 | `ariaLabel` | 分隔条的可访问名称。 | `string` | `"可调整分栏"` |
 | `firstPanelLabel` / `secondPanelLabel` | 两个区域的可访问名称。 | `string` | `"第一分栏"` / `"第二分栏"` |
 
@@ -101,7 +124,9 @@ const ratio = ref(55);
 | 事件 | 说明 | 回调参数 |
 | --- | --- | --- |
 | `update:modelValue` | 分隔比例变化时触发。 | `value: number` |
+| `update:collapsed` | 折叠状态变化时触发。 | `collapsed: boolean` |
 | `resize` | 拖动或键盘调整过程中触发。 | `value: number` |
 | `change` | 拖动结束、键盘完成调整或重置时触发。 | `value: number` |
+| `collapse-change` | 通过拖动、控制块或键盘改变折叠状态时触发。 | `collapsed: boolean` |
 
 组件实例暴露 `reset()`，调用后会尝试将比例恢复为 `50`，并遵循当前的 `min` 和 `max` 范围。

@@ -65,6 +65,128 @@ const timeOptions = [
 
 禁用项不会被点击或键盘导航选中。用户需要理解不可用原因时，应在控制器外提供明确说明。
 
+### 2.3 多档尺寸
+
+```vue demo:segmented-sizes title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSegmented } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const small = ref("day");
+const normal = ref("day");
+const options = [
+  { label: "日", value: "day" },
+  { label: "周", value: "week" },
+  { label: "月", value: "month" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppSegmented v-model="small" :options="options" size="small" aria-label="小尺寸" />
+    <AppSegmented v-model="normal" :options="options" size="default" aria-label="默认尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 12px; }
+</style>
+```
+
+### 2.4 整体禁用
+
+```vue demo:segmented-disabled-all title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSegmented } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("all");
+const options = [
+  { label: "全部", value: "all" },
+  { label: "进行中", value: "active" },
+  { label: "已归档", value: "archived" },
+];
+</script>
+
+<template>
+  <AppSegmented v-model="value" :options="options" disabled aria-label="课程状态" />
+</template>
+```
+
+### 2.5 长标签
+
+```vue demo:segmented-long-labels title="长标签"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSegmented } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("published");
+const options = [
+  { label: "待审核草稿", value: "draft" },
+  { label: "已发布上线", value: "published" },
+  { label: "已下线隐藏", value: "offline" },
+];
+</script>
+
+<template>
+  <AppSegmented v-model="value" :options="options" aria-label="课程状态" />
+</template>
+```
+
+### 2.6 更多分段
+
+```vue demo:segmented-many title="多段切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSegmented } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("jan");
+const options = [
+  { label: "一月", value: "jan" },
+  { label: "二月", value: "feb" },
+  { label: "三月", value: "mar" },
+  { label: "四月", value: "apr" },
+  { label: "五月", value: "may" },
+];
+</script>
+
+<template>
+  <AppSegmented v-model="value" :options="options" aria-label="月份筛选" />
+</template>
+```
+
+### 2.7 绑定视图切换
+
+```vue demo:segmented-bound title="联动内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSegmented } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const value = ref("list");
+const options = [
+  { label: "列表", value: "list" },
+  { label: "看板", value: "board" },
+];
+</script>
+
+<template>
+  <div class="demo-stack">
+    <AppSegmented v-model="value" :options="options" aria-label="视图切换" />
+    <p class="demo-hint">当前视图：{{ value === "list" ? "列表视图" : "看板视图" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.demo-stack { display: grid; gap: 10px; }
+.demo-hint { margin: 0; font-size: 14px; }
+</style>
+```
+
 ## 3. API 使用方式
 
 使用字符串 `v-model` 和稳定的 `SelectOption[]`。选中项不存在时，组件会把焦点落在第一个可用项，但不会擅自修改业务值。
