@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       aps-design-pro:
-        specifier: ^0.3.1
-        version: 0.3.1(@floating-ui/dom@1.8.0)(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/extensions@3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0)(vue@3.5.41(typescript@5.9.3))
+        specifier: ^0.3.2
+        version: 0.3.2(@floating-ui/dom@1.8.0)(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/extensions@3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0)(vue@3.5.41(typescript@5.9.3))
       markdown-it:
         specifier: ^14.1.0
         version: 14.3.0
@@ -605,8 +605,8 @@ packages:
   alien-signals@1.0.13:
     resolution: {integrity: sha512-OGj9yyTnJEttvzhTUWuscOvtqxq5vrhF7vL9oS0xJ2mK0ItPYP1/y+vCFebfxoEyAz0++1AIwJ5CMr+Fk3nDmg==}
 
-  aps-design-pro@0.3.1:
-    resolution: {integrity: sha512-CHF34ue8ZoZB/qN2XOYWPB1wFIaFX8aQwbqf72bhlJL07xdCGa24qEunPF1MGdjBEbyD7QztB4/GL+ftkRbHfQ==}
+  aps-design-pro@0.3.2:
+    resolution: {integrity: sha512-vT7mSfZAZfd0DfgBNnDTBDY1R6+yEAPU4NTM67FPn9OKhCTRNxDXnXgLDw2JgxkXl2gsDbTgM2dfcmSHQt1oaw==}
     peerDependencies:
       vue: ^3.5.0
 
@@ -1314,7 +1314,7 @@ snapshots:
 
   alien-signals@1.0.13: {}
 
-  aps-design-pro@0.3.1(@floating-ui/dom@1.8.0)(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/extensions@3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0)(vue@3.5.41(typescript@5.9.3)):
+  aps-design-pro@0.3.2(@floating-ui/dom@1.8.0)(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/extensions@3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0)(vue@3.5.41(typescript@5.9.3)):
     dependencies:
       '@tiptap/extension-image': 3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))
       '@tiptap/extension-link': 3.30.0(@tiptap/core@3.30.0(@tiptap/pm@3.30.0))(@tiptap/pm@3.30.0)
