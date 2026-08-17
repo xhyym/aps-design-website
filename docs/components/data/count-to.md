@@ -41,6 +41,82 @@ import "aps-design-pro/style.css";
 <template><AppCountTo :value="98.6" :decimals="1" prefix="¥" suffix=" 万" :duration="1200" /></template>
 ```
 
+
+### 2.3 前后缀
+
+```vue demo:count-to-prefix-suffix title="前后缀"
+<script setup lang="ts">
+import { AppCountTo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <div class="item"><span>销售额</span><AppCountTo :value="128400" prefix="¥" /></div>
+    <div class="item"><span>订单量</span><AppCountTo :value="862" suffix=" 单" /></div>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 48px; }
+.item span { color: var(--aps-muted); margin-right: 8px; font-size: 18px; }
+</style>
+```
+
+### 2.4 动画时长
+
+```vue demo:count-to-duration title="动画时长"
+<script setup lang="ts">
+import { AppCountTo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <div class="item"><span>1s 快速</span><AppCountTo :value="5000" :duration="1000" /></div>
+    <div class="item"><span>3s 慢速</span><AppCountTo :value="5000" :duration="3000" /></div>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 48px; }
+.item span { color: var(--aps-muted); margin-right: 8px; font-size: 18px; }
+</style>
+```
+
+### 2.5 小数位
+
+```vue demo:count-to-format title="小数位"
+<script setup lang="ts">
+import { AppCountTo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCountTo :value="98.76" :decimals="2" suffix="%" />
+</template>
+```
+
+### 2.6 组合用法
+
+```vue demo:count-to-custom title="组合用法"
+<script setup lang="ts">
+import { AppCountTo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <div class="item"><span>月活跃</span><AppCountTo :value="1234567" :duration="1500" /></div>
+    <div class="item"><span>转化率</span><AppCountTo :value="4.32" :decimals="2" :duration="800" suffix="%" /></div>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 48px; }
+.item span { color: var(--aps-muted); margin-right: 8px; font-size: 18px; }
+</style>
+```
 ## 3. API 使用方式
 
 当 `value` 更新时组件会自动从当前展示值过渡到新值。

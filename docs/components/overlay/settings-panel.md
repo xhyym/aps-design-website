@@ -50,6 +50,73 @@ const visible = ref(false);
 </template>
 ```
 
+
+### 2.3 底部操作
+
+```vue demo:overlay-settings-panel-footer title="底部操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSettingsPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开设置</AppButton>
+    <AppSettingsPanel v-model="open">
+      <p>主题、字体等设置项。</p>
+      <template #footer>
+        <AppButton size="small" variant="text" @click="open = false">取消</AppButton>
+        <AppButton size="small" @click="open = false">保存设置</AppButton>
+      </template>
+    </AppSettingsPanel>
+  </div>
+</template>
+```
+
+### 2.4 说明文字
+
+```vue demo:overlay-settings-panel-description title="说明文字"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSettingsPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">偏好设置</AppButton>
+    <AppSettingsPanel v-model="open" title="偏好设置" description="修改后立即生效，无需重启">
+      <p>设置内容区域。</p>
+    </AppSettingsPanel>
+  </div>
+</template>
+```
+
+### 2.5 自定义标题
+
+```vue demo:overlay-settings-panel-custom title="自定义标题"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSettingsPanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">高级设置</AppButton>
+    <AppSettingsPanel v-model="open" title="界面设置" description="调整当前工作区的显示偏好">
+      <p>更多设置内容。</p>
+    </AppSettingsPanel>
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 `AppSettingsPanel` 的宽度和标题会传递给内部 `AppDrawer`。业务侧通过 `v-model` 控制开关，将设置表单放在默认插槽，保存按钮放入 `footer`。

@@ -55,6 +55,100 @@ function unlock(password: string): void {
 </template>
 ```
 
+
+### 2.3 自定义用户
+
+```vue demo:overlay-screen-lock-user title="自定义用户"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppScreenLock } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const locked = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="locked = true">锁定工作区</AppButton>
+    <AppScreenLock v-model="locked" user-name="张伟" />
+  </div>
+</template>
+```
+
+### 2.4 说明文字
+
+```vue demo:overlay-screen-lock-description title="说明文字"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppScreenLock } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const locked = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="locked = true">锁定</AppButton>
+    <AppScreenLock v-model="locked" description="为保护数据安全，请重新验证身份" />
+  </div>
+</template>
+```
+
+### 2.5 解锁回调
+
+```vue demo:overlay-screen-lock-unlock title="解锁回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppScreenLock } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const locked = ref(false);
+const log = ref("");
+const onUnlock = (password: string) => {
+  log.value = "收到密码长度 " + password.length;
+  locked.value = false;
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="locked = true">锁定工作区</AppButton>
+    <AppScreenLock v-model="locked" @unlock="onUnlock" />
+    <p class="hint">{{ log || "未解锁" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 解锁中
+
+```vue demo:overlay-screen-lock-unlocking title="解锁中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppScreenLock } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const locked = ref(false);
+const unlocking = ref(false);
+const onUnlock = () => {
+  unlocking.value = true;
+  setTimeout(() => {
+    unlocking.value = false;
+    locked.value = false;
+  }, 1500);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="locked = true">锁定</AppButton>
+    <AppScreenLock v-model="locked" :is-unlocking="unlocking" @unlock="onUnlock" />
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 打开时组件会自动聚焦密码框，按 Enter 或点击按钮都会触发 `unlock(password)`。业务服务请求期间把 `isUnlocking` 设为 `true`，失败信息通过 `errorMessage` 传回。

@@ -45,6 +45,52 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 骨架行数
+
+```vue demo:loading-state-rows title="骨架行数"
+<script setup lang="ts">
+import { AppLoadingState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppLoadingState title="正在加载" :rows="2" />
+    <AppLoadingState title="正在加载" :rows="5" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 24px; }
+</style>
+```
+
+### 2.4 自定义文案
+
+```vue demo:loading-state-custom title="自定义文案"
+<script setup lang="ts">
+import { AppLoadingState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppLoadingState title="拉取报表中" description="数据量较大，请耐心等待…" :rows="4" />
+</template>
+```
+
+### 2.5 说明文字
+
+```vue demo:loading-state-description title="说明文字"
+<script setup lang="ts">
+import { AppLoadingState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppLoadingState title="正在同步" description="正在与云端数据同步，请稍候" />
+</template>
+```
 ## 3. API 使用方式
 
 将它作为加载分支，不要与真实数据同时展示。

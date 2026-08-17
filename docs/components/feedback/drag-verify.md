@@ -52,6 +52,82 @@ const verified = ref(true);
 </template>
 ```
 
+
+### 2.3 验证成功
+
+```vue demo:drag-verify-success title="验证成功"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDragVerify } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const done = ref(false);
+const onSuccess = () => {
+  console.log("verify passed");
+};
+</script>
+
+<template>
+  <AppDragVerify v-model="done" @success="onSuccess" />
+</template>
+```
+
+### 2.4 禁用状态
+
+```vue demo:drag-verify-disabled title="禁用状态"
+<script setup lang="ts">
+import { AppDragVerify } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppDragVerify disabled />
+</template>
+```
+
+### 2.5 自定义文案
+
+```vue demo:drag-verify-custom-text title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDragVerify } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const done = ref(false);
+</script>
+
+<template>
+  <AppDragVerify v-model="done" text="向右滑动以提交" success-text="提交成功" />
+</template>
+```
+
+### 2.6 受控状态
+
+```vue demo:drag-verify-controlled title="受控状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDragVerify } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const done = ref(true);
+const reset = () => {
+  done.value = false;
+};
+</script>
+
+<template>
+  <div>
+    <AppDragVerify v-model="done" />
+    <div class="bar">
+      <AppButton size="small" @click="reset">重置验证</AppButton>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.bar { margin-top: 10px; }
+</style>
+```
 ## 3. API 使用方式
 
 将 `v-model` 作为业务动作的门槛；验证完成后再允许用户继续提交。

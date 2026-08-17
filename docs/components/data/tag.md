@@ -43,6 +43,106 @@ const visible = ref(true);
 <template><AppTag v-if="visible" label="可移除筛选" tone="blue" closable @close="visible = false" /></template>
 ```
 
+
+### 2.3 色调
+
+```vue demo:tag-tones title="色调"
+<script setup lang="ts">
+import { AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTag label="蓝色" tone="blue" />
+    <AppTag label="绿色" tone="green" />
+    <AppTag label="橙色" tone="orange" />
+    <AppTag label="红色" tone="red" />
+    <AppTag label="中性" tone="neutral" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>
+```
+
+### 2.4 填充形式
+
+```vue demo:tag-variants title="填充形式"
+<script setup lang="ts">
+import { AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTag label="柔和" variant="soft" />
+    <AppTag label="描边" variant="outline" />
+    <AppTag label="实心" variant="solid" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; }
+</style>
+```
+
+### 2.5 尺寸
+
+```vue demo:tag-size title="尺寸"
+<script setup lang="ts">
+import { AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTag label="小尺寸" size="small" />
+    <AppTag label="默认尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; align-items: center; }
+</style>
+```
+
+### 2.6 自定义内容
+
+```vue demo:tag-custom-slot title="自定义内容"
+<script setup lang="ts">
+import { AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppTag tone="green">
+    <span>线上</span>
+    <small> 3 台</small>
+  </AppTag>
+</template>
+```
+
+### 2.7 禁用状态
+
+```vue demo:tag-disabled title="禁用状态"
+<script setup lang="ts">
+import { AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTag label="不可关闭" closable disabled />
+    <AppTag label="不可操作" disabled />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 简单文本可用 `label`，需要富内容时使用默认插槽。关闭后更新外部数组或查询条件，组件不会自行隐藏。

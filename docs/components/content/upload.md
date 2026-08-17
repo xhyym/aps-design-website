@@ -57,6 +57,93 @@ const request: UploadRequest = async ({ file, onProgress }) => {
 <template><AppUpload v-model="files" accept="image/*" list-type="picture-card" :limit="4" :request="request" upload-text="上传封面" /></template>
 ```
 
+
+### 2.3 拖拽上传
+
+```vue demo:content-upload-drag title="拖拽上传"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppUpload, type UploadFileItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const files = ref<UploadFileItem[]>([]);
+</script>
+
+<template>
+  <AppUpload v-model="files" drag />
+</template>
+```
+
+### 2.4 数量限制
+
+```vue demo:content-upload-limit title="数量限制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppUpload, type UploadFileItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const files = ref<UploadFileItem[]>([]);
+</script>
+
+<template>
+  <AppUpload v-model="files" :limit="3" />
+</template>
+```
+
+### 2.5 类型限制
+
+```vue demo:content-upload-accept title="类型限制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppUpload, type UploadFileItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const files = ref<UploadFileItem[]>([]);
+</script>
+
+<template>
+  <AppUpload v-model="files" accept=".png,.jpg,.jpeg" upload-text="选择图片" />
+</template>
+```
+
+### 2.6 禁用状态
+
+```vue demo:content-upload-disabled title="禁用状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppUpload, type UploadFileItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const files = ref<UploadFileItem[]>([]);
+</script>
+
+<template>
+  <AppUpload v-model="files" disabled />
+</template>
+```
+
+### 2.7 上传前校验
+
+```vue demo:content-upload-before title="上传前校验"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppUpload, type UploadFileItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const files = ref<UploadFileItem[]>([]);
+const beforeUpload = (file: File) => {
+  if (file.size > 1024 * 1024) {
+    console.warn("文件不能超过 1MB");
+    return false;
+  }
+  return true;
+};
+</script>
+
+<template>
+  <AppUpload v-model="files" :before-upload="beforeUpload" upload-text="上传（限 1MB）" />
+</template>
+```
 ## 3. API 使用方式
 
 `v-model` 保存 `UploadFileItem[]`，页面应把服务端返回 URL 回写进数组。小文件传 `request`；需要断点续传时传 `chunkService`，可用 `fileKey` 保证同一文件恢复同一会话。

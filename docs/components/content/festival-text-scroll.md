@@ -39,6 +39,44 @@ import "aps-design-pro/style.css";
 <template><AppFestivalTextScroll text="APS Design Pro 一周年，感谢每一位共建者" :speed="26" /></template>
 ```
 
+
+### 2.3 自定义文案
+
+```vue demo:content-festival-text-scroll-text title="自定义文案"
+<script setup lang="ts">
+import { AppFestivalTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppFestivalTextScroll text="新春快乐 · 万事如意 · 恭喜发财" />
+</template>
+```
+
+### 2.4 长文案
+
+```vue demo:content-festival-text-scroll-long title="长文案"
+<script setup lang="ts">
+import { AppFestivalTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppFestivalTextScroll text="国庆 7 天乐，全场商品低至 5 折起，会员叠加满减，优惠不容错过，快来选购吧！" :speed="30" />
+</template>
+```
+
+### 2.5 快速滚动
+```vue demo:content-festival-text-scroll-fast title="快速滚动"
+<script setup lang="ts">
+import { AppFestivalTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppFestivalTextScroll text="周年庆典 · 好礼不断" :speed="8" />
+</template>
+```
 ## 3. API 使用方式
 
 传入活动文案即可。若文案需要精细控制悬停行为，应使用 `AppTextScroll`，因为本组件只暴露 `text` 和 `speed`。

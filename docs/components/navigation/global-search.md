@@ -70,6 +70,146 @@ const items = [
 
 输入“成员”“设置”或描述中的词均可过滤。数据量很大时应先在应用侧做索引或服务端检索后再传入结果。
 
+
+### 2.3 带图标的结果
+
+```vue demo:nav-global-search-items title="带图标结果"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppGlobalSearch } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { title: "订单管理", description: "查看与处理订单", path: "/orders", icon: "chart" as const },
+  { title: "客户列表", description: "维护客户资料", path: "/customers", icon: "users" as const },
+  { title: "系统设置", description: "配置应用参数", path: "/settings", icon: "settings" as const },
+];
+</script>
+
+<template>
+  <div>
+    <p class="hint">点击「搜索」触发器查看带图标的结果。</p>
+    <AppButton @click="visible = true">打开全局搜索</AppButton>
+    <AppGlobalSearch v-model="visible" :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); }
+</style>
+```
+
+### 2.4 受控显隐
+
+```vue demo:nav-global-search-controlled title="受控显隐"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppGlobalSearch } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { title: "概览", description: "数据概览", path: "/dashboard", icon: "grid" as const },
+  { title: "报表", description: "经营报表", path: "/reports", icon: "chart" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">打开搜索</AppButton>
+    <AppGlobalSearch v-model="visible" :items="items" />
+  </div>
+</template>
+```
+
+### 2.5 监听选择
+
+```vue demo:nav-global-search-select title="选择回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppGlobalSearch } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const picked = ref("");
+const visible = ref(false);
+const items = [
+  { title: "订单", description: "订单中心", path: "/orders", icon: "chart" as const },
+  { title: "退款", description: "退款处理", path: "/refunds", icon: "warning" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="visible = true">打开全局搜索</AppButton>
+    <AppGlobalSearch v-model="visible" :items="items" @select="(item) => (picked = item.path)" />
+    <p class="hint">已选路径：{{ picked || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 多个结果
+
+```vue demo:nav-global-search-many title="结果较多"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppGlobalSearch } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { title: "商品管理", description: "维护商品信息", path: "/goods", icon: "grid" as const },
+  { title: "库存", description: "库存查询", path: "/stock", icon: "copy" as const },
+  { title: "采购", description: "采购单", path: "/purchase", icon: "download" as const },
+  { title: "销售", description: "销售单", path: "/sales", icon: "chart" as const },
+  { title: "财务", description: "对账与报表", path: "/finance", icon: "settings" as const },
+];
+</script>
+
+<template>
+  <div>
+    <p class="hint">结果较多时列表可滚动。</p>
+    <AppButton @click="visible = true">打开全局搜索</AppButton>
+    <AppGlobalSearch v-model="visible" :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); }
+</style>
+```
+
+### 2.7 带说明的结果
+
+```vue demo:nav-global-search-description title="带说明文字"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppGlobalSearch } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { title: "创建活动", description: "新建营销活动并配置规则", path: "/campaign/new", icon: "plus" as const },
+  { title: "活动列表", description: "查看进行中与历史活动", path: "/campaign/list", icon: "columns" as const },
+];
+</script>
+
+<template>
+  <div>
+    <p class="hint">说明文字帮助用户区分相似入口。</p>
+    <AppButton @click="visible = true">打开全局搜索</AppButton>
+    <AppGlobalSearch v-model="visible" :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

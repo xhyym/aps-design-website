@@ -56,6 +56,57 @@ const items = ["需求已确认", "视觉稿已通过", "开发中", "等待测�
 </style>
 ```
 
+
+### 2.3 语义标签
+
+```vue demo:layout-container-main-as title="语义标签"
+<script setup lang="ts">
+import { AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerMain as="section">
+    <p>以 section 语义渲染的主体区域。</p>
+  </AppContainerMain>
+</template>
+```
+
+### 2.4 内边距
+
+```vue demo:layout-container-main-padding title="内边距"
+<script setup lang="ts">
+import { AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppContainerMain padding="none"><p>无内边距</p></AppContainerMain>
+    <AppContainerMain padding="spacious"><p>宽松内边距</p></AppContainerMain>
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.5 主体内容
+
+```vue demo:layout-container-main-content title="主体内容"
+<script setup lang="ts">
+import { AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerMain>
+    <h3>销售概览</h3>
+    <p>这里是表格、图表等核心业务内容区。</p>
+  </AppContainerMain>
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

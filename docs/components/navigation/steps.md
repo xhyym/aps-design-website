@@ -62,6 +62,130 @@ const items: StepItem[] = [
 
 单项未显式设置 `status` 时，当前步骤为 `process`，前序步骤为 `success`，后续步骤为 `wait`。
 
+
+### 2.3 可点击切换
+
+```vue demo:nav-steps-clickable title="可点击切换"
+<script setup lang="ts">
+import { AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "填写信息" },
+  { key: "2", title: "确认提交" },
+  { key: "3", title: "完成" },
+];
+</script>
+
+<template>
+  <AppSteps :items="items" :clickable="true" />
+</template>
+```
+
+### 2.4 自定义状态
+
+```vue demo:nav-steps-status title="自定义状态"
+<script setup lang="ts">
+import { AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "已提交", status: "success" as const },
+  { key: "2", title: "审核中", status: "process" as const },
+  { key: "3", title: "被驳回", status: "error" as const },
+  { key: "4", title: "重新提交", status: "wait" as const },
+];
+</script>
+
+<template>
+  <AppSteps :items="items" />
+</template>
+```
+
+### 2.5 带说明
+
+```vue demo:nav-steps-description title="带说明"
+<script setup lang="ts">
+import { AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "创建", description: "填写基础信息" },
+  { key: "2", title: "配置", description: "设置规则与权限" },
+  { key: "3", title: "发布", description: "上线到生产环境" },
+];
+</script>
+
+<template>
+  <AppSteps :items="items" />
+</template>
+```
+
+### 2.6 受控当前步
+
+```vue demo:nav-steps-controlled title="受控当前步"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const current = ref(0);
+const items = [
+  { key: "1", title: "第一步" },
+  { key: "2", title: "第二步" },
+  { key: "3", title: "第三步" },
+];
+</script>
+
+<template>
+  <div>
+    <AppSteps :items="items" :model-value="current" @update:model-value="(i: number) => (current = i)" />
+    <AppButton size="small" class="mt" @click="current = (current + 1) % items.length">下一步</AppButton>
+  </div>
+</template>
+
+<style scoped>
+.mt { margin-top: 12px; }
+</style>
+```
+
+### 2.7 禁用某步
+
+```vue demo:nav-steps-disabled title="禁用某步"
+<script setup lang="ts">
+import { AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "草稿" },
+  { key: "2", title: "待审核", disabled: true },
+  { key: "3", title: "已发布" },
+];
+</script>
+
+<template>
+  <AppSteps :items="items" />
+</template>
+```
+
+### 2.8 自定义可访问名称
+
+```vue demo:nav-steps-label title="自定义可访问名称"
+<script setup lang="ts">
+import { AppSteps } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "下单" },
+  { key: "2", title: "支付" },
+  { key: "3", title: "发货" },
+];
+</script>
+
+<template>
+  <AppSteps :items="items" aria-label="下单流程" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

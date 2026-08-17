@@ -39,6 +39,58 @@ import "aps-design-pro/style.css";
 <template><AppTextScroll text="新品课程现已开放报名，完成学习可获得结课证书" :speed="9" :pause-on-hover="false" /></template>
 ```
 
+
+### 2.3 悬停暂停
+
+```vue demo:content-text-scroll-pause title="悬停暂停"
+<script setup lang="ts">
+import { AppTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppTextScroll text="鼠标悬停时暂停滚动 · 移开后继续" :pause-on-hover="true" />
+    <AppTextScroll text="始终持续滚动，不响应悬停" :pause-on-hover="false" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.4 自定义文案
+
+```vue demo:content-text-scroll-custom title="自定义文案"
+<script setup lang="ts">
+import { AppTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppTextScroll text="重要公告：系统将于本周六 22:00 进行版本升级，请提前保存数据。" />
+</template>
+```
+
+### 2.5 多条滚动
+```vue demo:content-text-scroll-multiple title="多条滚动"
+<script setup lang="ts">
+import { AppTextScroll } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppTextScroll text="第一条滚动消息" />
+    <AppTextScroll text="第二条滚动消息" :speed="10" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
 ## 3. API 使用方式
 
 `speed` 是完成一轮动画的秒数，数值越小滚动越快。关闭 `pauseOnHover` 后，鼠标悬停不会中断滚动。

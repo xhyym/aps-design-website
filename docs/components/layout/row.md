@@ -66,6 +66,100 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 基础栅格
+
+```vue demo:layout-row-basic title="基础栅格"
+<script setup lang="ts">
+import { AppCol, AppRow } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppRow :gutter="12">
+    <AppCol :span="12"><div class="cell">12</div></AppCol>
+    <AppCol :span="12"><div class="cell">12</div></AppCol>
+  </AppRow>
+</template>
+
+<style scoped>
+.cell { background: var(--aps-fill); border-radius: 4px; text-align: center; padding: 12px 0; }
+</style>
+```
+
+### 2.4 自定义标签
+
+```vue demo:layout-row-tag title="自定义标签"
+<script setup lang="ts">
+import { AppCol, AppRow } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppRow tag="section" :gutter="12">
+    <AppCol :span="8"><div class="cell">列一</div></AppCol>
+    <AppCol :span="8"><div class="cell">列二</div></AppCol>
+    <AppCol :span="8"><div class="cell">列三</div></AppCol>
+  </AppRow>
+</template>
+
+<style scoped>
+.cell { background: var(--aps-fill); border-radius: 4px; text-align: center; padding: 12px 0; }
+</style>
+```
+
+### 2.5 嵌套栅格
+
+```vue demo:layout-row-nest title="嵌套栅格"
+<script setup lang="ts">
+import { AppCol, AppRow } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppRow :gutter="12">
+    <AppCol :span="12">
+      <div class="outer">外层 12</div>
+      <AppRow :gutter="12">
+        <AppCol :span="6"><div class="cell">内 6</div></AppCol>
+        <AppCol :span="6"><div class="cell">内 6</div></AppCol>
+      </AppRow>
+    </AppCol>
+    <AppCol :span="12">
+      <div class="outer">外层 12</div>
+    </AppCol>
+  </AppRow>
+</template>
+
+<style scoped>
+.cell, .outer { background: var(--aps-fill); border-radius: 4px; text-align: center; padding: 12px 0; }
+.outer { background: var(--aps-fill-strong); margin-bottom: 8px; }
+</style>
+```
+
+### 2.6 横纵间距
+
+```vue demo:layout-row-gutter-xy title="横纵间距"
+<script setup lang="ts">
+import { AppCol, AppRow } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppRow :gutter="[16, 12]">
+    <AppCol :span="8"><div class="cell">1</div></AppCol>
+    <AppCol :span="8"><div class="cell">2</div></AppCol>
+    <AppCol :span="8"><div class="cell">3</div></AppCol>
+    <AppCol :span="8"><div class="cell">4</div></AppCol>
+    <AppCol :span="8"><div class="cell">5</div></AppCol>
+    <AppCol :span="8"><div class="cell">6</div></AppCol>
+  </AppRow>
+</template>
+
+<style scoped>
+.cell { background: var(--aps-fill); border-radius: 4px; text-align: center; padding: 12px 0; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

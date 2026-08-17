@@ -47,6 +47,107 @@ const pageSize = ref(10);
 <template><AppPagination v-model:page="page" v-model:page-size="pageSize" :total="64" :page-size-options="[10, 25, 50]" :show-quick-jumper="false" /></template>
 ```
 
+
+### 2.3 每页数量
+
+```vue demo:pagination-page-size title="每页数量"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPagination } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(1);
+const pageSize = ref(20);
+</script>
+
+<template>
+  <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="1000" />
+</template>
+```
+
+### 2.4 快速跳页
+
+```vue demo:pagination-jumper title="快速跳页"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPagination } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(3);
+const pageSize = ref(10);
+</script>
+
+<template>
+  <div class="col">
+    <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="500" show-quick-jumper />
+    <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="500" :show-quick-jumper="false" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.5 受控与事件
+
+```vue demo:pagination-controlled title="受控与事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPagination } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(2);
+const pageSize = ref(10);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="200" @update:page="(v: number) => (log = '跳转到第 ' + v + ' 页')" />
+    <p class="hint">{{ log || "当前第 " + page + " 页" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 自定义分页选项
+
+```vue demo:pagination-custom-options title="自定义分页选项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPagination } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(1);
+const pageSize = ref(50);
+const options = [50, 100, 200];
+</script>
+
+<template>
+  <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="5000" :page-size-options="options" />
+</template>
+```
+
+### 2.7 少量数据
+
+```vue demo:pagination-small-total title="少量数据"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPagination } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const page = ref(1);
+const pageSize = ref(10);
+</script>
+
+<template>
+  <AppPagination v-model:page="page" v-model:page-size="pageSize" :total="23" />
+</template>
+```
 ## 3. API 使用方式
 
 在分页值变化后重新读取数据；页码超出总页数时应由业务请求结果重置为有效页。

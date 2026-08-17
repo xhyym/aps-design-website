@@ -47,6 +47,84 @@ const options: ColumnVisibilityOption[] = [{ key: "id", label: "订单号" }, { 
 <template><AppColumnSettings v-model="visibility" :options="options" storage-key="aps-docs-order-columns" :min-visible="2" /></template>
 ```
 
+
+### 2.3 隐藏下限
+
+```vue demo:column-settings-min-visible title="隐藏下限"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColumnSettings } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ id: true, name: true, price: true, stock: true, status: true });
+const options = [
+  { key: "id", label: "编号" },
+  { key: "name", label: "商品名称" },
+  { key: "price", label: "单价" },
+  { key: "stock", label: "库存" },
+  { key: "status", label: "状态" },
+];
+</script>
+
+<template>
+  <AppColumnSettings v-model="visible" :options="options" :min-visible="2" />
+</template>
+```
+
+### 2.4 受控显示
+
+```vue demo:column-settings-controlled title="受控显示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColumnSettings, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ name: true, region: true, owner: true });
+const options = [
+  { key: "name", label: "名称" },
+  { key: "region", label: "区域" },
+  { key: "owner", label: "负责人" },
+];
+</script>
+
+<template>
+  <div>
+    <AppColumnSettings v-model="visible" :options="options" />
+    <p class="hint">
+      可见列：
+      <template v-for="(v, k) in visible" :key="k"><AppTag v-if="v" size="small">{{ k }}</AppTag></template>
+    </p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 10px; display: flex; gap: 6px; }
+</style>
+```
+
+### 2.5 更多列选项
+
+```vue demo:column-settings-custom-options title="更多列选项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppColumnSettings } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ id: true, order: true, customer: true, amount: true, created: true, status: true });
+const options = [
+  { key: "id", label: "订单号" },
+  { key: "order", label: "商品" },
+  { key: "customer", label: "客户" },
+  { key: "amount", label: "金额" },
+  { key: "created", label: "下单时间" },
+  { key: "status", label: "状态" },
+];
+</script>
+
+<template>
+  <AppColumnSettings v-model="visible" :options="options" storage-key="order-cols" />
+</template>
+```
 ## 3. API 使用方式
 
 使用 `visibility` 对列定义做过滤即可。若同一页面存在多个表格，必须使用不同的 `storageKey`，避免偏好冲突。

@@ -58,6 +58,73 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 带头像
+
+```vue demo:skeleton-avatar title="带头像"
+<script setup lang="ts">
+import { AppSkeleton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppSkeleton avatar :rows="3" />
+</template>
+```
+
+### 2.4 行数控制
+
+```vue demo:skeleton-rows title="行数控制"
+<script setup lang="ts">
+import { AppSkeleton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppSkeleton :rows="2" :title="false" />
+    <AppSkeleton :rows="5" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 24px; flex: 1; }
+</style>
+```
+
+### 2.5 关闭动画
+
+```vue demo:skeleton-animated-off title="关闭动画"
+<script setup lang="ts">
+import { AppSkeleton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppSkeleton :rows="3" :animated="false" />
+</template>
+```
+
+### 2.6 加载切换
+
+```vue demo:skeleton-loading-toggle title="加载切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSkeleton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const loading = ref(true);
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="loading = !loading">{{ loading ? "显示内容" : "显示骨架" }}</AppButton>
+    <AppSkeleton :loading="loading" :rows="3">
+      <p>真实内容：这里是加载完成后展示的页面数据。</p>
+    </AppSkeleton>
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 将请求状态传给 `loading`，真实内容放入默认插槽。加载结束后无需手动切换结构。

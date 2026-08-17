@@ -45,6 +45,73 @@ const image = ref("https://images.unsplash.com/photo-1497366754035-f200968a6e72?
 <template><AppImageCropper v-model="image" aspect="16 / 7" output-type="image/webp" :output-width="1600" :allow-rotate="false" /></template>
 ```
 
+
+### 2.3 宽高比
+
+```vue demo:content-image-cropper-aspect title="宽高比"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppImageCropper } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const src = ref("https://picsum.photos/seed/crop/800/600");
+</script>
+
+<template>
+  <AppImageCropper v-model="src" aspect="16 / 9" />
+</template>
+```
+
+### 2.4 禁用状态
+
+```vue demo:content-image-cropper-disabled title="禁用状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppImageCropper } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const src = ref("https://picsum.photos/seed/crop2/800/600");
+</script>
+
+<template>
+  <AppImageCropper v-model="src" disabled />
+</template>
+```
+
+### 2.5 关闭旋转
+
+```vue demo:content-image-cropper-rotate title="关闭旋转"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppImageCropper } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const src = ref("https://picsum.photos/seed/crop3/800/600");
+</script>
+
+<template>
+  <AppImageCropper v-model="src" :allow-rotate="false" />
+</template>
+```
+
+### 2.6 导出配置
+
+```vue demo:content-image-cropper-output title="导出配置"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppImageCropper } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const src = ref("https://picsum.photos/seed/crop4/800/600");
+const onCrop = (result: { dataUrl: string; blob: Blob; width: number; height: number }) => {
+  console.log("cropped", result.width, result.height);
+};
+</script>
+
+<template>
+  <AppImageCropper v-model="src" output-type="image/png" :output-quality="0.95" :output-width="800" @crop="onCrop" />
+</template>
+```
 ## 3. API 使用方式
 
 外部传入 `modelValue` 时会作为当前图片 URL 使用；用户重新选择或移除图片时会触发对应的受控更新。`crop` 中的 `dataUrl` 适合立即预览，`blob` 适合交给 `FormData` 上传。

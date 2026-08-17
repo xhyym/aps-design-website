@@ -61,6 +61,110 @@ const items: DropdownItem[] = [
 </template>
 ```
 
+
+### 2.3 选择回调
+
+```vue demo:overlay-dropdown-select title="选择回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDropdown, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const picked = ref("");
+const items: DropdownItem[] = [
+  { key: "profile", label: "个人中心" },
+  { key: "settings", label: "账号设置" },
+];
+</script>
+
+<template>
+  <div>
+    <AppDropdown v-model="open" :items="items" menu-label="用户菜单" @select="(k: string) => (picked = k)">
+      <template #trigger="{ toggle }">
+        <AppButton @click="toggle">用户菜单</AppButton>
+      </template>
+    </AppDropdown>
+    <p class="hint">已选：{{ picked || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.4 危险项
+
+```vue demo:overlay-dropdown-danger title="危险项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDropdown, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: DropdownItem[] = [
+  { key: "export", label: "导出数据", icon: "download" as const },
+  { key: "delete", label: "删除项目", icon: "trash" as const, danger: true },
+];
+</script>
+
+<template>
+  <AppDropdown v-model="open" :items="items" menu-label="项目操作">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">项目操作</AppButton>
+    </template>
+  </AppDropdown>
+</template>
+```
+
+### 2.5 禁用项
+
+```vue demo:overlay-dropdown-disabled title="禁用项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDropdown, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: DropdownItem[] = [
+  { key: "a", label: "正常操作" },
+  { key: "b", label: "暂不可用", disabled: true },
+];
+</script>
+
+<template>
+  <AppDropdown v-model="open" :items="items" menu-label="操作菜单">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">操作菜单</AppButton>
+    </template>
+  </AppDropdown>
+</template>
+```
+
+### 2.6 菜单位置
+
+```vue demo:overlay-dropdown-placement title="菜单位置"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDropdown, type DropdownItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: DropdownItem[] = [
+  { key: "top", label: "顶部对齐" },
+  { key: "center", label: "居中对齐" },
+];
+</script>
+
+<template>
+  <AppDropdown v-model="open" :items="items" menu-label="对齐菜单" placement="bottom-start">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">bottom-start</AppButton>
+    </template>
+  </AppDropdown>
+</template>
+```
 ## 3. API 使用方式
 
 触发器放在 `trigger` 插槽，选择结果在 `select` 中处理。需要让用户连续勾选或切换视图时，设置 `hideOnClick="false"`，再在业务条件满足时关闭 `v-model`。

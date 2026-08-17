@@ -10,7 +10,7 @@
 export const LIB_VERSION = "0.3.1";
 
 /** 公开组件数量，以组件库 README 的“公开组件”口径为准。 */
-export const COMPONENT_COUNT = 175;
+export const COMPONENT_COUNT = 179;
 
 /** 组件能力域（分类）数量。 */
 export const CATEGORY_COUNT = 9;

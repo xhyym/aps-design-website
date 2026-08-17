@@ -46,6 +46,69 @@ const series: ChartSeries[] = [
 <template><AppRadarChart :series="series" :categories="['协作', '质量', '交付', '效率', '复盘']" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-radar-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppRadarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "产品 A", data: [80, 65, 90, 75, 60, 85] },
+  { name: "产品 B", data: [70, 85, 60, 90, 75, 65] },
+];
+</script>
+
+<template>
+  <AppRadarChart :series="series" :categories="['性能', '易用', '外观', '价格', '服务', '生态']" :colors="['#3d8bfd', '#e65c41']" />
+</template>
+```
+
+### 2.4 隐藏提示
+
+```vue demo:charts-radar-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppRadarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "综合评分", data: [72, 68, 85, 90, 78] }];
+</script>
+
+<template>
+  <AppRadarChart :series="series" :categories="['维度一', '维度二', '维度三', '维度四', '维度五']" :tooltip="false" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-radar-export title="导出"
+<script setup lang="ts">
+import { AppRadarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "能力模型", data: [88, 76, 92, 81, 70] }];
+</script>
+
+<template>
+  <AppRadarChart :series="series" :categories="['沟通', '协作', '执行', '创新', '学习']" exportable />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-radar-height title="图表高度"
+<script setup lang="ts">
+import { AppRadarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "满意度", data: [84, 79, 91, 86, 88] }];
+</script>
+
+<template>
+  <AppRadarChart :series="series" :categories="['质量', '速度', '态度', '专业', '响应']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 `categories.length` 应与每条 `series.data.length` 一致。不同长度会导致部分轴无数据，属于调用方数据错误。

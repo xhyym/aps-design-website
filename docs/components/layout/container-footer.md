@@ -59,6 +59,64 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 分隔线
+
+```vue demo:layout-container-footer-bordered title="分隔线"
+<script setup lang="ts">
+import { AppContainerFooter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerFooter bordered>
+    <span>© 2026 APS Design</span>
+  </AppContainerFooter>
+</template>
+```
+
+### 2.4 内边距
+
+```vue demo:layout-container-footer-padding title="内边距"
+<script setup lang="ts">
+import { AppContainerFooter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppContainerFooter padding="compact"><span>紧凑</span></AppContainerFooter>
+    <AppContainerFooter padding="spacious"><span>宽松</span></AppContainerFooter>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.5 底部内容
+
+```vue demo:layout-container-footer-content title="底部内容"
+<script setup lang="ts">
+import { AppContainerFooter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerFooter>
+    <div class="ops">
+      <span>共 12 条记录</span>
+      <button>上一页</button>
+      <button>下一页</button>
+    </div>
+  </AppContainerFooter>
+</template>
+
+<style scoped>
+.ops { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

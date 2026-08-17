@@ -60,6 +60,99 @@ const items: ImageViewerItem[] = [
 </template>
 ```
 
+
+### 2.3 缩略图
+
+```vue demo:content-image-viewer-thumbnails title="缩略图"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppImageViewer, type ImageViewerItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ImageViewerItem[] = [
+  { src: "https://picsum.photos/seed/v1/800/500", alt: "风光一" },
+  { src: "https://picsum.photos/seed/v2/800/500", alt: "风光二" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开预览</AppButton>
+    <AppImageViewer v-model="open" :items="items" show-thumbnails />
+  </div>
+</template>
+```
+
+### 2.4 隐藏工具栏
+
+```vue demo:content-image-viewer-toolbar title="隐藏工具栏"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppImageViewer, type ImageViewerItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ImageViewerItem[] = [
+  { src: "https://picsum.photos/seed/v3/800/500", alt: "纯展示图" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">查看原图</AppButton>
+    <AppImageViewer v-model="open" :items="items" :show-toolbar="false" />
+  </div>
+</template>
+```
+
+### 2.5 循环切换
+
+```vue demo:content-image-viewer-infinite title="循环切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppImageViewer, type ImageViewerItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ImageViewerItem[] = [
+  { src: "https://picsum.photos/seed/v4/800/500", alt: "图 A" },
+  { src: "https://picsum.photos/seed/v5/800/500", alt: "图 B" },
+  { src: "https://picsum.photos/seed/v6/800/500", alt: "图 C" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开循环预览</AppButton>
+    <AppImageViewer v-model="open" :items="items" :infinite="false" />
+  </div>
+</template>
+```
+
+### 2.6 初始索引
+
+```vue demo:content-image-viewer-initial title="初始索引"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppImageViewer, type ImageViewerItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ImageViewerItem[] = [
+  { src: "https://picsum.photos/seed/v7/800/500", alt: "第一张" },
+  { src: "https://picsum.photos/seed/v8/800/500", alt: "第二张" },
+  { src: "https://picsum.photos/seed/v9/800/500", alt: "第三张" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">从第三张开始</AppButton>
+    <AppImageViewer v-model="open" :items="items" :initial-index="2" />
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 `activeIndex` 传入后进入受控模式，组件会通过 `update:activeIndex` 交回切换后的索引。键盘支持 Esc 关闭、左右方向键切图、`+`/`-` 缩放、`0` 重置。

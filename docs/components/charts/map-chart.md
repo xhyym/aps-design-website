@@ -43,6 +43,66 @@ const series: ChartSeries[] = [{ name: "门店数", data: [18, 24, 15] }];
 <template><AppMapChart :series="series" empty-text="请先在业务层注册可用地图数据。" aria-label="地图图表能力说明" /></template>
 ```
 
+
+### 2.3 基础示例
+
+```vue demo:charts-map-basic title="基础示例"
+<script setup lang="ts">
+import { AppMapChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "门店数", data: [18, 24, 15, 32] }];
+</script>
+
+<template>
+  <AppMapChart :series="series" :categories="['华东', '华南', '华北', '西南']" />
+</template>
+```
+
+### 2.4 自定义颜色
+
+```vue demo:charts-map-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppMapChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "覆盖度", data: [62, 45, 78, 54] }];
+</script>
+
+<template>
+  <AppMapChart :series="series" :categories="['东部', '南部', '西部', '北部']" :colors="['#3fae66']" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-map-export title="导出"
+<script setup lang="ts">
+import { AppMapChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "网点", data: [28, 36, 21, 42] }];
+</script>
+
+<template>
+  <AppMapChart :series="series" :categories="['A 区', 'B 区', 'C 区', 'D 区']" exportable />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-map-height title="图表高度"
+<script setup lang="ts">
+import { AppMapChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "客流量", data: [45, 68, 32, 57] }];
+</script>
+
+<template>
+  <AppMapChart :series="series" :categories="['南站', '东站', '西站', '北站']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 当前版本没有对外的地图注册 API，传入 `series` 不会生成地理图层。计划使用前应先完成地图数据注册和数据类型设计。

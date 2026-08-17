@@ -45,6 +45,116 @@ const selected = ref(false);
 <template><AppCheckTag v-model="selected" tone="green">仅显示有库存</AppCheckTag></template>
 ```
 
+
+### 2.3 自定义选中色调
+
+```vue demo:check-tag-custom-tone title="自定义选中色调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref(true);
+</script>
+
+<template>
+  <div class="row">
+    <AppCheckTag v-model="active" label="绿色选中" tone="green" />
+    <AppCheckTag v-model="active" label="橙色选中" tone="orange" />
+    <AppCheckTag v-model="active" label="红色选中" tone="red" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
+</style>
+```
+
+### 2.4 尺寸
+
+```vue demo:check-tag-size title="尺寸"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const a = ref(true);
+const b = ref(true);
+</script>
+
+<template>
+  <div class="row">
+    <AppCheckTag v-model="a" label="小尺寸" size="small" />
+    <AppCheckTag v-model="b" label="默认尺寸" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; }
+</style>
+```
+
+### 2.5 禁用状态
+
+```vue demo:check-tag-disabled title="禁用状态"
+<script setup lang="ts">
+import { AppCheckTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppCheckTag label="已禁用" :model-value="false" disabled />
+    <AppCheckTag label="选中且禁用" :model-value="true" disabled />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; }
+</style>
+```
+
+### 2.6 自定义内容
+
+```vue demo:check-tag-default-slot title="自定义内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref(false);
+</script>
+
+<template>
+  <AppCheckTag v-model="active">
+    <span>自定义内容</span>
+  </AppCheckTag>
+</template>
+```
+
+### 2.7 受控与事件
+
+```vue demo:check-tag-controlled title="受控与事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCheckTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref(false);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppCheckTag v-model="active" label="点击切换" @change="(v: boolean) => (log = v ? '已选中' : '已取消')" />
+    <p class="hint">最近一次：{{ log || "尚未操作" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 将选中状态连接到筛选参数；变化后由页面决定刷新本地列表还是重新请求数据。

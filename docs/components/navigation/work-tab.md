@@ -60,6 +60,108 @@ function closeTab(key: string): void {
 
 关闭当前页时父级需要选择新的活动项；组件不会猜测路由缓存或业务优先级。
 
+
+### 2.3 可关闭
+
+```vue demo:nav-work-tab-closable title="可关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = ref([
+  { key: "a", label: "订单", closable: true },
+  { key: "b", label: "退款", closable: true },
+]);
+</script>
+
+<template>
+  <AppWorkTab :items="items" model-value="a" @close="(key: string) => (items = items.filter((t) => t.key !== key))" />
+</template>
+```
+
+### 2.4 受控当前
+
+```vue demo:nav-work-tab-controlled title="受控当前"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("a");
+const items = [
+  { key: "a", label: "概览" },
+  { key: "b", label: "详情" },
+];
+</script>
+
+<template>
+  <AppWorkTab :items="items" :model-value="active" @update:model-value="(k: string) => (active = k)" />
+</template>
+```
+
+### 2.5 禁用项
+
+```vue demo:nav-work-tab-disabled title="禁用项"
+<script setup lang="ts">
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "进行中" },
+  { key: "b", label: "已锁定", disabled: true },
+];
+</script>
+
+<template>
+  <AppWorkTab :items="items" model-value="a" />
+</template>
+```
+
+### 2.6 带图标
+
+```vue demo:nav-work-tab-icons title="带图标"
+<script setup lang="ts">
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "消息", icon: "bell" as const },
+  { key: "b", label: "任务", icon: "check" as const },
+];
+</script>
+
+<template>
+  <AppWorkTab :items="items" model-value="a" />
+</template>
+```
+
+### 2.7 监听切换
+
+```vue demo:nav-work-tab-select title="监听切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const current = ref("");
+const items = [
+  { key: "a", label: "文档" },
+  { key: "b", label: "表格" },
+];
+</script>
+
+<template>
+  <div>
+    <AppWorkTab :items="items" model-value="a" @update:model-value="(k: string) => (current = k)" />
+    <p class="hint">当前：{{ current || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

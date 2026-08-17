@@ -45,6 +45,48 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 说明文案
+
+```vue demo:content-card-banner-description title="说明文案"
+<script setup lang="ts">
+import { AppCardBanner } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCardBanner title="会员专属福利" description="新会员首单立减 30 元，老会员回馈季同步开启" />
+</template>
+```
+
+### 2.4 操作区
+
+```vue demo:content-card-banner-actions title="操作区"
+<script setup lang="ts">
+import { AppButton, AppCardBanner } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCardBanner title="邀请有礼" description="邀请好友注册，双方均可获得优惠券">
+    <template #actions>
+      <AppButton size="small">立即邀请</AppButton>
+    </template>
+  </AppCardBanner>
+</template>
+```
+
+### 2.5 纯文案横幅
+```vue demo:content-card-banner-plain title="纯文案横幅"
+<script setup lang="ts">
+import { AppCardBanner } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCardBanner title="欢迎回来" description="今天也要元气满满地推进项目哦" />
+</template>
+```
 ## 3. API 使用方式
 
 当横幅只有一个明确目的地时使用 `href`；需要多个不同操作时不要给根节点设置 `href`，而是在 `actions` 内放置分别命名的按钮。

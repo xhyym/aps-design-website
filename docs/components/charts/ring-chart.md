@@ -43,6 +43,69 @@ const series: ChartSeries[] = [{ name: "发布进度", data: [64, 36] }];
 <template><AppRingChart :series="series" :categories="['已发布', '待发布']" :colors="['#a56de2', '#d2d2d7']" /></template>
 ```
 
+
+### 2.3 多序列
+
+```vue demo:charts-ring-series title="多序列"
+<script setup lang="ts">
+import { AppRingChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "使用中", data: [68] },
+  { name: "空闲", data: [32] },
+];
+</script>
+
+<template>
+  <AppRingChart :series="series" :categories="['使用中', '空闲']" />
+</template>
+```
+
+### 2.4 隐藏提示
+
+```vue demo:charts-ring-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppRingChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "完成度", data: [74] }];
+</script>
+
+<template>
+  <AppRingChart :series="series" :categories="['完成度']" :tooltip="false" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-ring-export title="导出"
+<script setup lang="ts">
+import { AppRingChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "进度", data: [56] }];
+</script>
+
+<template>
+  <AppRingChart :series="series" :categories="['项目进度']" exportable />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-ring-height title="图表高度"
+<script setup lang="ts">
+import { AppRingChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "达标率", data: [92] }];
+</script>
+
+<template>
+  <AppRingChart :series="series" :categories="['达标率']" :height="280" />
+</template>
+```
 ## 3. API 使用方式
 
 用一条序列传入各分区数值。若业务只有百分比，先在调用方转换为 `[percent, 100 - percent]`，避免组件猜测数据口径。

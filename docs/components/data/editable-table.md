@@ -75,6 +75,150 @@ const columns: DataTableColumn<TicketRow>[] = [
 <template><AppEditableTable :rows="rows" :columns="columns" row-key="id" edit-trigger="dblclick" /></template>
 ```
 
+
+### 2.3 本地校验
+
+```vue demo:editable-table-validator title="本地校验"
+<script setup lang="ts">
+import { AppEditableTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; score: number; }
+const rows: Row[] = [
+  { id: 1, name: "Vue 3", score: 95 },
+  { id: 2, name: "TS 类型", score: 88 },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "课程", editable: true },
+  { key: "score", label: "得分", editable: true, align: "right" },
+];
+const validator = (_context: unknown, value: string | number | boolean | null) => {
+  const num = Number(value);
+  if (Number.isNaN(num) || num < 0 || num > 100) return "得分需在 0-100 之间";
+  return undefined;
+};
+</script>
+
+<template>
+  <AppEditableTable :rows="rows" :columns="columns" row-key="id" :validator="validator" />
+</template>
+```
+
+### 2.4 保存请求
+
+```vue demo:editable-table-request title="保存请求"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppEditableTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; price: number; }
+const rows = ref<Row[]>([
+  { id: 1, name: "机械键盘", price: 399 },
+  { id: 2, name: "显示器", price: 1299 },
+]);
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "商品", editable: true },
+  { key: "price", label: "单价", editable: true, align: "right" },
+];
+const request = async ({ row, value }: { row: Row; value: unknown }) => {
+  row.price = Number(value);
+  console.log("saved", row.id, value);
+};
+</script>
+
+<template>
+  <AppEditableTable v-model:rows="rows" :columns="columns" row-key="id" :request="request" />
+</template>
+```
+
+### 2.5 自定义编辑器
+
+```vue demo:editable-table-custom-editor title="自定义编辑器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppEditableTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; status: string; }
+const rows = ref<Row[]>([
+  { id: 1, name: "发布流程", status: "进行中" },
+  { id: 2, name: "数据迁移", status: "待开始" },
+]);
+const statusOptions = [
+  { label: "待开始", value: "待开始" },
+  { label: "进行中", value: "进行中" },
+  { label: "已完成", value: "已完成" },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "任务" },
+  { key: "status", label: "状态", editable: true, editor: { type: "select", options: statusOptions } },
+];
+</script>
+
+<template>
+  <div>
+    <p class="hint">双击状态单元格，使用下拉选择器编辑。</p>
+    <AppEditableTable :rows="rows" :columns="columns" row-key="id" edit-trigger="click" />
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-bottom: 8px; }
+</style>
+```
+
+### 2.6 自定义展示
+
+```vue demo:editable-table-display-slot title="自定义展示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppEditableTable, AppTag, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; status: string; }
+const rows = ref<Row[]>([
+  { id: 1, name: "前端发布会", status: "success" },
+  { id: 2, name: "组件评审", status: "pending" },
+]);
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "名称", editable: true },
+  { key: "status", label: "状态" },
+];
+</script>
+
+<template>
+  <AppEditableTable :rows="rows" :columns="columns" row-key="id">
+    <template #display-status="{ value }">
+      <AppTag :tone="value === 'success' ? 'green' : 'orange'">{{ value === "success" ? "已通过" : "待评审" }}</AppTag>
+    </template>
+  </AppEditableTable>
+</template>
+```
+
+### 2.7 受控编辑位置
+
+```vue demo:editable-table-controlled title="受控编辑位置"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppEditableTable, type DataTableColumn, type DataTableEditingCell } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; title: string; }
+const rows = ref<Row[]>([
+  { id: 1, title: "需求评审" },
+  { id: 2, title: "技术方案" },
+]);
+const columns: DataTableColumn<Row>[] = [
+  { key: "title", label: "标题", editable: true },
+];
+const editing = ref<DataTableEditingCell | null>({ rowKey: 1, columnKey: "title" });
+</script>
+
+<template>
+  <AppEditableTable v-model:editing-cell="editing" :rows="rows" :columns="columns" row-key="id" />
+</template>
+```
 ## 3. API 使用方式
 
 通过 `request` 接入保存接口。接口 resolve 后才会触发 `edit-save`；reject 或抛错后会保留编辑值并显示错误信息。

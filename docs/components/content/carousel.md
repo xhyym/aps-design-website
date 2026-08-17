@@ -51,6 +51,135 @@ const items: CarouselItem[] = [
 <template><AppCarousel :items="items" autoplay :interval="2600" :show-arrows="false" aria-label="本周推荐内容" /></template>
 ```
 
+
+### 2.3 受控切换
+
+```vue demo:content-carousel-controlled title="受控切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCarousel, type CarouselItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const index = ref(1);
+const items: CarouselItem[] = [
+  { key: "a", src: "https://picsum.photos/seed/a1/600/300", alt: "第一张" },
+  { key: "b", src: "https://picsum.photos/seed/b2/600/300", alt: "第二张" },
+  { key: "c", src: "https://picsum.photos/seed/c3/600/300", alt: "第三张" },
+];
+</script>
+
+<template>
+  <div>
+    <AppCarousel v-model="index" :items="items" />
+    <div class="bar">
+      <AppButton size="small" @click="index = 0">第一张</AppButton>
+      <AppButton size="small" @click="index = 1">第二张</AppButton>
+      <AppButton size="small" @click="index = 2">第三张</AppButton>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.bar { display: flex; gap: 8px; margin-top: 10px; }
+</style>
+```
+
+### 2.4 纵向轮播
+
+```vue demo:content-carousel-vertical title="纵向轮播"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCarousel, type CarouselItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const index = ref(0);
+const items: CarouselItem[] = [
+  { key: "x", src: "https://picsum.photos/seed/x1/400/260", alt: "纵向一" },
+  { key: "y", src: "https://picsum.photos/seed/y2/400/260", alt: "纵向二" },
+];
+</script>
+
+<template>
+  <AppCarousel v-model="index" :items="items" direction="vertical" style="max-width: 400px" />
+</template>
+```
+
+### 2.5 自定义内容
+
+```vue demo:content-carousel-custom-slide title="自定义内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCarousel, AppTag, type CarouselItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const index = ref(0);
+const items: CarouselItem[] = [
+  { key: "one", src: "https://picsum.photos/seed/o1/600/300", alt: "推广一", title: "夏季大促", description: "全场 8 折起" },
+  { key: "two", src: "https://picsum.photos/seed/o2/600/300", alt: "推广二", title: "新品首发", description: "会员优先购" },
+];
+</script>
+
+<template>
+  <AppCarousel v-model="index" :items="items">
+    <template #slide="{ item }">
+      <div class="slide">
+        <img :src="item.src" :alt="item.alt" />
+        <div class="meta">
+          <AppTag tone="orange">{{ item.title }}</AppTag>
+          <span>{{ item.description }}</span>
+        </div>
+      </div>
+    </template>
+  </AppCarousel>
+</template>
+
+<style scoped>
+.slide { position: relative; }
+.slide img { width: 100%; height: 300px; object-fit: cover; }
+.meta { position: absolute; left: 16px; bottom: 16px; display: flex; gap: 8px; align-items: center; color: #fff; }
+</style>
+```
+
+### 2.6 隐藏指示器
+
+```vue demo:content-carousel-no-indicators title="隐藏指示器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCarousel, type CarouselItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const index = ref(0);
+const items: CarouselItem[] = [
+  { key: "p1", src: "https://picsum.photos/seed/p1/600/300", alt: "图一" },
+  { key: "p2", src: "https://picsum.photos/seed/p2/600/300", alt: "图二" },
+];
+</script>
+
+<template>
+  <AppCarousel v-model="index" :items="items" :show-indicators="false" />
+</template>
+```
+
+### 2.7 关闭循环
+
+```vue demo:content-carousel-loop-off title="关闭循环"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCarousel, type CarouselItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const index = ref(0);
+const items: CarouselItem[] = [
+  { key: "l1", src: "https://picsum.photos/seed/l1/600/300", alt: "页面一" },
+  { key: "l2", src: "https://picsum.photos/seed/l2/600/300", alt: "页面二" },
+  { key: "l3", src: "https://picsum.photos/seed/l3/600/300", alt: "页面三" },
+];
+</script>
+
+<template>
+  <AppCarousel v-model="index" :items="items" :loop="false" />
+</template>
+```
 ## 3. API 使用方式
 
 `items` 是唯一的数据来源，每项至少包含稳定 `key`、资源 `src` 和替代文本 `alt`。开启 `autoplay` 时，组件在悬停、聚焦或触摸拖动时会自动暂停；键盘可使用方向键、Home 和 End 切换。

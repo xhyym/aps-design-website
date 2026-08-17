@@ -45,6 +45,45 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 服务器错误
+
+```vue demo:exception-server-error title="服务器错误"
+<script setup lang="ts">
+import { AppException } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppException code="500" description="服务器开小差了，请稍后重试。" />
+</template>
+```
+
+### 2.4 自定义说明
+
+```vue demo:exception-description title="自定义说明"
+<script setup lang="ts">
+import { AppException } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppException code="403" description="该页面需要管理员权限才能访问。" />
+</template>
+```
+
+### 2.5 操作回调
+
+```vue demo:exception-action title="操作回调"
+<script setup lang="ts">
+import { AppException } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppException code="404" description="你要找的页面不存在" @action="console.log('back home')" />
+</template>
+```
 ## 3. API 使用方式
 
 根据路由或接口错误码选择对应的异常类型，并由父级实现实际导航。

@@ -43,6 +43,67 @@ const series: ChartSeries[] = [{ name: "演示数据", data: [21, 19, 24, 22, 25
 <template><AppKLineChart :series="series" empty-text="当前版本尚未接入 OHLC 数据适配器。" aria-label="K 线图能力说明" /></template>
 ```
 
+
+### 2.3 基础示例
+
+```vue demo:charts-k-line-basic title="基础示例"
+<script setup lang="ts">
+import { AppKLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "日 K 数据", data: [21, 19, 24, 22, 25, 23, 27, 26, 24, 28] }];
+</script>
+
+<template>
+  <AppKLineChart :series="series" :categories="['D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10']" />
+</template>
+```
+
+### 2.4 缩放
+
+```vue demo:charts-k-line-zoom title="缩放"
+<script setup lang="ts">
+import { AppKLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "行情", data: [25, 28, 26, 30, 29, 32, 31, 28, 30, 33, 35, 34, 32, 36] }];
+const cats = Array.from({ length: 14 }, (_, i) => "T" + (i + 1));
+</script>
+
+<template>
+  <AppKLineChart :series="series" :categories="cats" zoomable />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-k-line-export title="导出"
+<script setup lang="ts">
+import { AppKLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "示例行情", data: [30, 29, 31, 32, 30] }];
+</script>
+
+<template>
+  <AppKLineChart :series="series" :categories="['M1', 'M2', 'M3', 'M4', 'M5']" exportable />
+</template>
+```
+
+### 2.6 隐藏提示
+
+```vue demo:charts-k-line-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppKLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "演示", data: [18, 22, 20, 24, 21] }];
+</script>
+
+<template>
+  <AppKLineChart :series="series" :categories="['A', 'B', 'C', 'D', 'E']" :tooltip="false" />
+</template>
+```
 ## 3. API 使用方式
 
 该组件当前不会渲染 K 线。可以暂时用它保持页面结构和空状态一致，但生产功能应在完成 OHLC 适配后再开放。

@@ -60,6 +60,159 @@ function removeTab(key: string): void {
 
 关闭和新增事件只通知父级，列表删改、下一个激活页签的选择规则由业务应用负责。
 
+
+### 2.3 卡片风格
+
+```vue demo:nav-tabs-card title="卡片风格"
+<script setup lang="ts">
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "概览" },
+  { key: "b", label: "详情" },
+  { key: "c", label: "日志" },
+];
+</script>
+
+<template>
+  <AppTabs :items="items" type="card" model-value="a" />
+</template>
+```
+
+### 2.4 边框卡片
+
+```vue demo:nav-tabs-border-card title="边框卡片"
+<script setup lang="ts">
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "基础" },
+  { key: "b", label: "高级" },
+];
+</script>
+
+<template>
+  <AppTabs :items="items" type="border-card" model-value="a" />
+</template>
+```
+
+### 2.5 不同位置
+
+```vue demo:nav-tabs-position title="不同位置"
+<script setup lang="ts">
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "标签一" },
+  { key: "b", label: "标签二" },
+];
+</script>
+
+<template>
+  <AppTabs :items="items" position="left" model-value="a" />
+</template>
+```
+
+### 2.6 可关闭
+
+```vue demo:nav-tabs-closable title="可关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = ref([
+  { key: "a", label: "文档", closable: true },
+  { key: "b", label: "表格", closable: true },
+  { key: "c", label: "图表", closable: true },
+]);
+</script>
+
+<template>
+  <AppTabs :items="items" model-value="a" @close="(key: string) => (items = items.filter((t) => t.key !== key))" />
+</template>
+```
+
+### 2.7 可新增
+
+```vue demo:nav-tabs-addable title="可新增"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = ref([
+  { key: "a", label: "页签一" },
+  { key: "b", label: "页签二" },
+]);
+let seq = 2;
+</script>
+
+<template>
+  <AppTabs :items="items" :addable="true" model-value="a" @tab-add="() => (items = [...items, { key: 'n' + (++seq), label: '新页签' }])" />
+</template>
+```
+
+### 2.8 内容面板
+
+```vue demo:nav-tabs-panels title="内容面板"
+<script setup lang="ts">
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "概览", content: "概览面板的兜底内容。" },
+  { key: "b", label: "详情", content: "详情面板的兜底内容。" },
+];
+</script>
+
+<template>
+  <AppTabs :items="items" show-panels model-value="a" />
+</template>
+```
+
+### 2.9 切换拦截
+
+```vue demo:nav-tabs-before-leave title="切换拦截"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("a");
+const items = [
+  { key: "a", label: "编辑中" },
+  { key: "b", label: "已锁定" },
+];
+const onBeforeLeave = (next: string) => next !== "b";
+</script>
+
+<template>
+  <AppTabs :items="items" :model-value="active" :before-leave="onBeforeLeave" @update:model-value="(k: string) => (active = k)" />
+</template>
+```
+
+### 2.10 等宽拉伸
+
+```vue demo:nav-tabs-stretch title="等宽拉伸"
+<script setup lang="ts">
+import { AppTabs } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "周一" },
+  { key: "b", label: "周二" },
+  { key: "c", label: "周三" },
+];
+</script>
+
+<template>
+  <AppTabs :items="items" :stretch="true" model-value="a" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

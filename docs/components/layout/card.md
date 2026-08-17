@@ -51,6 +51,108 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 内边距
+
+```vue demo:layout-card-padding title="内边距"
+<script setup lang="ts">
+import { AppCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppCard header="紧凑" padding="small"><p>紧凑内容</p></AppCard>
+    <AppCard header="宽松" padding="large"><p>宽松内容</p></AppCard>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; }
+.row :deep(.aps-card) { width: 240px; }
+</style>
+```
+
+### 2.4 阴影策略
+
+```vue demo:layout-card-shadow title="阴影策略"
+<script setup lang="ts">
+import { AppCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppCard header="常显阴影" shadow="always"><p>内容</p></AppCard>
+    <AppCard header="悬停阴影" shadow="hover"><p>鼠标移入查看</p></AppCard>
+    <AppCard header="无阴影" shadow="never"><p>内容</p></AppCard>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; }
+.row :deep(.aps-card) { width: 200px; }
+</style>
+```
+
+### 2.5 可交互卡片
+
+```vue demo:layout-card-interactive title="可交互卡片"
+<script setup lang="ts">
+import { AppCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCard header="点击反馈" interactive>
+    <p>悬停时呈现可点击样式。</p>
+  </AppCard>
+</template>
+```
+
+### 2.6 头部与底部
+
+```vue demo:layout-card-header-footer title="头部与底部"
+<script setup lang="ts">
+import { AppButton, AppCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppCard header="订单详情" footer="共 3 件商品">
+    <p>商品与金额信息。</p>
+    <template #footer>
+      <div class="ops">
+        <AppButton size="small" variant="text">取消</AppButton>
+        <AppButton size="small">确认支付</AppButton>
+      </div>
+    </template>
+  </AppCard>
+</template>
+
+<style scoped>
+.ops { display: flex; gap: 8px; justify-content: flex-end; }
+</style>
+```
+
+### 2.7 填满高度
+
+```vue demo:layout-card-fill-height title="填满高度"
+<script setup lang="ts">
+import { AppCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <AppCard header="填满父级" fill-height><p>卡片高度跟随容器。</p></AppCard>
+  </div>
+</template>
+
+<style scoped>
+.box { height: 220px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -47,6 +47,60 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 图片占位
+
+```vue demo:skeleton-item-image title="图片占位"
+<script setup lang="ts">
+import { AppSkeletonItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppSkeletonItem variant="image" width="120px" height="90px" />
+</template>
+```
+
+### 2.4 尺寸控制
+
+```vue demo:skeleton-item-sizes title="尺寸控制"
+<script setup lang="ts">
+import { AppSkeletonItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppSkeletonItem variant="text" width="60%" />
+    <AppSkeletonItem variant="text" width="40%" height="20px" />
+    <AppSkeletonItem variant="circle" width="48px" height="48px" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.5 关闭动画
+
+```vue demo:skeleton-item-animated-off title="关闭动画"
+<script setup lang="ts">
+import { AppSkeletonItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppSkeletonItem variant="text" width="80%" :animated="false" />
+    <AppSkeletonItem variant="text" width="60%" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
 ## 3. API 使用方式
 
 通常把多个骨架项组合在 `AppSkeleton` 的 `template` 插槽中。

@@ -68,6 +68,150 @@ import "aps-design-pro/style.css";
 
 底部固钉适合可延后提交的任务。若保存请求尚未完成，可以结合按钮 `loading` 与 `disabled` 阻止重复提交。
 
+
+### 2.3 自定义顶部偏移
+
+```vue demo:nav-affix-offset title="自定义顶部偏移"
+<script setup lang="ts">
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 12" :key="i">长内容段落 {{ i }}，向下滚动后操作条在距离顶部 120px 处固定。</p>
+    <AppAffix :offset="120">
+      <div class="bar"><strong>筛选区</strong><AppButton size="small">应用</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; }
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--aps-line-soft); border-radius: 10px; background: var(--aps-surface); color: var(--aps-ink); }
+</style>
+```
+
+### 2.4 固定到指定滚动容器
+
+```vue demo:nav-affix-target title="固定到指定滚动容器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const box = ref<HTMLElement | null>(null);
+</script>
+
+<template>
+  <div ref="box" class="scroll-box">
+    <p v-for="i in 12" :key="i">容器内的第 {{ i }} 段内容。</p>
+    <AppAffix :target="box" :offset="8">
+      <div class="bar"><AppButton size="small">容器内操作</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.scroll-box { height: 220px; overflow: auto; border: 1px solid var(--aps-line-soft); border-radius: 10px; padding: 12px; color: var(--aps-muted); }
+.bar { padding: 8px; background: var(--aps-surface); border-radius: 8px; }
+</style>
+```
+
+### 2.5 禁用固钉
+
+```vue demo:nav-affix-disabled title="禁用固钉"
+<script setup lang="ts">
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 10" :key="i">禁用后操作条随文档正常流动，不再吸顶。</p>
+    <AppAffix :disabled="true">
+      <div class="bar"><AppButton size="small">已禁用吸顶</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; }
+.bar { padding: 10px 12px; border: 1px dashed var(--aps-line); border-radius: 10px; color: var(--aps-ink); }
+</style>
+```
+
+### 2.6 自定义层级
+
+```vue demo:nav-affix-zindex title="自定义层级"
+<script setup lang="ts">
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 10" :key="i">多层浮层叠加时，用 zIndex 控制固钉的覆盖关系。</p>
+    <AppAffix :offset="12" :z-index="100">
+      <div class="bar"><strong>高优先级操作</strong><AppButton size="small">提交</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; }
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--aps-line-soft); border-radius: 10px; background: var(--aps-surface); color: var(--aps-ink); }
+</style>
+```
+
+### 2.7 自定义可访问名称
+
+```vue demo:nav-affix-label title="自定义可访问名称"
+<script setup lang="ts">
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 8" :key="i">为辅助技术提供更具语义的区域名称。</p>
+    <AppAffix :offset="12" aria-label="订单操作栏">
+      <div class="bar"><AppButton size="small">新建</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; }
+.bar { padding: 10px 12px; border: 1px solid var(--aps-line-soft); border-radius: 10px; background: var(--aps-surface); color: var(--aps-ink); }
+</style>
+```
+
+### 2.8 监听固定状态
+
+```vue demo:nav-affix-stuck title="监听固定状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAffix, AppButton } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const stuck = ref(false);
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 10" :key="i">滚动后状态会从「释放」切换为「已固定」。</p>
+    <AppAffix :offset="12" @stuck-change="(s: boolean) => (stuck = s)">
+      <div class="bar"><span>状态：{{ stuck ? "已固定" : "已释放" }}</span><AppButton size="small">保存</AppButton></div>
+    </AppAffix>
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; }
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border: 1px solid var(--aps-line-soft); border-radius: 10px; background: var(--aps-surface); color: var(--aps-ink); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -52,6 +52,89 @@ const fields: TableColumnFilter[] = [
 <template><AppTableColumnFilters v-model="filters" :fields="fields" title="订单筛选" search-placeholder="搜索区域" /></template>
 ```
 
+
+### 2.3 多字段筛选
+
+```vue demo:table-column-filters-multi title="多字段筛选"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableColumnFilters, type TableColumnFilterValues } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<TableColumnFilterValues>({ status: ["active"] });
+const fields = [
+  { key: "status", label: "状态", options: [{ label: "启用", value: "active" }, { label: "停用", value: "disabled" }] },
+  { key: "region", label: "区域", options: [{ label: "华东", value: "east" }, { label: "华南", value: "south" }] },
+];
+</script>
+
+<template>
+  <AppTableColumnFilters v-model="values" :fields="fields" />
+</template>
+```
+
+### 2.4 受控与事件
+
+```vue demo:table-column-filters-controlled title="受控与事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableColumnFilters, type TableColumnFilterValues } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<TableColumnFilterValues>({});
+const fields = [
+  { key: "level", label: "等级", options: [{ label: "L1", value: "l1" }, { label: "L2", value: "l2" }] },
+];
+const onChange = (v: TableColumnFilterValues) => {
+  console.log("filters changed", v);
+};
+</script>
+
+<template>
+  <AppTableColumnFilters v-model="values" :fields="fields" @change="onChange" />
+</template>
+```
+
+### 2.5 重置回调
+
+```vue demo:table-column-filters-reset title="重置回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableColumnFilters, type TableColumnFilterValues } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<TableColumnFilterValues>({ city: ["sh"] });
+const fields = [
+  { key: "city", label: "城市", options: [{ label: "上海", value: "sh" }, { label: "杭州", value: "hz" }] },
+];
+const onReset = () => {
+  values.value = {};
+};
+</script>
+
+<template>
+  <AppTableColumnFilters v-model="values" :fields="fields" @reset="onReset" />
+</template>
+```
+
+### 2.6 自定义文案
+
+```vue demo:table-column-filters-title title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableColumnFilters, type TableColumnFilterValues } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const values = ref<TableColumnFilterValues>({});
+const fields = [
+  { key: "owner", label: "负责人", options: [{ label: "张伟", value: "zw" }, { label: "李娜", value: "ln" }] },
+];
+</script>
+
+<template>
+  <AppTableColumnFilters v-model="values" :fields="fields" title="条件筛选" search-placeholder="搜索负责人" />
+</template>
+```
 ## 3. API 使用方式
 
 监听 `change` 后重载表格，`reset` 可同时清空业务侧的附加筛选条件或恢复默认页码。

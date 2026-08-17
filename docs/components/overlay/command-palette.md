@@ -57,6 +57,110 @@ const items = [
 </template>
 ```
 
+
+### 2.3 选择回调
+
+```vue demo:overlay-command-palette-select title="选择回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCommandPalette, type CommandPaletteItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const picked = ref("");
+const items: CommandPaletteItem[] = [
+  { key: "new", title: "新建文档", description: "创建一篇新文档", icon: "plus" as const },
+  { key: "search", title: "全局搜索", description: "搜索全部内容", icon: "search" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开命令面板</AppButton>
+    <AppCommandPalette v-model="open" :items="items" @select="(item) => (picked = item.title)" />
+    <p class="hint">已执行：{{ picked || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.4 自定义占位
+
+```vue demo:overlay-command-palette-placeholder title="自定义占位"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCommandPalette, type CommandPaletteItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: CommandPaletteItem[] = [
+  { key: "a", title: "创建订单" },
+  { key: "b", title: "导出报表" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">快速操作</AppButton>
+    <AppCommandPalette v-model="open" :items="items" placeholder="输入操作名称…" />
+  </div>
+</template>
+```
+
+### 2.5 受控面板
+
+```vue demo:overlay-command-palette-controlled title="受控面板"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCommandPalette, type CommandPaletteItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: CommandPaletteItem[] = [
+  { key: "settings", title: "打开设置", icon: "settings" as const },
+  { key: "help", title: "查看帮助", icon: "warning" as const },
+];
+</script>
+
+<template>
+  <div class="row">
+    <AppButton @click="open = true">打开</AppButton>
+    <AppButton @click="open = false">关闭</AppButton>
+    <AppCommandPalette v-model="open" :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; }
+</style>
+```
+
+### 2.6 带图标命令
+
+```vue demo:overlay-command-palette-icons title="带图标命令"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCommandPalette, type CommandPaletteItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: CommandPaletteItem[] = [
+  { key: "import", title: "批量导入", description: "从 Excel 导入数据", icon: "download" as const },
+  { key: "export", title: "批量导出", description: "导出当前筛选结果", icon: "chart" as const },
+  { key: "users", title: "邀请成员", description: "发送邀请链接", icon: "users" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">更多操作</AppButton>
+    <AppCommandPalette v-model="open" :items="items" />
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 用 `v-model` 控制打开状态，`items` 传入动作清单；`select` 事件中根据 `item.key` 分发真实业务动作。面板打开后支持上下方向键、Enter 选择和 Escape 关闭。

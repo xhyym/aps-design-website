@@ -68,6 +68,161 @@ const items: MenuItem[] = [
 
 水平模式适合少量同级入口；复杂、多级的主导航建议使用 `AppHorizontalMenu`。
 
+
+### 2.3 收起模式
+
+```vue demo:nav-menu-collapse title="收起模式"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "概览", icon: "grid" as const },
+  { key: "b", label: "订单", icon: "chart" as const, children: [
+    { key: "b1", label: "全部订单" },
+    { key: "b2", label: "退款" },
+  ] },
+  { key: "c", label: "设置", icon: "settings" as const },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" default-active="b1" :collapse="true" />
+</template>
+```
+
+### 2.4 水平模式
+
+```vue demo:nav-menu-horizontal title="水平模式"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "工作台" },
+  { key: "b", label: "订单中心", children: [
+    { key: "b1", label: "订单列表" },
+    { key: "b2", label: "售后" },
+  ] },
+  { key: "c", label: "报表" },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" mode="horizontal" default-active="a" />
+</template>
+```
+
+### 2.5 带图标与角标
+
+```vue demo:nav-menu-icons title="带图标与角标"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "消息", icon: "bell" as const, badge: 9 },
+  { key: "b", label: "任务", icon: "check" as const, badge: "new" },
+  { key: "c", label: "设置", icon: "settings" as const },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" default-active="a" />
+</template>
+```
+
+### 2.6 单展开
+
+```vue demo:nav-menu-unique title="单展开"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "一级 A", children: [
+    { key: "a1", label: "A-1" },
+    { key: "a2", label: "A-2" },
+  ] },
+  { key: "b", label: "一级 B", children: [
+    { key: "b1", label: "B-1" },
+    { key: "b2", label: "B-2" },
+  ] },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" :unique-opened="true" default-active="a1" :default-openeds="['a']" />
+</template>
+```
+
+### 2.7 默认选中与展开
+
+```vue demo:nav-menu-default title="默认选中与展开"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "内容", children: [
+    { key: "a1", label: "文章" },
+    { key: "a2", label: "评论" },
+  ] },
+  { key: "b", label: "系统", children: [
+    { key: "b1", label: "用户" },
+  ] },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" default-active="a2" :default-openeds="['a', 'b']" />
+</template>
+```
+
+### 2.8 受控选中
+
+```vue demo:nav-menu-controlled title="受控选中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("b1");
+const items = [
+  { key: "a", label: "概览" },
+  { key: "b", label: "订单", children: [
+    { key: "b1", label: "列表" },
+    { key: "b2", label: "详情" },
+  ] },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" :model-value="active" @update:model-value="(k: string) => (active = k)" />
+</template>
+```
+
+### 2.9 禁用项
+
+```vue demo:nav-menu-disabled title="禁用项"
+<script setup lang="ts">
+import { AppMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "可用菜单" },
+  { key: "b", label: "维护中（禁用）", disabled: true },
+  { key: "c", label: "设置", children: [
+    { key: "c1", label: "通用" },
+    { key: "c2", label: "禁用子项", disabled: true },
+  ] },
+];
+</script>
+
+<template>
+  <AppMenu :items="items" default-active="a" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

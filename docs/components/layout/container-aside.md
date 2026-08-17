@@ -64,6 +64,70 @@ const collapsed = ref(false);
 </style>
 ```
 
+
+### 2.3 分隔线
+
+```vue demo:layout-container-aside-bordered title="分隔线"
+<script setup lang="ts">
+import { AppContainerAside } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerAside bordered>
+    <p>带右侧分隔线的侧栏。</p>
+  </AppContainerAside>
+</template>
+```
+
+### 2.4 宽度档位
+
+```vue demo:layout-container-aside-wide title="宽度档位"
+<script setup lang="ts">
+import { AppContainerAside } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppContainerAside width="narrow"><p>窄</p></AppContainerAside>
+    <AppContainerAside width="default"><p>默认</p></AppContainerAside>
+    <AppContainerAside width="wide"><p>宽</p></AppContainerAside>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; height: 160px; }
+.row :deep(.aps-container-aside) { border: 1px solid var(--aps-border); }
+</style>
+```
+
+### 2.5 侧栏菜单
+
+```vue demo:layout-container-aside-menu title="侧栏菜单"
+<script setup lang="ts">
+import { AppContainerAside, AppLogo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerAside collapsed>
+    <div class="nav">
+      <AppLogo compact />
+      <ul>
+        <li>首页</li>
+        <li>订单</li>
+        <li>设置</li>
+      </ul>
+    </div>
+  </AppContainerAside>
+</template>
+
+<style scoped>
+.nav ul { list-style: none; margin: 12px 0 0; padding: 0; }
+.nav li { padding: 8px 12px; font-size: 13px; color: var(--aps-muted); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

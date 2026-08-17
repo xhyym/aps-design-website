@@ -55,6 +55,96 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 间距档位
+
+```vue demo:layout-space-size title="间距档位"
+<script setup lang="ts">
+import { AppSpace, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppSpace size="small">
+      <AppTag label="小" /><AppTag label="小" /><AppTag label="小" />
+    </AppSpace>
+    <AppSpace size="large">
+      <AppTag label="大" /><AppTag label="大" /><AppTag label="大" />
+    </AppSpace>
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.4 对齐方式
+
+```vue demo:layout-space-align title="对齐方式"
+<script setup lang="ts">
+import { AppSpace } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppSpace align="start">
+      <span class="tall">高</span><span>对齐 start</span>
+    </AppSpace>
+    <AppSpace align="end">
+      <span class="tall">高</span><span>对齐 end</span>
+    </AppSpace>
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+.tall { font-size: 22px; }
+</style>
+```
+
+### 2.5 分布方式
+
+```vue demo:layout-space-justify title="分布方式"
+<script setup lang="ts">
+import { AppSpace, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppSpace justify="between">
+      <AppTag label="左" /><AppTag label="中" /><AppTag label="右" />
+    </AppSpace>
+    <AppSpace justify="around">
+      <AppTag label="A" /><AppTag label="B" /><AppTag label="C" />
+    </AppSpace>
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.6 换行
+
+```vue demo:layout-space-wrap title="换行"
+<script setup lang="ts">
+import { AppSpace, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div style="max-width: 320px">
+    <AppSpace wrap>
+      <AppTag v-for="i in 10" :key="i" :label="'标签 ' + i" />
+    </AppSpace>
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

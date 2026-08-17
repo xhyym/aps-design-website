@@ -44,6 +44,51 @@ const series: ChartSeries[] = [{ name: "销售额", data: [32, 38, 44, 41, 53, 5
 <template><AppBarChartCard title="年度销售额" :series="series" :categories="categories" zoomable exportable /></template>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:charts-bar-card-description title="说明文字"
+<script setup lang="ts">
+import { AppBarChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "成交额", data: [120, 200, 150, 260] }];
+</script>
+
+<template>
+  <AppBarChartCard title="成交趋势" description="近四周成交金额（万元）" :series="series" :categories="['第1周', '第2周', '第3周', '第4周']" />
+</template>
+```
+
+### 2.4 导出
+
+```vue demo:charts-bar-card-export title="导出"
+<script setup lang="ts">
+import { AppBarChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "订单量", data: [58, 96, 74, 120] }];
+</script>
+
+<template>
+  <AppBarChartCard title="订单量统计" :series="series" :categories="['Q1', 'Q2', 'Q3', 'Q4']" exportable export-file-name="订单量.svg" />
+</template>
+```
+
+### 2.5 图表高度
+
+```vue demo:charts-bar-card-height title="图表高度"
+<script setup lang="ts">
+import { AppBarChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "人数", data: [320, 280, 410, 390] }];
+</script>
+
+<template>
+  <AppBarChartCard title="参会人数" :series="series" :categories="['上海', '北京', '深圳', '杭州']" :height="320" />
+</template>
+```
 ## 3. API 使用方式
 
 用法与 `AppChartCard` 一致，图表类型固定为 `bar`。将全部数据传入 `series`，不要先在前端截断数据来适应卡片空间。

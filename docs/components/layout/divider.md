@@ -63,6 +63,66 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 虚线分隔
+
+```vue demo:layout-divider-dashed title="虚线分隔"
+<script setup lang="ts">
+import { AppDivider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>第一段内容</p>
+  <AppDivider border-style="dashed" />
+  <p>第二段内容</p>
+</template>
+```
+
+### 2.4 标签位置
+
+```vue demo:layout-divider-position title="标签位置"
+<script setup lang="ts">
+import { AppDivider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppDivider label="左侧标签" position="left" />
+  <AppDivider label="居中标签" position="center" />
+  <AppDivider label="右侧标签" position="right" />
+</template>
+```
+
+### 2.5 边距
+
+```vue demo:layout-divider-margin title="边距"
+<script setup lang="ts">
+import { AppDivider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <p>上方内容</p>
+  <AppDivider label="自定义边距" :margin="32" />
+  <p>下方内容</p>
+</template>
+```
+
+### 2.6 自定义内容
+
+```vue demo:layout-divider-slot title="自定义内容"
+<script setup lang="ts">
+import { AppDivider } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppDivider>
+    <span>自定义标签内容</span>
+  </AppDivider>
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

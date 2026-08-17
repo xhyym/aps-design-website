@@ -59,6 +59,116 @@ const items: NavigationItem[] = [
 
 `collapsed` 只作用于内部侧边导航，顶部导航保持完整可用。
 
+
+### 2.3 收起侧栏
+
+```vue demo:nav-mixed-menu-collapsed title="折叠态"
+<script setup lang="ts">
+import { AppMixedMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "home", label: "首页", path: "/home", icon: "grid" as const },
+  { key: "order", label: "订单", path: "/order", icon: "chart" as const, children: [
+    { key: "olist", label: "订单列表", path: "/order/list" },
+    { key: "after", label: "售后", path: "/order/after" },
+  ] },
+  { key: "set", label: "设置", path: "/set", icon: "settings" as const },
+];
+</script>
+
+<template>
+  <AppMixedMenu :items="items" active-path="/order" :collapsed="true" />
+</template>
+```
+
+### 2.4 受控高亮
+
+```vue demo:nav-mixed-menu-active title="受控高亮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMixedMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("/order");
+const items = [
+  { key: "home", label: "首页", path: "/home" },
+  { key: "order", label: "订单", path: "/order" },
+  { key: "set", label: "设置", path: "/set" },
+];
+</script>
+
+<template>
+  <AppMixedMenu :items="items" :active-path="active" />
+</template>
+```
+
+### 2.5 带图标
+
+```vue demo:nav-mixed-menu-icons title="带图标"
+<script setup lang="ts">
+import { AppMixedMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "dash", label: "仪表盘", path: "/dash", icon: "chart" as const },
+  { key: "goods", label: "商品", path: "/goods", icon: "grid" as const },
+  { key: "user", label: "客户", path: "/user", icon: "users" as const },
+];
+</script>
+
+<template>
+  <AppMixedMenu :items="items" active-path="/dash" />
+</template>
+```
+
+### 2.6 含子菜单
+
+```vue demo:nav-mixed-menu-children title="子菜单"
+<script setup lang="ts">
+import { AppMixedMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "shop", label: "商城", path: "/shop", icon: "grid" as const, children: [
+    { key: "g", label: "商品", path: "/shop/goods" },
+    { key: "s", label: "规格", path: "/shop/specs" },
+  ] },
+  { key: "data", label: "数据", path: "/data", icon: "chart" as const },
+];
+</script>
+
+<template>
+  <AppMixedMenu :items="items" active-path="/shop" />
+</template>
+```
+
+### 2.7 监听跳转
+
+```vue demo:nav-mixed-menu-navigate title="监听跳转"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMixedMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const last = ref("");
+const items = [
+  { key: "home", label: "首页", path: "/home" },
+  { key: "order", label: "订单", path: "/order" },
+];
+</script>
+
+<template>
+  <div>
+    <AppMixedMenu :items="items" active-path="/home" @navigate="(item) => (last = item.path)" />
+    <p class="hint">最近跳转：{{ last || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

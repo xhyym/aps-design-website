@@ -66,6 +66,76 @@ function restoreSession(): void {
 
 示例默认不显示全局蒙层，点击后模拟一次会自动结束的恢复请求。线上页面应把 `loading` 绑定到真实请求聚合状态，不能传入固定的 `true`。
 
+
+### 2.3 受控显示
+
+```vue demo:network-overlay-toggle title="受控显示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppNetworkLoadingOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const loading = ref(false);
+const start = () => {
+  loading.value = true;
+  setTimeout(() => { loading.value = false; }, 2000);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="start">模拟网络请求</AppButton>
+    <div class="box">
+      <p>页面内容区</p>
+      <AppNetworkLoadingOverlay :loading="loading" />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; margin-top: 10px; padding: 16px; position: relative; }
+</style>
+```
+
+### 2.4 初始加载
+
+```vue demo:network-overlay-auto title="初始加载"
+<script setup lang="ts">
+import { AppNetworkLoadingOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <p>首次进入页面时展示网络加载层。</p>
+    <AppNetworkLoadingOverlay :loading="true" />
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; padding: 16px; position: relative; }
+</style>
+```
+
+### 2.5 加载完成
+
+```vue demo:network-overlay-complete title="加载完成"
+<script setup lang="ts">
+import { AppNetworkLoadingOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <p>请求完成后的正常内容，无遮罩。</p>
+    <AppNetworkLoadingOverlay :loading="false" />
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; padding: 16px; position: relative; }
+</style>
+```
 ## 3. API 使用方式
 
 通常在应用根节点或布局层挂载一个实例，把请求管理器聚合后的状态传入。

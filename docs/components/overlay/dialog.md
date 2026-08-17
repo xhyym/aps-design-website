@@ -54,6 +54,125 @@ const visible = ref(false);
 </template>
 ```
 
+
+### 2.3 底部操作
+
+```vue demo:overlay-dialog-footer title="底部操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">编辑资料</AppButton>
+    <AppDialog v-model="open" title="编辑资料" description="请完善以下信息">
+      <p>表单内容区域</p>
+      <template #footer>
+        <AppButton size="small" variant="text" @click="open = false">取消</AppButton>
+        <AppButton size="small" @click="open = false">保存</AppButton>
+      </template>
+    </AppDialog>
+  </div>
+</template>
+```
+
+### 2.4 说明文字
+
+```vue demo:overlay-dialog-description title="说明文字"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">查看公告</AppButton>
+    <AppDialog v-model="open" title="系统公告" description="本周六凌晨将进行系统升级">
+      <p>升级期间服务可能短暂不可用，请提前保存工作内容。</p>
+    </AppDialog>
+  </div>
+</template>
+```
+
+### 2.5 禁止关闭
+
+```vue demo:overlay-dialog-closable-off title="禁止关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(true);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开对话框</AppButton>
+    <AppDialog v-model="open" title="必须处理" description="该对话框无法通过遮罩或关闭按钮关闭" :closable="false" :close-on-overlay="false">
+      <p>只能通过业务操作关闭。</p>
+      <template #footer>
+        <AppButton size="small" @click="open = false">我知道了</AppButton>
+      </template>
+    </AppDialog>
+  </div>
+</template>
+```
+
+### 2.6 关闭事件
+
+```vue demo:overlay-dialog-close-event title="关闭事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开对话框</AppButton>
+    <AppDialog v-model="open" title="提示" @close="log = '已触发关闭事件'">
+      <p>通过右上角、遮罩或 Esc 关闭都会触发 close 事件。</p>
+    </AppDialog>
+    <p class="hint">{{ log || "对话框尚未关闭" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.7 自定义图标
+
+```vue demo:overlay-dialog-icon title="自定义图标"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">查看订单</AppButton>
+    <AppDialog v-model="open" title="订单 #1024" description="订单已支付成功">
+      <template #icon>✓</template>
+      <p>订单详情内容区域。</p>
+    </AppDialog>
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 通常用 `v-model` 受控打开状态。需要阻止误关闭时同时关闭 `closeOnOverlay` 与 `closeOnPressEscape`，提交完成后由业务代码把状态设为 `false`。

@@ -43,6 +43,70 @@ const items = [{ label: "订单号", value: "20260806001" }, { label: "支付金
 <template><AppDescriptions :items="items" direction="horizontal" border :columns="2" /></template>
 ```
 
+
+### 2.3 多列布局
+
+```vue demo:descriptions-columns title="多列布局"
+<script setup lang="ts">
+import { AppDescriptions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "name", label: "姓名", value: "陈晨" },
+  { key: "dept", label: "部门", value: "研发中心" },
+  { key: "city", label: "城市", value: "杭州" },
+  { key: "email", label: "邮箱", value: "chen@example.com" },
+];
+</script>
+
+<template>
+  <AppDescriptions title="员工信息" :items="items" :columns="2" />
+</template>
+```
+
+### 2.4 自定义插槽
+
+```vue demo:descriptions-custom-slot title="自定义插槽"
+<script setup lang="ts">
+import { AppButton, AppDescriptions, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "status", label: "状态", value: "正常" },
+  { key: "owner", label: "负责人", value: "李雷" },
+];
+</script>
+
+<template>
+  <AppDescriptions title="实例信息" :items="items">
+    <template #item-status>
+      <AppTag tone="green">运行中</AppTag>
+    </template>
+    <template #extra>
+      <AppButton size="small" variant="text">编辑</AppButton>
+    </template>
+  </AppDescriptions>
+</template>
+```
+
+### 2.5 垂直布局
+
+```vue demo:descriptions-vertical title="垂直布局"
+<script setup lang="ts">
+import { AppDescriptions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "sku", label: "商品编码", value: "SKU-10086" },
+  { key: "price", label: "售价", value: "¥ 899.00" },
+  { key: "stock", label: "库存", value: 66 },
+];
+</script>
+
+<template>
+  <AppDescriptions title="商品详情" :items="items" direction="vertical" />
+</template>
+```
 ## 3. API 使用方式
 
 当某个字段包含状态标签、链接等富内容时，用 `item-${key}` 插槽替换该字段的值。

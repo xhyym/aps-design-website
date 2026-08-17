@@ -47,6 +47,115 @@ const nodes: TreeOption[] = [{ label: "订单权限", value: "orders", children:
 <template><AppTree v-model:checked-keys="checkedKeys" :nodes="nodes" checkable check-on-click-node default-expand-all /></template>
 ```
 
+
+### 2.3 展开控制
+
+```vue demo:tree-expand-controlled title="展开控制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTree, type TreeOption } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const nodes: TreeOption[] = [
+  { label: "研发部", value: "rd", children: [{ label: "前端组", value: "fe" }, { label: "后端组", value: "be" }] },
+  { label: "市场部", value: "mk", children: [{ label: "品牌组", value: "brand" }] },
+];
+const expanded = ref<string[]>(["rd"]);
+</script>
+
+<template>
+  <div>
+    <AppTree v-model:expanded-keys="expanded" :nodes="nodes" />
+    <p class="hint">展开：{{ expanded.join("、") }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.4 节点选择
+
+```vue demo:tree-selectable title="节点选择"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTree, type TreeOption } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const nodes: TreeOption[] = [
+  { label: "华东", value: "east", children: [{ label: "上海", value: "sh" }, { label: "杭州", value: "hz" }] },
+  { label: "华南", value: "south", children: [{ label: "深圳", value: "sz" }] },
+];
+const selected = ref<string[]>([]);
+</script>
+
+<template>
+  <div>
+    <AppTree v-model:selected-keys="selected" :nodes="nodes" selectable default-expand-all />
+    <p class="hint">已选：{{ selected.join("、") || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.5 搜索过滤
+
+```vue demo:tree-filter title="搜索过滤"
+<script setup lang="ts">
+import { AppTree, type TreeOption } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const nodes: TreeOption[] = [
+  { label: "客户管理", value: "crm", children: [{ label: "客户列表", value: "list" }, { label: "跟进记录", value: "track" }] },
+  { label: "订单管理", value: "order", children: [{ label: "订单列表", value: "olist" }] },
+];
+</script>
+
+<template>
+  <AppTree :nodes="nodes" filterable default-expand-all />
+</template>
+```
+
+### 2.6 连接线与手风琴
+
+```vue demo:tree-show-line title="连接线与手风琴"
+<script setup lang="ts">
+import { AppTree, type TreeOption } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const nodes: TreeOption[] = [
+  { label: "一级目录 A", value: "a", children: [{ label: "二级 A1", value: "a1", children: [{ label: "三级 A1x", value: "a1x" }] }, { label: "二级 A2", value: "a2" }] },
+  { label: "一级目录 B", value: "b", children: [{ label: "二级 B1", value: "b1" }] },
+];
+</script>
+
+<template>
+  <AppTree :nodes="nodes" show-line accordion default-expand-all />
+</template>
+```
+
+### 2.7 虚拟滚动
+
+```vue demo:tree-virtual title="虚拟滚动"
+<script setup lang="ts">
+import { AppTree, type TreeOption } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const nodes: TreeOption[] = Array.from({ length: 500 }, (_, i) => ({
+  label: "节点 " + (i + 1),
+  value: "n" + i,
+  children: [{ label: "子节点 " + (i + 1) + "-1", value: "n" + i + "-1" }, { label: "子节点 " + (i + 1) + "-2", value: "n" + i + "-2" }],
+}));
+</script>
+
+<template>
+  <AppTree :nodes="nodes" virtual :virtual-height="320" default-expand-all />
+</template>
+```
 ## 3. API 使用方式
 
 使用 `v-model:expanded-keys`、`v-model:selected-keys`、`v-model:checked-keys` 接收树状态。开启 `lazy` 时配合 `loadData(context)` 返回节点子级，组件会传入路径与取消信号。

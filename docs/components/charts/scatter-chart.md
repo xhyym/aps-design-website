@@ -46,6 +46,69 @@ const series: ChartSeries[] = [
 <template><AppScatterChart :series="series" :categories="['渠道一', '渠道二', '渠道三', '渠道四', '渠道五']" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-scatter-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppScatterChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "样本 A", data: [12, 18, 15, 22, 19, 24] },
+  { name: "样本 B", data: [8, 14, 11, 17, 13, 20] },
+];
+</script>
+
+<template>
+  <AppScatterChart :series="series" :categories="['P1', 'P2', 'P3', 'P4', 'P5', 'P6']" :colors="['#e65c41', '#3d8bfd']" />
+</template>
+```
+
+### 2.4 隐藏提示
+
+```vue demo:charts-scatter-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppScatterChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "分布", data: [5, 9, 14, 7, 12, 16, 10] }];
+</script>
+
+<template>
+  <AppScatterChart :series="series" :categories="['A', 'B', 'C', 'D', 'E', 'F', 'G']" :tooltip="false" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-scatter-export title="导出"
+<script setup lang="ts">
+import { AppScatterChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "点位", data: [22, 19, 26, 24, 21, 28] }];
+</script>
+
+<template>
+  <AppScatterChart :series="series" :categories="['X1', 'X2', 'X3', 'X4', 'X5', 'X6']" exportable />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-scatter-height title="图表高度"
+<script setup lang="ts">
+import { AppScatterChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "采样", data: [31, 27, 34, 29, 36, 33, 30] }];
+</script>
+
+<template>
+  <AppScatterChart :series="series" :categories="['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 传入同长度的类目与数据序列。点的颜色来自 `series.color` 或 `colors`，以此区分不同人群。

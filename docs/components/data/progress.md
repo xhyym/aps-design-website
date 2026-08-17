@@ -39,6 +39,94 @@ import "aps-design-pro/style.css";
 <template><AppProgress :percentage="92" type="circle" status="success" /></template>
 ```
 
+
+### 2.3 仪表盘
+
+```vue demo:progress-dashboard title="仪表盘"
+<script setup lang="ts">
+import { AppProgress } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppProgress :percentage="68" type="dashboard" />
+</template>
+```
+
+### 2.4 状态
+
+```vue demo:progress-status title="状态"
+<script setup lang="ts">
+import { AppProgress } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppProgress :percentage="100" status="success" />
+    <AppProgress :percentage="55" status="warning" />
+    <AppProgress :percentage="20" status="error" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.5 条纹动画
+
+```vue demo:progress-striped title="条纹动画"
+<script setup lang="ts">
+import { AppProgress } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppProgress :percentage="70" striped />
+    <AppProgress :percentage="70" striped striped-flow />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.6 文字内置
+
+```vue demo:progress-text-inside title="文字内置"
+<script setup lang="ts">
+import { AppProgress } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppProgress :percentage="45" text-inside label="上传进度" />
+</template>
+```
+
+### 2.7 尺寸与线宽
+
+```vue demo:progress-size title="尺寸与线宽"
+<script setup lang="ts">
+import { AppProgress } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppProgress :percentage="60" size="small" />
+    <AppProgress :percentage="60" :stroke-width="12" />
+    <AppProgress :percentage="60" type="circle" :width="120" :stroke-width="10" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 16px; }
+</style>
+```
 ## 3. API 使用方式
 
 业务接口返回进度时更新 `percentage`；数值会被安全限制在 0 到 100 之间。

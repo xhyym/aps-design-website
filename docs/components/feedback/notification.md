@@ -64,6 +64,104 @@ function markAllRead(): void {
 </template>
 ```
 
+
+### 2.3 受控面板
+
+```vue demo:notification-controlled title="受控面板"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppNotification, type NotificationItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: NotificationItem[] = [
+  { id: "n1", title: "新订单", description: "您有一笔新订单待处理", time: "10:20" },
+  { id: "n2", title: "系统消息", description: "服务器将于今晚维护", time: "09:00", read: true },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开通知</AppButton>
+    <AppNotification v-model="open" :items="items" />
+  </div>
+</template>
+```
+
+### 2.4 自定义标题
+
+```vue demo:notification-title title="自定义标题"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppNotification, type NotificationItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: NotificationItem[] = [
+  { id: "m1", title: "站内信", description: "你有新的消息", time: "08:40" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">消息中心</AppButton>
+    <AppNotification v-model="open" :items="items" title="消息" />
+  </div>
+</template>
+```
+
+### 2.5 空列表
+
+```vue demo:notification-empty title="空列表"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppNotification, type NotificationItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: NotificationItem[] = [];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">查看通知</AppButton>
+    <AppNotification v-model="open" :items="items" />
+  </div>
+</template>
+```
+
+### 2.6 已读事件
+```vue demo:notification-read-event title="已读事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppNotification, type NotificationItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items = ref<NotificationItem[]>([
+  { id: "a1", title: "审批提醒", description: "你的请假申请等待审批", time: "昨天 16:00" },
+  { id: "a2", title: "公告", description: "八月版本更新说明", time: "昨天 09:30" },
+]);
+const log = ref("");
+const onRead = (id: string) => {
+  const it = items.value.find((x) => x.id === id);
+  if (it) it.read = true;
+  log.value = "已读：" + (it?.title ?? id);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">通知中心</AppButton>
+    <AppNotification v-model="open" :items="items" @read="onRead" />
+    <p class="hint">{{ log || "点击未读通知试试" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 组件不直接修改 `items`；请在 `read` 与 `read-all` 事件中更新本地数据并同步后端。

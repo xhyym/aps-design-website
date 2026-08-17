@@ -60,6 +60,64 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 分隔线
+
+```vue demo:layout-container-header-bordered title="分隔线"
+<script setup lang="ts">
+import { AppContainerHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerHeader bordered>
+    <strong>订单管理</strong>
+  </AppContainerHeader>
+</template>
+```
+
+### 2.4 内边距
+
+```vue demo:layout-container-header-padding title="内边距"
+<script setup lang="ts">
+import { AppContainerHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppContainerHeader padding="compact"><span>紧凑头部</span></AppContainerHeader>
+    <AppContainerHeader padding="spacious"><span>宽松头部</span></AppContainerHeader>
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 8px; }
+</style>
+```
+
+### 2.5 头部内容
+
+```vue demo:layout-container-header-content title="头部内容"
+<script setup lang="ts">
+import { AppContainerHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainerHeader>
+    <div class="bar">
+      <strong>商品管理</strong>
+      <span class="muted">共 320 件</span>
+    </div>
+  </AppContainerHeader>
+</template>
+
+<style scoped>
+.bar { display: flex; gap: 12px; align-items: center; }
+.muted { color: var(--aps-muted); font-size: 13px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

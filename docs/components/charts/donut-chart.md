@@ -47,6 +47,80 @@ const series: ChartSeries[] = [
 <template><AppDonutChart :series="series" aria-label="项目状态占比" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-donut-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppDonutChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "待处理", data: [30] },
+  { name: "进行中", data: [45] },
+  { name: "已完成", data: [120] },
+];
+</script>
+
+<template>
+  <AppDonutChart :series="series" :categories="['待处理', '进行中', '已完成']" :colors="['#f0a020', '#3d8bfd', '#3fae66']" />
+</template>
+```
+
+### 2.4 隐藏提示
+
+```vue demo:charts-donut-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppDonutChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "成功", data: [92] },
+  { name: "失败", data: [8] },
+];
+</script>
+
+<template>
+  <AppDonutChart :series="series" :categories="['成功', '失败']" :tooltip="false" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-donut-export title="导出"
+<script setup lang="ts">
+import { AppDonutChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "渠道 A", data: [260] },
+  { name: "渠道 B", data: [190] },
+  { name: "渠道 C", data: [140] },
+];
+</script>
+
+<template>
+  <AppDonutChart :series="series" :categories="['渠道 A', '渠道 B', '渠道 C']" exportable export-file-name="渠道构成.svg" />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-donut-height title="图表高度"
+<script setup lang="ts">
+import { AppDonutChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "男", data: [540] },
+  { name: "女", data: [460] },
+];
+</script>
+
+<template>
+  <AppDonutChart :series="series" :categories="['男', '女']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 传入非负数值，组件将根据总和计算各区块。所有数据为零时会显示空状态；不能用负数表达增减趋势。

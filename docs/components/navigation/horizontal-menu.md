@@ -65,6 +65,118 @@ const items: NavigationItem[] = [
 
 `activePath` 命中子项路径时，其一级父项也会保持激活状态，避免用户迷失当前模块。
 
+
+### 2.3 带图标
+
+```vue demo:nav-horizontal-menu-icons title="带图标"
+<script setup lang="ts">
+import { AppHorizontalMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "home", label: "首页", path: "/home", icon: "grid" as const },
+  { key: "order", label: "订单", path: "/order", icon: "chart" as const },
+  { key: "user", label: "客户", path: "/user", icon: "users" as const },
+];
+</script>
+
+<template>
+  <AppHorizontalMenu :items="items" active-path="/home" />
+</template>
+```
+
+### 2.4 含子菜单
+
+```vue demo:nav-horizontal-menu-children title="含子菜单"
+<script setup lang="ts">
+import { AppHorizontalMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "shop", label: "商城", path: "/shop", icon: "grid" as const, children: [
+    { key: "goods", label: "商品", path: "/shop/goods" },
+    { key: "sku", label: "规格", path: "/shop/sku" },
+  ] },
+  { key: "data", label: "数据", path: "/data", icon: "chart" as const },
+];
+</script>
+
+<template>
+  <AppHorizontalMenu :items="items" active-path="/shop/goods" />
+</template>
+```
+
+### 2.5 受控高亮
+
+```vue demo:nav-horizontal-menu-active title="受控高亮"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppHorizontalMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("/order");
+const items = [
+  { key: "home", label: "首页", path: "/home" },
+  { key: "order", label: "订单", path: "/order" },
+  { key: "user", label: "客户", path: "/user" },
+];
+</script>
+
+<template>
+  <AppHorizontalMenu :items="items" :active-path="active" />
+</template>
+```
+
+### 2.6 监听跳转
+
+```vue demo:nav-horizontal-menu-navigate title="监听跳转"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppHorizontalMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const current = ref("");
+const items = [
+  { key: "home", label: "首页", path: "/home" },
+  { key: "order", label: "订单", path: "/order" },
+];
+</script>
+
+<template>
+  <div>
+    <AppHorizontalMenu :items="items" active-path="/home" @navigate="(item) => (current = item.path)" />
+    <p class="hint">最近跳转：{{ current || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.7 多级子菜单
+
+```vue demo:nav-horizontal-menu-sub title="多级子菜单"
+<script setup lang="ts">
+import { AppHorizontalMenu } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "sys", label: "系统", path: "/sys", icon: "settings" as const, children: [
+    { key: "role", label: "角色", path: "/sys/role", children: [
+      { key: "role-list", label: "角色列表", path: "/sys/role/list" },
+      { key: "role-new", label: "新建角色", path: "/sys/role/new" },
+    ] },
+    { key: "perm", label: "权限", path: "/sys/perm" },
+  ] },
+  { key: "ops", label: "运营", path: "/ops", icon: "chart" as const },
+];
+</script>
+
+<template>
+  <AppHorizontalMenu :items="items" active-path="/sys/role/list" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

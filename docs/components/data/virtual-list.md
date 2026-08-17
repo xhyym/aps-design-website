@@ -43,6 +43,92 @@ const items = Array.from({ length: 200 }, (_, index) => ({ id: index + 1, name: 
 <template><AppVirtualList :items="items" :item-height="48" :height="240" :item-key="(item) => item.id"><template #default="{ item }"><strong>{{ item.name }}</strong><span>{{ item.role }}</span></template></AppVirtualList></template>
 ```
 
+
+### 2.3 固定高度
+
+```vue demo:virtual-list-height title="固定高度"
+<script setup lang="ts">
+import { AppVirtualList } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = Array.from({ length: 1000 }, (_, i) => "行 " + (i + 1));
+</script>
+
+<template>
+  <AppVirtualList :items="items" :item-height="36" :height="300">
+    <template #default="{ item }">
+      <div class="line">{{ item }}</div>
+    </template>
+  </AppVirtualList>
+</template>
+
+<style scoped>
+.line { height: 36px; line-height: 36px; padding: 0 12px; border-bottom: 1px solid var(--aps-border); }
+</style>
+```
+
+### 2.4 预渲染缓冲
+
+```vue demo:virtual-list-overscan title="预渲染缓冲"
+<script setup lang="ts">
+import { AppVirtualList } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = Array.from({ length: 2000 }, (_, i) => "记录 " + (i + 1));
+</script>
+
+<template>
+  <AppVirtualList :items="items" :item-height="40" :height="280" :overscan="8">
+    <template #default="{ item }">
+      <div class="line">{{ item }}</div>
+    </template>
+  </AppVirtualList>
+</template>
+
+<style scoped>
+.line { height: 40px; line-height: 40px; padding: 0 12px; border-bottom: 1px solid var(--aps-border); }
+</style>
+```
+
+### 2.5 自定义键
+
+```vue demo:virtual-list-item-key title="自定义键"
+<script setup lang="ts">
+import { AppVirtualList } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Item { id: number; name: string; }
+const items: Item[] = Array.from({ length: 800 }, (_, i) => ({ id: i + 1, name: "条目 " + (i + 1) }));
+const itemKey = (item: Item) => item.id;
+</script>
+
+<template>
+  <AppVirtualList :items="items" :item-height="32" :height="200" :item-key="itemKey">
+    <template #default="{ item }">
+      <div class="line">{{ item.name }}</div>
+    </template>
+  </AppVirtualList>
+</template>
+
+<style scoped>
+.line { height: 32px; line-height: 32px; padding: 0 12px; border-bottom: 1px solid var(--aps-border); }
+</style>
+```
+
+### 2.6 空数据
+
+```vue demo:virtual-list-empty title="空数据"
+<script setup lang="ts">
+import { AppVirtualList } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items: string[] = [];
+</script>
+
+<template>
+  <AppVirtualList :items="items" :item-height="36" :height="200" empty-text="暂无数据" />
+</template>
+```
 ## 3. API 使用方式
 
 将完整、已排序的数据数组传给 `items`。实例可调用 `scrollToIndex(index, align)`、`scrollToTop()`、`scrollToBottom()`，不必手动查询内部滚动容器。

@@ -46,6 +46,86 @@ const series: ChartSeries[] = [
 <template><AppLineChart :series="series" :categories="['周一', '周二', '周三', '周四', '周五']" :colors="['#0071e3', '#a56de2']" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-line-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "A 组", data: [40, 52, 48, 66, 72] },
+  { name: "B 组", data: [30, 42, 56, 50, 60] },
+];
+</script>
+
+<template>
+  <AppLineChart :series="series" :categories="['周一', '周二', '周三', '周四', '周五']" :colors="['#e65c41', '#3d8bfd']" />
+</template>
+```
+
+### 2.4 缩放窗口
+
+```vue demo:charts-line-zoom title="缩放窗口"
+<script setup lang="ts">
+import { AppLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "延迟", data: [120, 150, 110, 180, 160, 200, 190, 230, 210, 250, 240, 280] }];
+const cats = Array.from({ length: 12 }, (_, i) => (i + 1) + "点");
+</script>
+
+<template>
+  <AppLineChart :series="series" :categories="cats" zoomable />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-line-export title="导出"
+<script setup lang="ts">
+import { AppLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "转化率", data: [3.2, 3.8, 4.1, 3.9, 4.6] }];
+</script>
+
+<template>
+  <AppLineChart :series="series" :categories="['W1', 'W2', 'W3', 'W4', 'W5']" exportable export-file-name="转化率.svg" />
+</template>
+```
+
+### 2.6 隐藏提示
+
+```vue demo:charts-line-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "温度", data: [22, 25, 24, 27, 26] }];
+</script>
+
+<template>
+  <AppLineChart :series="series" :categories="['10时', '12时', '14时', '16时', '18时']" :tooltip="false" />
+</template>
+```
+
+### 2.7 数据采样
+
+```vue demo:charts-line-sampling title="数据采样"
+<script setup lang="ts">
+import { AppLineChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "长序列", data: Array.from({ length: 60 }, (_, i) => 50 + Math.round(Math.sin(i / 5) * 20 + (i % 7) * 3)) }];
+const cats = Array.from({ length: 60 }, (_, i) => String(i + 1));
+</script>
+
+<template>
+  <AppLineChart :series="series" :categories="cats" sampling="none" />
+</template>
+```
 ## 3. API 使用方式
 
 传入一到多个 `ChartSeries`。缺失值可不在数组中提供，但不要用非数值文本占位；组件会将非有限数值处理为断点。

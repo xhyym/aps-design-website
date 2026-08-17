@@ -201,7 +201,7 @@ const color = ref("#0071e3");
 | --- | --- | --- | --- |
 | `modelValue` | 当前颜色值。 | `string` | — |
 | `name` / `presets` | 原生字段名与预设色列表。 | `string` / `string[]` | `undefined` / `[]` |
-| `format` | 输出颜色格式。 | `"hex" \| "rgb" \| "rgba" \| "hsv"` | `"hex"` |
+| `format` | 输出颜色格式。 | `"hex" \| "rgb" \| "hsl"` | `"hex"` |
 | `showAlpha` / `clearable` | 启用透明度和清除入口。 | `boolean` | `false` |
 | `placement` | 面板在触发器上方或下方展开。 | `"top" \| "bottom"` | `"bottom"` |
 | `disabled` / `ariaLabel` | 禁用状态与无障碍名称。 | `boolean` / `string` | `false` / `"颜色选择器"` |

@@ -58,6 +58,69 @@ function celebrate(): void {
 </template>
 ```
 
+
+### 2.3 自动播放
+
+```vue demo:content-fireworks-auto title="自动播放"
+<script setup lang="ts">
+import { AppFireworksEffect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="stage">
+    <AppFireworksEffect :show="true" />
+  </div>
+</template>
+
+<style scoped>
+.stage { height: 200px; border-radius: 8px; background: linear-gradient(180deg, #101a3a, #1b2a5e); }
+</style>
+```
+
+### 2.4 粒子数量
+
+```vue demo:content-fireworks-count title="粒子数量"
+<script setup lang="ts">
+import { AppFireworksEffect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="stage">
+    <AppFireworksEffect :show="true" :count="60" />
+  </div>
+</template>
+
+<style scoped>
+.stage { height: 200px; border-radius: 8px; background: linear-gradient(180deg, #101a3a, #1b2a5e); }
+</style>
+```
+
+### 2.5 触发控制
+
+```vue demo:content-fireworks-trigger-toggle title="触发控制"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppFireworksEffect } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="show = !show">{{ show ? "关闭" : "庆祝一下" }}</AppButton>
+    <div class="stage">
+      <AppFireworksEffect v-if="show" :show="true" />
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.stage { height: 200px; border-radius: 8px; background: linear-gradient(180deg, #101a3a, #1b2a5e); margin-top: 10px; }
+</style>
+```
 ## 3. API 使用方式
 
 将 `show` 绑定到一次性结果状态。若需要重复播放，可以先置为 `false`，在下一轮任务中重新设为 `true`，让效果重新挂载。

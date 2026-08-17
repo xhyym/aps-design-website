@@ -43,6 +43,96 @@ import "aps-design-pro/style.css";
 <template><AppImage src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="笔记本电脑和代码编辑器" preview preview-title="开发环境照片" /></template>
 ```
 
+
+### 2.3 适配策略
+
+```vue demo:content-image-fit title="适配策略"
+<script setup lang="ts">
+import { AppImage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppImage src="https://picsum.photos/seed/f1/600/400" alt="cover" fit="cover" />
+    <AppImage src="https://picsum.photos/seed/f2/600/400" alt="contain" fit="contain" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; }
+.row :deep(.aps-image) { width: 240px; height: 160px; }
+</style>
+```
+
+### 2.4 圆角
+
+```vue demo:content-image-radius title="圆角"
+<script setup lang="ts">
+import { AppImage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppImage src="https://picsum.photos/seed/r1/400/300" alt="无圆角" radius="none" />
+    <AppImage src="https://picsum.photos/seed/r2/400/300" alt="小圆角" radius="small" />
+    <AppImage src="https://picsum.photos/seed/r3/400/300" alt="圆形" radius="round" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; }
+.row :deep(.aps-image) { width: 160px; height: 120px; }
+</style>
+```
+
+### 2.5 备用图片
+
+```vue demo:content-image-fallback title="备用图片"
+<script setup lang="ts">
+import { AppImage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppImage src="https://example.invalid/broken.png" fallback-src="https://picsum.photos/seed/fb/400/300" alt="加载失败回退" />
+</template>
+```
+
+### 2.6 底部说明
+
+```vue demo:content-image-caption title="底部说明"
+<script setup lang="ts">
+import { AppImage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppImage src="https://picsum.photos/seed/cap/600/400" alt="风景">
+    <template #caption>摄于青海湖 · 2026 夏</template>
+  </AppImage>
+</template>
+```
+
+### 2.7 懒加载
+
+```vue demo:content-image-lazy title="懒加载"
+<script setup lang="ts">
+import { AppImage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="list">
+    <AppImage v-for="i in 8" :key="i" :src="'https://picsum.photos/seed/lazy' + i + '/600/400'" :alt="'图片 ' + i" lazy />
+  </div>
+</template>
+
+<style scoped>
+.list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+</style>
+```
 ## 3. API 使用方式
 
 默认 `fit="cover"` 且按 `16 / 9` 保留位置。启用 `preview` 后，点击图片会打开内置对话框，可按 Esc 关闭；加载和失败事件仍在原图元素上触发。

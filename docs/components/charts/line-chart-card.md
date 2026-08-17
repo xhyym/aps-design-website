@@ -43,6 +43,55 @@ const series: ChartSeries[] = [{ name: "收入", data: [32, 44, 51, 65, 73, 88] 
 <template><AppLineChartCard title="月度收入" :series="series" :categories="['1月', '2月', '3月', '4月', '5月', '6月']" exportable export-file-name="月度收入" /></template>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:charts-line-card-description title="说明文字"
+<script setup lang="ts">
+import { AppLineChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "在线人数", data: [320, 410, 380, 520, 480] }];
+</script>
+
+<template>
+  <AppLineChartCard title="实时在线" description="最近五小时在线人数" :series="series" :categories="['14:00', '15:00', '16:00', '17:00', '18:00']" />
+</template>
+```
+
+### 2.4 操作区
+
+```vue demo:charts-line-card-actions title="操作区"
+<script setup lang="ts">
+import { AppButton, AppLineChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "收入", data: [88, 96, 92, 104, 118] }];
+</script>
+
+<template>
+  <AppLineChartCard title="收入趋势" :series="series" :categories="['1月', '2月', '3月', '4月', '5月']">
+    <template #actions>
+      <AppButton size="small" variant="text">查看明细</AppButton>
+    </template>
+  </AppLineChartCard>
+</template>
+```
+
+### 2.5 图表高度
+
+```vue demo:charts-line-card-height title="图表高度"
+<script setup lang="ts">
+import { AppLineChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "请求量", data: [1200, 1800, 1600, 2400, 2100] }];
+</script>
+
+<template>
+  <AppLineChartCard title="请求量监控" :series="series" :categories="['08:00', '10:00', '12:00', '14:00', '16:00']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 除 `type` 固定为 `line` 外，用法与 `AppChartCard` 相同。建议按一个业务口径对应一张卡片，避免在同一张趋势卡塞入无关指标。

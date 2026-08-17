@@ -49,6 +49,83 @@ const visible = ref(false);
 </template>
 ```
 
+
+### 2.3 层级语义
+
+```vue demo:overlay-overlay-layer title="层级语义"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="show = true">显示遮罩</AppButton>
+    <AppOverlay v-model="show" layer="drawer">
+      <p>抽屉层级遮罩内容</p>
+    </AppOverlay>
+  </div>
+</template>
+```
+
+### 2.4 点击关闭
+
+```vue demo:overlay-overlay-close title="点击关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(false);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppButton @click="show = true">打开遮罩</AppButton>
+    <AppOverlay v-model="show" @update:model-value="(v: boolean) => (log = v ? '打开' : '点击遮罩关闭')">
+      <p>点击遮罩空白区域关闭</p>
+    </AppOverlay>
+    <p class="hint">{{ log || "遮罩未打开" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.5 自定义内容
+
+```vue demo:overlay-overlay-content title="自定义内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppOverlay } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="show = true">打开浮层</AppButton>
+    <AppOverlay v-model="show">
+      <div class="panel">
+        <h4>浮层面板</h4>
+        <p>自定义内容展示区域</p>
+        <AppButton size="small" @click="show = false">关闭</AppButton>
+      </div>
+    </AppOverlay>
+  </div>
+</template>
+
+<style scoped>
+.panel { background: var(--aps-bg); border-radius: 8px; padding: 20px; text-align: center; }
+</style>
+```
 ## 3. API 使用方式
 
 `AppOverlay` 本身不定义内容结构，把自定义内容放入默认插槽；通过 `layer` 与其他浮层协调层级。关闭时监听 `update:modelValue`，由父组件负责状态。

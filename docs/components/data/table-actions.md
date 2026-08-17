@@ -49,6 +49,89 @@ const moreItems: DropdownItem[] = [
 <template><AppTableActions :more-items="moreItems"><AppButton size="small">续费</AppButton><AppButton size="small" variant="secondary">联系客户</AppButton></AppTableActions></template>
 ```
 
+
+### 2.3 禁用操作
+
+```vue demo:table-actions-disabled title="禁用操作"
+<script setup lang="ts">
+import { AppTableActions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const more = [
+  { key: "copy", label: "复制" },
+  { key: "delete", label: "删除", danger: true, disabled: true },
+];
+</script>
+
+<template>
+  <AppTableActions :more-items="more">
+    <a>编辑</a>
+  </AppTableActions>
+</template>
+```
+
+### 2.4 菜单回调
+
+```vue demo:table-actions-select title="菜单回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableActions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const picked = ref("");
+const more = [
+  { key: "view", label: "查看详情" },
+  { key: "archive", label: "归档" },
+];
+</script>
+
+<template>
+  <div>
+    <AppTableActions :more-items="more" @select="(k: string) => (picked = k)" />
+    <p class="hint">已选操作：{{ picked || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.5 自定义操作区
+
+```vue demo:table-actions-custom title="自定义操作区"
+<script setup lang="ts">
+import { AppButton, AppTableActions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppTableActions>
+    <AppButton size="small" variant="text">编辑</AppButton>
+    <AppButton size="small" variant="text" tone="danger">删除</AppButton>
+  </AppTableActions>
+</template>
+```
+
+### 2.6 更多操作
+
+```vue demo:table-actions-many title="更多操作"
+<script setup lang="ts">
+import { AppTableActions } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const more = [
+  { key: "refresh", label: "刷新" },
+  { key: "export", label: "导出", divided: true },
+  { key: "duplicate", label: "复制行" },
+  { key: "delete", label: "删除", danger: true },
+];
+</script>
+
+<template>
+  <AppTableActions :more-items="more" more-label="更多行操作" />
+</template>
+```
 ## 3. API 使用方式
 
 在 `AppDataTable` 的 `actions` 插槽内使用，并以稳定的菜单键分派业务行为。

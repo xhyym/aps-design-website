@@ -63,6 +63,93 @@ const columns = [{ key: "id", label: "订单号", minWidth: 120, maxWidth: 220 }
 <template><AppTableSettingsPanel v-model="preference" :default-value="defaultValue" :columns="columns" :min-visible="1" :min-column-width="110" :max-column-width="300" /></template>
 ```
 
+
+### 2.3 密度与分隔
+
+```vue demo:table-settings-panel-density title="密度与分隔"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableSettingsPanel, type TablePreference } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const pref = ref<TablePreference>({
+  version: 1,
+  columns: [{ key: "name", visible: true, order: 0 }, { key: "amount", visible: true, order: 1 }],
+  striped: false,
+  showColumnDividers: true,
+  density: "compact",
+  updatedAt: Date.now(),
+});
+const columns = [{ key: "name", label: "名称" }, { key: "amount", label: "金额", maxWidth: 200 }];
+</script>
+
+<template>
+  <AppTableSettingsPanel v-model="pref" :default-value="pref" :columns="columns" />
+</template>
+```
+
+### 2.4 保存状态
+
+```vue demo:table-settings-panel-saving title="保存状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableSettingsPanel, type TablePreference } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const pref = ref<TablePreference>({
+  version: 1,
+  columns: [{ key: "a", visible: true, order: 0 }],
+  striped: true,
+  showColumnDividers: false,
+  density: "comfortable",
+  updatedAt: Date.now(),
+});
+const saving = ref(false);
+const onUpdate = async (v: TablePreference) => {
+  saving.value = true;
+  await new Promise((r) => setTimeout(r, 1000));
+  pref.value = v;
+  saving.value = false;
+};
+</script>
+
+<template>
+  <AppTableSettingsPanel v-model="pref" :default-value="pref" :columns="[{ key: 'a', label: '列 A' }]" :saving="saving" @update:model-value="onUpdate" />
+</template>
+```
+
+### 2.5 列显隐与顺序
+```vue demo:table-settings-panel-columns title="列显隐与顺序"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableSettingsPanel, type TablePreference } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const pref = ref<TablePreference>({
+  version: 1,
+  columns: [
+    { key: "name", visible: true, order: 0 },
+    { key: "price", visible: true, order: 1 },
+    { key: "stock", visible: true, order: 2 },
+    { key: "status", visible: false, order: 3 },
+  ],
+  striped: true,
+  showColumnDividers: true,
+  density: "comfortable",
+  updatedAt: Date.now(),
+});
+const columns = [
+  { key: "name", label: "商品名称" },
+  { key: "price", label: "单价" },
+  { key: "stock", label: "库存" },
+  { key: "status", label: "状态" },
+];
+</script>
+
+<template>
+  <AppTableSettingsPanel v-model="pref" :default-value="pref" :columns="columns" />
+</template>
+```
 ## 3. API 使用方式
 
 将 `TablePreference` 和默认值传入组件；在 `v-model` 变化时交给仓库或 `useTablePreferences` 做持久化，并用同一偏好派生 `AppDataTable` 的列配置。

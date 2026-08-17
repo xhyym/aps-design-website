@@ -47,6 +47,58 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 错误状态
+
+```vue demo:state-panel-error title="错误状态"
+<script setup lang="ts">
+import { AppStatePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatePanel type="error" title="加载失败" description="网络异常，请重试" action-text="重试" />
+</template>
+```
+
+### 2.4 加载状态
+
+```vue demo:state-panel-loading title="加载状态"
+<script setup lang="ts">
+import { AppStatePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatePanel type="loading" title="正在加载" description="数据准备中…" />
+</template>
+```
+
+### 2.5 成功状态
+
+```vue demo:state-panel-success title="成功状态"
+<script setup lang="ts">
+import { AppStatePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatePanel type="success" title="同步完成" description="所有数据已是最新" />
+</template>
+```
+
+### 2.6 自定义内容
+
+```vue demo:state-panel-custom title="自定义内容"
+<script setup lang="ts">
+import { AppStatePanel } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatePanel type="empty" title="暂无数据" description="调整筛选条件后再试试" action-text="清除筛选" action-loading />
+</template>
+```
 ## 3. API 使用方式
 
 先用 `type` 选择状态，再只覆盖业务真正需要变化的标题、说明和操作。

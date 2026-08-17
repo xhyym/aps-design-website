@@ -52,6 +52,90 @@ const columnOptions: ColumnVisibilityOption[] = [
 <template><AppTableHeader v-model="visibility" title="内容库" :column-options="columnOptions" :show-search="false" :show-density="false" /></template>
 ```
 
+
+### 2.3 搜索区域
+
+```vue demo:table-header-search title="搜索区域"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppInput, AppTableHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ name: true });
+const search = ref(false);
+const keyword = ref("");
+const columnOptions = [{ key: "name", label: "名称" }];
+</script>
+
+<template>
+  <AppTableHeader v-model="visible" title="订单列表" description="全部订单数据" :column-options="columnOptions" v-model:search-visible="search">
+    <template #filters>
+      <AppInput v-model="keyword" placeholder="搜索订单号" />
+    </template>
+  </AppTableHeader>
+</template>
+```
+
+### 2.4 密度切换
+
+```vue demo:table-header-density title="密度切换"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableHeader, type ControlSize } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ a: true });
+const size = ref<ControlSize>("default");
+const columnOptions = [{ key: "a", label: "列 A" }];
+</script>
+
+<template>
+  <AppTableHeader v-model="visible" title="项目列表" :column-options="columnOptions" v-model:table-size="size" />
+</template>
+```
+
+### 2.5 扩展操作
+
+```vue demo:table-header-actions title="扩展操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTableHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ name: true, owner: true });
+const columnOptions = [{ key: "name", label: "名称" }, { key: "owner", label: "负责人" }];
+</script>
+
+<template>
+  <AppTableHeader v-model="visible" title="项目列表" :column-options="columnOptions">
+    <template #actions>
+      <AppButton size="small">新建项目</AppButton>
+    </template>
+  </AppTableHeader>
+</template>
+```
+
+### 2.6 刷新状态
+
+```vue demo:table-header-refresh title="刷新状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref({ id: true });
+const loading = ref(false);
+const onRefresh = async () => {
+  loading.value = true;
+  await new Promise((r) => setTimeout(r, 1200));
+  loading.value = false;
+};
+</script>
+
+<template>
+  <AppTableHeader v-model="visible" title="实时报表" :loading="loading" :column-options="[]" @refresh="onRefresh" />
+</template>
+```
 ## 3. API 使用方式
 
 建议把 `AppTableHeader` 放在搜索面板与表格之间。`filters` 放可折叠的查询控件，`actions` 放导出等业务扩展。

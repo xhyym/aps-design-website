@@ -45,6 +45,85 @@ const series: ChartSeries[] = [{ name: "订单金额", data: [12, 18, 15, 26, 32
 <template><AppChart type="line" :series="series" :categories="categories" zoomable exportable export-file-name="订单趋势" /></template>
 ```
 
+
+### 2.3 柱状图
+
+```vue demo:charts-chart-bar title="柱状图"
+<script setup lang="ts">
+import { AppChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "销售额", data: [720, 900, 860, 1100] }];
+</script>
+
+<template>
+  <AppChart type="bar" :series="series" :categories="['一月', '二月', '三月', '四月']" />
+</template>
+```
+
+### 2.4 环形图
+
+```vue demo:charts-chart-donut title="环形图"
+<script setup lang="ts">
+import { AppChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "直接访问", data: [480] },
+  { name: "搜索引擎", data: [320] },
+  { name: "社交媒体", data: [200] },
+];
+</script>
+
+<template>
+  <AppChart type="donut" :series="series" :categories="['直接访问', '搜索引擎', '社交媒体']" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-chart-export title="导出"
+<script setup lang="ts">
+import { AppChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "活跃用户", data: [1500, 1800, 1700, 2100, 2400] }];
+</script>
+
+<template>
+  <AppChart type="line" :series="series" :categories="['周一', '周二', '周三', '周四', '周五']" exportable export-file-name="活跃用户.svg" />
+</template>
+```
+
+### 2.6 隐藏提示
+
+```vue demo:charts-chart-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "温度", data: [22, 25, 28, 26, 24] }];
+</script>
+
+<template>
+  <AppChart type="line" :series="series" :categories="['08:00', '10:00', '12:00', '14:00', '16:00']" :tooltip="false" />
+</template>
+```
+
+### 2.7 空数据
+
+```vue demo:charts-chart-empty title="空数据"
+<script setup lang="ts">
+import { AppChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [];
+</script>
+
+<template>
+  <AppChart type="line" :series="series" empty-text="当前筛选条件下没有数据" />
+</template>
+```
 ## 3. API 使用方式
 
 `series` 是数据源，`categories` 与每个序列的数据点按索引对应。受控缩放时传入 `visibleRange` 并监听 `update:visible-range`；未传入时组件内部维护当前窗口。

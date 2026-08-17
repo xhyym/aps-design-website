@@ -43,6 +43,50 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:content-image-card-description title="说明文字"
+<script setup lang="ts">
+import { AppImageCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppImageCard title="雪山日出" src="https://picsum.photos/seed/mountain/400/260" description="清晨 5 点登上观景台拍摄" />
+</template>
+```
+
+### 2.4 替代文本
+
+```vue demo:content-image-card-alt title="替代文本"
+<script setup lang="ts">
+import { AppImageCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppImageCard title="产品渲染图" src="https://picsum.photos/seed/product/400/260" alt="白色无线耳机产品图" />
+</template>
+```
+
+### 2.5 卡片网格
+```vue demo:content-image-card-grid title="卡片网格"
+<script setup lang="ts">
+import { AppImageCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="grid">
+    <AppImageCard v-for="i in 4" :key="i" :title="'作品 ' + i" :src="'https://picsum.photos/seed/g' + i + '/400/260'" />
+  </div>
+</template>
+
+<style scoped>
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+</style>
+```
 ## 3. API 使用方式
 
 `title` 与 `src` 必填。`alt` 未传入时会回退为标题，因此当图片本身有独立含义时，应提供更准确的替代文本。

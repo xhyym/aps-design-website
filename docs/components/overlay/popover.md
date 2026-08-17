@@ -53,6 +53,106 @@ const visible = ref(false);
 </template>
 ```
 
+
+### 2.3 间距
+
+```vue demo:overlay-popover-offset title="间距"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopover } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div class="pad">
+    <AppPopover v-model="open" label="偏移示例" :offset="24">
+      <template #trigger="{ toggle }">
+        <AppButton @click="toggle">偏移 24px</AppButton>
+      </template>
+      <template #default="{ close }">
+        <p>与触发器间距 24px 的气泡卡片。</p>
+        <AppButton size="small" variant="text" @click="close">关闭</AppButton>
+      </template>
+    </AppPopover>
+  </div>
+</template>
+
+<style scoped>
+.pad { padding: 40px 0; }
+</style>
+```
+
+### 2.4 外部点击
+
+```vue demo:overlay-popover-close-outside title="外部点击"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopover } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopover v-model="open" label="保持打开" :close-on-outside="false">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">不会自动关闭</AppButton>
+    </template>
+    <template #default="{ close }">
+      <p>点击外部不会关闭，需显式操作。</p>
+      <AppButton size="small" @click="close">手动关闭</AppButton>
+    </template>
+  </AppPopover>
+</template>
+```
+
+### 2.5 自定义触发器
+
+```vue demo:overlay-popover-custom-trigger title="自定义触发器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppPopover, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopover v-model="open" label="标签触发器">
+    <template #trigger="{ toggle }">
+      <AppTag style="cursor: pointer" @click="toggle">点击标签</AppTag>
+    </template>
+    <template #default>
+      <p>任意元素都可作为触发器。</p>
+    </template>
+  </AppPopover>
+</template>
+```
+
+### 2.6 无障碍标签
+
+```vue demo:overlay-popover-label title="无障碍标签"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopover } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopover v-model="open" label="帮助信息" content-role="dialog">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">帮助</AppButton>
+    </template>
+    <template #default>
+      <p>以对话框角色呈现的气泡内容，便于屏幕阅读器识别。</p>
+    </template>
+  </AppPopover>
+</template>
+```
 ## 3. API 使用方式
 
 触发器插槽提供 `open`、`toggle`、`close`；内容插槽也提供 `close`，可在完成一个动作后主动关闭。组件会根据视口空间自动翻转方向并限制最大尺寸。

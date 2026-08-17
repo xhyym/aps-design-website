@@ -50,6 +50,78 @@ const series: ChartSeries[] = [
 <template><AppDualBarCompareChart :series="series" :categories="categories" zoomable :min-visible-points="4" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-dual-bar-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppDualBarCompareChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "今年", data: [420, 480, 530] },
+  { name: "去年", data: [360, 410, 460] },
+];
+</script>
+
+<template>
+  <AppDualBarCompareChart :series="series" :categories="['一季度', '二季度', '三季度']" :colors="['#3fae66', '#c5cbd4']" />
+</template>
+```
+
+### 2.4 导出
+
+```vue demo:charts-dual-bar-export title="导出"
+<script setup lang="ts">
+import { AppDualBarCompareChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "目标", data: [100, 100, 100, 100] },
+  { name: "实际", data: [82, 96, 91, 108] },
+];
+</script>
+
+<template>
+  <AppDualBarCompareChart :series="series" :categories="['Q1', 'Q2', 'Q3', 'Q4']" exportable />
+</template>
+```
+
+### 2.5 隐藏提示
+
+```vue demo:charts-dual-bar-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppDualBarCompareChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "线上", data: [60, 75, 88] },
+  { name: "线下", data: [40, 52, 61] },
+];
+</script>
+
+<template>
+  <AppDualBarCompareChart :series="series" :categories="['华东', '华南', '华北']" :tooltip="false" />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-dual-bar-height title="图表高度"
+<script setup lang="ts">
+import { AppDualBarCompareChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "预算", data: [50, 60, 70, 80] },
+  { name: "支出", data: [45, 58, 66, 77] },
+];
+</script>
+
+<template>
+  <AppDualBarCompareChart :series="series" :categories="['1月', '2月', '3月', '4月']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 建议传入两个序列，更多序列会继续并列展示但可读性会下降。类别较多时启用 `zoomable`，由用户缩放查看范围。

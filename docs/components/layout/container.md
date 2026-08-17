@@ -58,6 +58,59 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 间距
+
+```vue demo:layout-container-gap title="间距"
+<script setup lang="ts">
+import { AppContainer, AppContainerHeader, AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainer direction="vertical" gap="small" bordered>
+    <AppContainerHeader><strong>头部</strong></AppContainerHeader>
+    <AppContainerMain><p>主体内容</p></AppContainerMain>
+  </AppContainer>
+</template>
+```
+
+### 2.4 边框容器
+
+```vue demo:layout-container-bordered title="边框容器"
+<script setup lang="ts">
+import { AppContainer, AppContainerHeader, AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppContainer bordered fill>
+    <AppContainerHeader size="small"><strong>面板</strong></AppContainerHeader>
+    <AppContainerMain><p>带边框与圆角的容器。</p></AppContainerMain>
+  </AppContainer>
+</template>
+```
+
+### 2.5 填满高度
+
+```vue demo:layout-container-fill title="填满高度"
+<script setup lang="ts">
+import { AppContainer, AppContainerMain } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <AppContainer fill bordered>
+      <AppContainerMain><p>容器高度填满父级。</p></AppContainerMain>
+    </AppContainer>
+  </div>
+</template>
+
+<style scoped>
+.box { height: 200px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

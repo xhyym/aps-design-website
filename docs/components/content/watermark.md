@@ -54,6 +54,63 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 透明度
+
+```vue demo:content-watermark-opacity title="透明度"
+<script setup lang="ts">
+import { AppWatermark } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppWatermark text="内部资料" :opacity="0.2">
+    <div class="box">敏感数据展示区</div>
+  </AppWatermark>
+</template>
+
+<style scoped>
+.box { height: 200px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--aps-border); }
+</style>
+```
+
+### 2.4 旋转角度
+
+```vue demo:content-watermark-rotate title="旋转角度"
+<script setup lang="ts">
+import { AppWatermark } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppWatermark text="机密" :rotate="30">
+    <div class="box">内容区域</div>
+  </AppWatermark>
+</template>
+
+<style scoped>
+.box { height: 200px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--aps-border); }
+</style>
+```
+
+### 2.5 自定义文案
+
+```vue demo:content-watermark-text title="自定义文案"
+<script setup lang="ts">
+import { AppWatermark } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppWatermark text="仅限内部使用 · 禁止外传">
+    <div class="box">员工信息表</div>
+  </AppWatermark>
+</template>
+
+<style scoped>
+.box { height: 200px; display: flex; align-items: center; justify-content: center; border: 1px dashed var(--aps-border); }
+</style>
+```
 ## 3. API 使用方式
 
 `text` 应包含可辨识的主体或访问范围。为局部水印设置 `fixed=false` 时，父容器必须建立定位上下文并处理自身溢出。

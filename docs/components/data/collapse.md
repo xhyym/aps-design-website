@@ -47,6 +47,129 @@ const items = [{ key: "shipping", title: "发货规则", content: "资料包将�
 <template><AppCollapse v-model="activeKey" accordion :items="items" /></template>
 ```
 
+
+### 2.3 外边框
+
+```vue demo:collapse-bordered title="外边框"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCollapse } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(["p1"]);
+const items = [
+  { key: "p1", title: "基础信息", content: "用于填写订单的基础信息。" },
+  { key: "p2", title: "配送信息", content: "收货地址与配送方式。" },
+];
+</script>
+
+<template>
+  <AppCollapse v-model="open" :items="items" bordered />
+</template>
+```
+
+### 2.4 自定义标题
+
+```vue demo:collapse-custom-title title="自定义标题"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCollapse, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(["a"]);
+const items = [
+  { key: "a", title: "账户安全", content: "管理登录密码与二次验证。" },
+  { key: "b", title: "通知偏好", content: "设置消息提醒方式。" },
+];
+</script>
+
+<template>
+  <AppCollapse v-model="open" :items="items">
+    <template #title="{ item }">
+      <span>{{ item.title }}</span>
+      <AppTag size="small" tone="green" style="margin-left: 8px">推荐</AppTag>
+    </template>
+  </AppCollapse>
+</template>
+```
+
+### 2.5 禁用面板
+
+```vue demo:collapse-disabled title="禁用面板"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCollapse } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(["ok"]);
+const items = [
+  { key: "ok", title: "可用面板", content: "该面板可以正常展开与收起。" },
+  { key: "no", title: "已锁定面板", content: "该面板不允许展开。", disabled: true },
+];
+</script>
+
+<template>
+  <AppCollapse v-model="open" :items="items" />
+</template>
+```
+
+### 2.6 受控展开
+
+```vue demo:collapse-controlled title="受控展开"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppCollapse } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref<string[]>([]);
+const items = [
+  { key: "one", title: "第一项", content: "受控模式下由页面维护展开状态。" },
+  { key: "two", title: "第二项", content: "可配合按钮统一展开或收起。" },
+];
+</script>
+
+<template>
+  <div>
+    <div class="bar">
+      <AppButton size="small" @click="open = ['one', 'two']">全部展开</AppButton>
+      <AppButton size="small" @click="open = []">全部收起</AppButton>
+    </div>
+    <AppCollapse v-model="open" :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.bar { display: flex; gap: 8px; margin-bottom: 12px; }
+</style>
+```
+
+### 2.7 自定义面板内容
+
+```vue demo:collapse-content-slot title="自定义面板内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppCollapse, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(["info"]);
+const items = [{ key: "info", title: "运行状态" }];
+</script>
+
+<template>
+  <AppCollapse v-model="open" :items="items">
+    <template #item-info>
+      <div class="status">
+        <AppTag tone="green">运行中</AppTag>
+        <span>CPU 占用 12%，内存 2.1G / 8G</span>
+      </div>
+    </template>
+  </AppCollapse>
+</template>
+
+<style scoped>
+.status { display: flex; gap: 12px; align-items: center; }
+</style>
+```
 ## 3. API 使用方式
 
 每项必须有稳定的 `key`。需要富内容时，使用名为 `item-${key}` 的插槽。

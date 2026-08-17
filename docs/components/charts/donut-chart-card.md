@@ -47,6 +47,60 @@ const series: ChartSeries[] = [{ name: "风险等级", data: [12, 63, 25] }];
 </template>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:charts-donut-card-description title="说明文字"
+<script setup lang="ts">
+import { AppDonutChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "已售", data: [560] },
+  { name: "在售", data: [240] },
+];
+</script>
+
+<template>
+  <AppDonutChartCard title="库存结构" description="已售与在售占比" :series="series" :categories="['已售', '在售']" />
+</template>
+```
+
+### 2.4 导出
+
+```vue demo:charts-donut-card-export title="导出"
+<script setup lang="ts">
+import { AppDonutChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "PC", data: [420] },
+  { name: "移动端", data: [680] },
+];
+</script>
+
+<template>
+  <AppDonutChartCard title="访问设备" :series="series" :categories="['PC', '移动端']" exportable />
+</template>
+```
+
+### 2.5 图表高度
+
+```vue demo:charts-donut-card-height title="图表高度"
+<script setup lang="ts">
+import { AppDonutChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "通过", data: [85] },
+  { name: "驳回", data: [15] },
+];
+</script>
+
+<template>
+  <AppDonutChartCard title="审批结果" :series="series" :categories="['通过', '驳回']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 用法与 `AppChartCard` 一致，类型固定为 `donut`。数值为零的整组数据会展示空状态，业务层应给出产生空状态的原因。

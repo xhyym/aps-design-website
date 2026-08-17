@@ -51,6 +51,114 @@ const items: TimelineItem[] = [
 <template><AppTimeline :items="items" mode="alternate" timestamp-placement="top" /></template>
 ```
 
+
+### 2.3 等待节点
+
+```vue demo:content-timeline-pending title="等待节点"
+<script setup lang="ts">
+import { AppTimeline } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", title: "需求评审", timestamp: "08-10" },
+  { key: "b", title: "开发中", timestamp: "08-12" },
+];
+</script>
+
+<template>
+  <AppTimeline :items="items" pending pending-text="等待测试排期" />
+</template>
+```
+
+### 2.4 反向展示
+
+```vue demo:content-timeline-reverse title="反向展示"
+<script setup lang="ts">
+import { AppTimeline } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", title: "第一步", timestamp: "08-01" },
+  { key: "b", title: "第二步", timestamp: "08-05" },
+  { key: "c", title: "第三步", timestamp: "08-09" },
+];
+</script>
+
+<template>
+  <AppTimeline :items="items" reverse />
+</template>
+```
+
+### 2.5 当前节点
+
+```vue demo:content-timeline-current title="当前节点"
+<script setup lang="ts">
+import { AppTimeline } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "step1", title: "创建订单", timestamp: "10:00" },
+  { key: "step2", title: "商家接单", timestamp: "10:05" },
+  { key: "step3", title: "配送中", timestamp: "10:20" },
+  { key: "step4", title: "已签收", timestamp: "" },
+];
+</script>
+
+<template>
+  <AppTimeline :items="items" current-key="step3" />
+</template>
+```
+
+### 2.6 自定义节点
+
+```vue demo:content-timeline-marker title="自定义节点"
+<script setup lang="ts">
+import { AppTimeline, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "m1", title: "发布成功", description: "v0.3.1 已生效", timestamp: "10:30", tone: "green" as const },
+  { key: "m2", title: "收到反馈", description: "共 12 条", timestamp: "11:00", tone: "blue" as const },
+];
+</script>
+
+<template>
+  <AppTimeline :items="items">
+    <template #marker="{ item }">
+      <AppTag size="small" :tone="item.tone">{{ item.key === "m1" ? "✓" : "i" }}</AppTag>
+    </template>
+  </AppTimeline>
+</template>
+```
+
+### 2.7 自定义内容
+
+```vue demo:content-timeline-item-slot title="自定义内容"
+<script setup lang="ts">
+import { AppTimeline, AppTag } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "d1", title: "订单 #1001", description: "待支付", timestamp: "09:40", tone: "orange" as const },
+  { key: "d2", title: "订单 #1002", description: "已发货", timestamp: "10:02", tone: "green" as const },
+];
+</script>
+
+<template>
+  <AppTimeline :items="items">
+    <template #item="{ item }">
+      <div class="row">
+        <strong>{{ item.title }}</strong>
+        <AppTag size="small" :tone="item.tone">{{ item.description }}</AppTag>
+      </div>
+    </template>
+  </AppTimeline>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 8px; align-items: center; }
+</style>
+```
 ## 3. API 使用方式
 
 每一项必须提供稳定 `key` 和 `title`。`state` 会决定默认节点颜色和图标；也可以用 `tone` 或 `marker` 插槽覆盖视觉表现，不必在业务数据中存储展示色。

@@ -43,6 +43,67 @@ const items = [{ key: "publish", label: "本周上架", value: 6 }, { key: "draf
 <template><AppDataListCard title="内容运营" description="最近 7 天" :items="items"><template #actions><AppButton size="small" variant="text">查看报表</AppButton></template></AppDataListCard></template>
 ```
 
+
+### 2.3 补充说明
+
+```vue demo:data-list-card-description title="补充说明"
+<script setup lang="ts">
+import { AppDataListCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "name", label: "项目名称", value: "APS 设计系统" },
+  { key: "version", label: "当前版本", value: "0.3.1" },
+  { key: "status", label: "状态", value: "已发布" },
+];
+</script>
+
+<template>
+  <AppDataListCard title="项目概览" description="用于对内对外展示的项目基础信息" :items="items" />
+</template>
+```
+
+### 2.4 详情说明
+
+```vue demo:data-list-card-detail title="详情说明"
+<script setup lang="ts">
+import { AppDataListCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "sku", label: "SKU", value: "SKU-88321", detail: "唯一库存编码" },
+  { key: "stock", label: "库存", value: 128, detail: "可用 + 在途" },
+  { key: "price", label: "售价", value: "¥ 199.00", detail: "含税" },
+];
+</script>
+
+<template>
+  <AppDataListCard title="商品信息" :items="items" />
+</template>
+```
+
+### 2.5 自定义操作
+
+```vue demo:data-list-card-custom-actions title="自定义操作"
+<script setup lang="ts">
+import { AppButton, AppDataListCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "owner", label: "负责人", value: "张伟" },
+  { key: "members", label: "成员数", value: 12 },
+  { key: "created", label: "创建时间", value: "2026-07-01" },
+];
+</script>
+
+<template>
+  <AppDataListCard title="团队信息" :items="items">
+    <template #actions>
+      <AppButton size="small" variant="text">查看成员</AppButton>
+    </template>
+  </AppDataListCard>
+</template>
+```
 ## 3. API 使用方式
 
 传入带稳定 `key` 的展示数据。超过一屏或需要排序、筛选时，应改用表格而不是持续堆叠卡片项。

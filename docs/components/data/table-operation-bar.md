@@ -45,6 +45,86 @@ const isFullscreen = ref(false);
 <template><AppTableOperationBar v-model:fullscreen="isFullscreen" show-print show-fullscreen show-refresh show-more><template #export><AppExcelExport title="导出订单" /></template></AppTableOperationBar></template>
 ```
 
+
+### 2.3 全屏
+
+```vue demo:table-operation-bar-fullscreen title="全屏"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableOperationBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const full = ref(false);
+</script>
+
+<template>
+  <AppTableOperationBar v-model:fullscreen="full" show-fullscreen />
+</template>
+```
+
+### 2.4 打印
+
+```vue demo:table-operation-bar-print title="打印"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableOperationBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const full = ref(false);
+const onPrint = () => {
+  window.print();
+};
+</script>
+
+<template>
+  <AppTableOperationBar v-model:fullscreen="full" show-print show-fullscreen @print="onPrint" />
+</template>
+```
+
+### 2.5 刷新
+
+```vue demo:table-operation-bar-refresh title="刷新"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableOperationBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const full = ref(false);
+const refreshing = ref(false);
+const onRefresh = async () => {
+  refreshing.value = true;
+  await new Promise((r) => setTimeout(r, 1000));
+  refreshing.value = false;
+};
+</script>
+
+<template>
+  <AppTableOperationBar v-model:fullscreen="full" show-refresh :refresh-disabled="refreshing" @refresh="onRefresh" />
+</template>
+```
+
+### 2.6 插槽扩展
+
+```vue demo:table-operation-bar-slots title="插槽扩展"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTableOperationBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const full = ref(false);
+</script>
+
+<template>
+  <AppTableOperationBar v-model:fullscreen="full" show-refresh show-more>
+    <template #before>
+      <AppButton size="small">左侧操作</AppButton>
+    </template>
+    <template #after>
+      <AppButton size="small">右侧操作</AppButton>
+    </template>
+  </AppTableOperationBar>
+</template>
+```
 ## 3. API 使用方式
 
 操作栏通常放在工具栏右侧。插槽遵循筛选、视图、设置、导出、前置、后置的固定顺序，便于用户形成操作记忆。

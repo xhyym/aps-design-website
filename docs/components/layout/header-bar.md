@@ -56,6 +56,47 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 副标题
+
+```vue demo:layout-header-bar-subtitle title="副标题"
+<script setup lang="ts">
+import { AppHeaderBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppHeaderBar title="订单中心" subtitle="查看与管理全部订单" />
+</template>
+```
+
+### 2.4 右侧操作
+
+```vue demo:layout-header-bar-default title="右侧操作"
+<script setup lang="ts">
+import { AppButton, AppHeaderBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppHeaderBar title="项目列表">
+    <AppButton size="small">新建项目</AppButton>
+  </AppHeaderBar>
+</template>
+```
+
+### 2.5 自定义标题
+
+```vue demo:layout-header-bar-title title="自定义标题"
+<script setup lang="ts">
+import { AppHeaderBar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppHeaderBar title="数据报表" subtitle="按日聚合的访问统计" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

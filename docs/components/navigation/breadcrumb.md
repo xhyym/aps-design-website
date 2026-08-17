@@ -62,6 +62,118 @@ const items = [{ label: "数据资产中心", href: "/data" }, { label: "指标�
 
 路径空间不足时文字会在自身范围内省略，保持最后一个当前页的层级辨识度。
 
+
+### 2.3 可点击链接
+
+```vue demo:nav-breadcrumb-links title="可点击链接"
+<script setup lang="ts">
+import { AppBreadcrumb } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { label: "工作台", href: "/workbench" },
+  { label: "订单", href: "/orders" },
+  { label: "详情" },
+];
+</script>
+
+<template>
+  <AppBreadcrumb :items="items" />
+</template>
+```
+
+### 2.4 多级面包屑
+
+```vue demo:nav-breadcrumb-many title="多级面包屑"
+<script setup lang="ts">
+import { AppBreadcrumb } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { label: "商城", href: "/shop" },
+  { label: "服饰", href: "/shop/clothes" },
+  { label: "男装", href: "/shop/clothes/men" },
+  { label: "外套", href: "/shop/clothes/men/coat" },
+  { label: "当前商品" },
+];
+</script>
+
+<template>
+  <AppBreadcrumb :items="items" />
+</template>
+```
+
+### 2.5 监听跳转
+
+```vue demo:nav-breadcrumb-navigate title="监听跳转"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppBreadcrumb } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const last = ref("");
+const items = [
+  { label: "首页", href: "/home" },
+  { label: "列表", href: "/list" },
+  { label: "当前" },
+];
+</script>
+
+<template>
+  <div>
+    <AppBreadcrumb :items="items" @navigate="(href: string) => (last = href)" />
+    <p class="hint">最近点击：{{ last || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 末级无链接
+
+```vue demo:nav-breadcrumb-last title="末级无链接"
+<script setup lang="ts">
+import { AppBreadcrumb } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { label: "系统", href: "/system" },
+  { label: "权限", href: "/system/permission" },
+  { label: "角色配置" },
+];
+</script>
+
+<template>
+  <AppBreadcrumb :items="items" />
+</template>
+```
+
+### 2.7 自定义样式
+
+```vue demo:nav-breadcrumb-styled title="自定义样式"
+<script setup lang="ts">
+import { AppBreadcrumb } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { label: "项目", href: "/project" },
+  { label: "迭代", href: "/project/sprint" },
+  { label: "看板" },
+];
+</script>
+
+<template>
+  <div class="wrap">
+    <AppBreadcrumb :items="items" />
+  </div>
+</template>
+
+<style scoped>
+.wrap { padding: 8px 12px; border-radius: 8px; background: var(--aps-surface-soft); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

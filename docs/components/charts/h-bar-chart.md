@@ -46,6 +46,66 @@ const series: ChartSeries[] = [
 <template><AppHBarChart :series="series" :categories="['企业版', '专业版', '基础版']" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-h-bar-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppHBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "满意度", data: [92, 85, 78, 95] }];
+</script>
+
+<template>
+  <AppHBarChart :series="series" :categories="['客服', '物流', '售后', '产品']" :colors="['#3fae66']" />
+</template>
+```
+
+### 2.4 导出
+
+```vue demo:charts-h-bar-export title="导出"
+<script setup lang="ts">
+import { AppHBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "耗时（天）", data: [12, 9, 16, 8] }];
+</script>
+
+<template>
+  <AppHBarChart :series="series" :categories="['需求评审', '开发', '测试', '上线']" exportable />
+</template>
+```
+
+### 2.5 隐藏提示
+
+```vue demo:charts-h-bar-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppHBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "人数", data: [28, 42, 35, 51] }];
+</script>
+
+<template>
+  <AppHBarChart :series="series" :categories="['前端', '后端', '测试', '设计']" :tooltip="false" />
+</template>
+```
+
+### 2.6 图表高度
+
+```vue demo:charts-h-bar-height title="图表高度"
+<script setup lang="ts">
+import { AppHBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "库存", data: [320, 210, 450, 180] }];
+</script>
+
+<template>
+  <AppHBarChart :series="series" :categories="['华东仓', '华南仓', '华北仓', '西南仓']" :height="300" />
+</template>
+```
 ## 3. API 使用方式
 
 输入结构与 `AppBarChart` 相同。优先保证每一项类别标签可读，不要因为横向空间较大就传入过长的完整业务描述。

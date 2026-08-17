@@ -67,6 +67,97 @@ function removeView(viewId: string): void {
 <template><AppTableViewSelector v-model="activeViewId" :views="views" @create="createView" @rename="renameView" @remove="removeView" /></template>
 ```
 
+
+### 2.3 加载状态
+
+```vue demo:table-view-selector-loading title="加载状态"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableViewSelector, type TableView } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const view = ref("default");
+const views: TableView[] = [
+  { id: "default", name: "默认视图", kind: "default", createdAt: 0, updatedAt: 0 },
+  { id: "v1", name: "我的视图", kind: "custom", createdAt: Date.now(), updatedAt: Date.now() },
+];
+</script>
+
+<template>
+  <AppTableViewSelector v-model="view" :views="views" loading />
+</template>
+```
+
+### 2.4 新建视图
+
+```vue demo:table-view-selector-create title="新建视图"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableViewSelector, type TableView } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const view = ref("default");
+const views = ref<TableView[]>([
+  { id: "default", name: "默认视图", kind: "default", createdAt: 0, updatedAt: 0 },
+]);
+const onCreate = (name: string) => {
+  views.value.push({ id: "v" + views.value.length, name, kind: "custom", createdAt: Date.now(), updatedAt: Date.now() });
+  view.value = "v" + (views.value.length - 1);
+};
+</script>
+
+<template>
+  <AppTableViewSelector v-model="view" :views="views" @create="onCreate" />
+</template>
+```
+
+### 2.5 重命名与删除
+
+```vue demo:table-view-selector-rename title="重命名与删除"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableViewSelector, type TableView } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const view = ref("default");
+const views = ref<TableView[]>([
+  { id: "default", name: "默认视图", kind: "default", createdAt: 0, updatedAt: 0 },
+  { id: "mine", name: "我的筛选", kind: "custom", createdAt: Date.now(), updatedAt: Date.now() },
+]);
+const onRename = (id: string, name: string) => {
+  const t = views.value.find((x) => x.id === id);
+  if (t) t.name = name;
+};
+const onRemove = (id: string) => {
+  views.value = views.value.filter((x) => x.id !== id);
+  if (view.value === id) view.value = "default";
+};
+</script>
+
+<template>
+  <AppTableViewSelector v-model="view" :views="views" @rename="onRename" @remove="onRemove" />
+</template>
+```
+
+### 2.6 错误提示
+
+```vue demo:table-view-selector-error title="错误提示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableViewSelector, type TableView } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const view = ref("default");
+const views: TableView[] = [
+  { id: "default", name: "默认视图", kind: "default", createdAt: 0, updatedAt: 0 },
+];
+const error = ref("视图名称已存在");
+</script>
+
+<template>
+  <AppTableViewSelector v-model="view" :views="views" :error="error" />
+</template>
+```
 ## 3. API 使用方式
 
 将命名视图和当前视图 ID 保存在业务页面。视图切换时加载对应的列偏好，新增、改名和删除事件则接入自己的视图仓库。

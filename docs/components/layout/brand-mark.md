@@ -62,6 +62,67 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 小尺寸
+
+```vue demo:layout-brand-mark-small title="小尺寸"
+<script setup lang="ts">
+import { AppBrandMark } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppBrandMark size="small" />
+    <AppBrandMark size="default" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; align-items: center; }
+</style>
+```
+
+### 2.4 大尺寸展示
+
+```vue demo:layout-brand-mark-hero title="大尺寸展示"
+<script setup lang="ts">
+import { AppBrandMark } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppBrandMark size="large" />
+    <AppBrandMark size="hero" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 24px; align-items: center; }
+</style>
+```
+
+### 2.5 组合展示
+
+```vue demo:layout-brand-mark-custom title="组合展示"
+<script setup lang="ts">
+import { AppBrandMark, AppLogo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppBrandMark size="small" />
+    <AppBrandMark size="small" tone="mono" />
+    <AppLogo label="APS Design" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; align-items: center; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -65,6 +65,93 @@ function submitForm(): void {
 </template>
 ```
 
+
+### 2.3 局部加载
+
+```vue demo:loading-local title="局部加载"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppLoading } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const loading = ref(true);
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="loading = !loading">{{ loading ? "隐藏" : "显示" }}遮罩</AppButton>
+    <div class="box">
+      <AppLoading :loading="loading" text="正在处理…">
+        <p>被遮罩的内容区域</p>
+        <p>模拟业务数据展示</p>
+      </AppLoading>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.box { height: 180px; border: 1px solid var(--aps-border); border-radius: 8px; margin-top: 10px; padding: 16px; position: relative; }
+</style>
+```
+
+### 2.4 自定义文案
+
+```vue demo:loading-text title="自定义文案"
+<script setup lang="ts">
+import { AppLoading } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <AppLoading :loading="true" text="正在提交申请…">
+      <p>表单内容</p>
+    </AppLoading>
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; padding: 16px; position: relative; }
+</style>
+```
+
+### 2.5 图标尺寸
+
+```vue demo:loading-spinner-size title="图标尺寸"
+<script setup lang="ts">
+import { AppLoading } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <AppLoading :loading="true" :spinner-size="40" text="大尺寸加载图标" />
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; padding: 16px; position: relative; }
+</style>
+```
+
+### 2.6 自定义背景
+
+```vue demo:loading-background title="自定义背景"
+<script setup lang="ts">
+import { AppLoading } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="box">
+    <AppLoading :loading="true" background="rgba(255, 255, 255, 0.92)" text="内容刷新中" />
+  </div>
+</template>
+
+<style scoped>
+.box { height: 160px; border: 1px solid var(--aps-border); border-radius: 8px; padding: 16px; position: relative; }
+</style>
+```
 ## 3. API 使用方式
 
 加载状态完全由父级请求生命周期控制。局部模式需要将内容放进默认插槽；全屏模式可单独挂载。

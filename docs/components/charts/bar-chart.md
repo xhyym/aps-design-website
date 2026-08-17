@@ -46,6 +46,85 @@ const series: ChartSeries[] = [
 <template><AppBarChart :series="series" :categories="['一季度', '二季度', '三季度', '四季度']" :colors="['#0071e3', '#35a16b']" /></template>
 ```
 
+
+### 2.3 自定义颜色
+
+```vue demo:charts-bar-colors title="自定义颜色"
+<script setup lang="ts">
+import { AppBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "本月", data: [86, 122, 98, 146, 168] },
+  { name: "上月", data: [70, 98, 110, 120, 130] },
+];
+</script>
+
+<template>
+  <AppBarChart :series="series" :categories="['华东', '华南', '华北', '西南', '西北']" :colors="['#e65c41', '#3d8bfd']" />
+</template>
+```
+
+### 2.4 导出 SVG
+
+```vue demo:charts-bar-export title="导出 SVG"
+<script setup lang="ts">
+import { AppBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "访问量", data: [320, 480, 410, 560, 620] }];
+</script>
+
+<template>
+  <AppBarChart :series="series" :categories="['周一', '周二', '周三', '周四', '周五']" exportable export-file-name="访问量柱状图.svg" />
+</template>
+```
+
+### 2.5 缩放窗口
+
+```vue demo:charts-bar-zoom title="缩放窗口"
+<script setup lang="ts">
+import { AppBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "日活", data: [200, 240, 310, 280, 360, 420, 390, 450, 480, 520, 500, 610] }];
+const cats = Array.from({ length: 12 }, (_, i) => (i + 1) + "月");
+</script>
+
+<template>
+  <AppBarChart :series="series" :categories="cats" zoomable />
+</template>
+```
+
+### 2.6 隐藏提示
+
+```vue demo:charts-bar-tooltip-off title="隐藏提示"
+<script setup lang="ts">
+import { AppBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "销量", data: [44, 72, 58, 90, 66] }];
+</script>
+
+<template>
+  <AppBarChart :series="series" :categories="['A', 'B', 'C', 'D', 'E']" :tooltip="false" />
+</template>
+```
+
+### 2.7 空数据
+
+```vue demo:charts-bar-empty title="空数据"
+<script setup lang="ts">
+import { AppBarChart, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [];
+</script>
+
+<template>
+  <AppBarChart :series="series" empty-text="暂无销售数据" />
+</template>
+```
 ## 3. API 使用方式
 
 `series[i].data[j]` 与 `categories[j]` 对应。若类别名称很长，优先在业务层提供短名称并在表格或详情中保留全称。

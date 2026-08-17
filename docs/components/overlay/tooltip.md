@@ -41,6 +41,87 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 方向
+
+```vue demo:overlay-tooltip-placement title="方向"
+<script setup lang="ts">
+import { AppTooltip } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTooltip text="上方提示" placement="top"><span>上</span></AppTooltip>
+    <AppTooltip text="下方提示" placement="bottom"><span>下</span></AppTooltip>
+    <AppTooltip text="左侧提示" placement="left"><span>左</span></AppTooltip>
+    <AppTooltip text="右侧提示" placement="right"><span>右</span></AppTooltip>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 32px; }
+</style>
+```
+
+### 2.4 延迟
+
+```vue demo:overlay-tooltip-delay title="延迟"
+<script setup lang="ts">
+import { AppTooltip } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppTooltip text="800ms 后显示" :show-after="800"><span>慢显示</span></AppTooltip>
+    <AppTooltip text="立即显示" :hide-after="2000"><span>持久显示</span></AppTooltip>
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 32px; }
+</style>
+```
+
+### 2.5 禁用提示
+
+```vue demo:overlay-tooltip-disabled title="禁用提示"
+<script setup lang="ts">
+import { AppTooltip } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppTooltip text="不会显示" disabled>
+    <span>悬停无提示</span>
+  </AppTooltip>
+</template>
+```
+
+### 2.6 受控显示
+
+```vue demo:overlay-tooltip-controlled title="受控显示"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTooltip } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(false);
+</script>
+
+<template>
+  <div class="row">
+    <AppTooltip v-model="show" text="受控提示内容" trigger="click">
+      <AppButton size="small" @click="show = !show">{{ show ? "隐藏" : "显示" }}提示</AppButton>
+    </AppTooltip>
+  </div>
+</template>
+
+<style scoped>
+.row { padding: 20px 0; }
+</style>
+```
 ## 3. API 使用方式
 
 把按钮、图标或文本放进默认插槽。需要由外部控制时传入布尔 `modelValue` 并设置 `trigger="manual"`；显示变化会通过 `visibleChange` 通知业务层。

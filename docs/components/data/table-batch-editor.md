@@ -61,6 +61,94 @@ const fields: DataTableBatchEditField<MemberRow>[] = [
 <template><AppTableBatchEditor :selected-keys="[]" :fields="fields" button-text="批量调整角色" /></template>
 ```
 
+
+### 2.3 保存请求
+
+```vue demo:table-batch-editor-request title="保存请求"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableBatchEditor, type DataTableBatchEditField, type TableRowKey } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const selected = ref<TableRowKey[]>(["r1", "r2"]);
+interface Row { status: string; }
+const fields: DataTableBatchEditField<Row>[] = [
+  { key: "status", label: "状态", editor: { type: "select" as const, options: [{ label: "启用", value: "enabled" }, { label: "停用", value: "disabled" }] } },
+];
+const request = async (payload: unknown) => {
+  console.log("batch save", payload);
+  await new Promise((r) => setTimeout(r, 800));
+};
+</script>
+
+<template>
+  <AppTableBatchEditor v-model:selected-keys="selected" :fields="fields" :request="request" />
+</template>
+```
+
+### 2.4 提交事件
+
+```vue demo:table-batch-editor-submit title="提交事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableBatchEditor, type DataTableBatchEditField, type TableRowKey } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const selected = ref<TableRowKey[]>(["a"]);
+interface Row { owner: string; }
+const fields: DataTableBatchEditField<Row>[] = [
+  { key: "owner", label: "负责人", editor: { type: "text" as const } },
+];
+const onSubmit = (payload: unknown) => {
+  console.log("submit", payload);
+};
+</script>
+
+<template>
+  <AppTableBatchEditor v-model:selected-keys="selected" :fields="fields" @submit="onSubmit" />
+</template>
+```
+
+### 2.5 多字段编辑
+
+```vue demo:table-batch-editor-fields title="多字段编辑"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableBatchEditor, type DataTableBatchEditField, type TableRowKey } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const selected = ref<TableRowKey[]>(["1", "2", "3"]);
+interface Row { price: number; category: string; }
+const fields: DataTableBatchEditField<Row>[] = [
+  { key: "price", label: "调整价格", editor: { type: "number" as const, min: 0, step: 10 } },
+  { key: "category", label: "调整分类", editor: { type: "select" as const, options: [{ label: "数码", value: "digital" }, { label: "家居", value: "home" }] } },
+];
+</script>
+
+<template>
+  <AppTableBatchEditor v-model:selected-keys="selected" :fields="fields" button-text="批量调整" />
+</template>
+```
+
+### 2.6 自定义按钮文案
+
+```vue demo:table-batch-editor-custom-button title="自定义按钮文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppTableBatchEditor, type DataTableBatchEditField, type TableRowKey } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const selected = ref<TableRowKey[]>([]);
+interface Row { level: string; }
+const fields: DataTableBatchEditField<Row>[] = [
+  { key: "level", label: "等级", editor: { type: "select" as const, options: [{ label: "普通", value: "normal" }, { label: "会员", value: "vip" }] } },
+];
+</script>
+
+<template>
+  <AppTableBatchEditor v-model:selected-keys="selected" :fields="fields" button-text="批量设置等级" aria-label="批量设置所选记录的等级" />
+</template>
+```
 ## 3. API 使用方式
 
 把表格的 `selectedKeys` 直接传入，并注入一次原子化的批量请求。后端应校验行权限和字段可编辑性。

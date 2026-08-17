@@ -69,6 +69,89 @@ function send(content: string): void {
 </template>
 ```
 
+
+### 2.3 发送消息
+
+```vue demo:content-chat-window-send title="发送消息"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppChatWindow, type ChatMessage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const messages = ref<ChatMessage[]>([
+  { id: "m1", role: "assistant", content: "你好，我是智能助手，有什么可以帮你？" },
+]);
+const onSend = (content: string) => {
+  messages.value.push({ id: "u" + Date.now(), role: "user", content });
+  setTimeout(() => {
+    messages.value.push({ id: "a" + Date.now(), role: "assistant", content: "收到：" + content });
+  }, 600);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开助手</AppButton>
+    <AppChatWindow v-model="open" v-model:messages="messages" @send="onSend" />
+  </div>
+</template>
+```
+
+### 2.4 自定义标题
+
+```vue demo:content-chat-window-title title="自定义标题"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppChatWindow, type ChatMessage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const messages = ref<ChatMessage[]>([
+  { id: "1", role: "assistant", content: "这里是售后客服入口。" },
+]);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">联系客服</AppButton>
+    <AppChatWindow v-model="open" :messages="messages" title="在线客服" placeholder="描述你的问题…" />
+  </div>
+</template>
+```
+
+### 2.5 受控展示
+
+```vue demo:content-chat-window-controlled title="受控展示"
+<script setup lang="ts">
+import { AppChatWindow, type ChatMessage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const messages: ChatMessage[] = [
+  { id: "1", role: "user", content: "订单多久发货？" },
+  { id: "2", role: "assistant", content: "通常 24 小时内发出。" },
+];
+</script>
+
+<template>
+  <AppChatWindow :model-value="true" :messages="messages" />
+</template>
+```
+
+### 2.6 占位文案
+
+```vue demo:content-chat-window-placeholder title="占位文案"
+<script setup lang="ts">
+import { AppChatWindow, type ChatMessage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const messages: ChatMessage[] = [];
+</script>
+
+<template>
+  <AppChatWindow :model-value="true" :messages="messages" placeholder="输入问题，例如：如何退款？" />
+</template>
+```
 ## 3. API 使用方式
 
 `ChatMessage` 的 `role` 只接受 `"user"` 或 `"assistant"`。在 `loading` 期间输入框会禁用，避免同一轮请求被重复提交。

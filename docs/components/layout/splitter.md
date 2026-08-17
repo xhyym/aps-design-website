@@ -85,6 +85,130 @@ const panelCollapsed = ref(false);
 
 分隔条中部会显示收起或展开控制块。向左（垂直分栏时向上）拖动到边缘也会收起；展开时恢复收起前的比例。键盘可使用 `Home` 收起、朝展开方向的方向键恢复。
 
+
+### 2.4 比例范围
+
+```vue demo:layout-splitter-min-max title="比例范围"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSplitter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const ratio = ref(40);
+</script>
+
+<template>
+  <AppSplitter v-model="ratio" :min="30" :max="70">
+    <template #first><div class="pane">第一面板（30% - 70%）</div></template>
+    <template #second><div class="pane">第二面板</div></template>
+  </AppSplitter>
+</template>
+
+<style scoped>
+.pane { height: 160px; display: flex; align-items: center; justify-content: center; }
+</style>
+```
+
+### 2.5 可收起
+
+```vue demo:layout-splitter-collapsible title="可收起"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSplitter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const ratio = ref(50);
+const collapsed = ref(false);
+</script>
+
+<template>
+  <AppSplitter v-model="ratio" v-model:collapsed="collapsed" collapsible>
+    <template #first><div class="pane">可收起的第一面板</div></template>
+    <template #second><div class="pane">第二面板</div></template>
+  </AppSplitter>
+</template>
+
+<style scoped>
+.pane { height: 160px; display: flex; align-items: center; justify-content: center; }
+</style>
+```
+
+### 2.6 受控比例
+
+```vue demo:layout-splitter-controlled title="受控比例"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppSplitter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const ratio = ref(50);
+</script>
+
+<template>
+  <div>
+    <div class="bar">
+      <AppButton size="small" @click="ratio = 30">30%</AppButton>
+      <AppButton size="small" @click="ratio = 50">50%</AppButton>
+      <AppButton size="small" @click="ratio = 70">70%</AppButton>
+    </div>
+    <AppSplitter v-model="ratio">
+      <template #first><div class="pane">第一面板 {{ ratio }}%</div></template>
+      <template #second><div class="pane">第二面板</div></template>
+    </AppSplitter>
+  </div>
+</template>
+
+<style scoped>
+.bar { display: flex; gap: 8px; margin-bottom: 10px; }
+.pane { height: 140px; display: flex; align-items: center; justify-content: center; }
+</style>
+```
+
+### 2.7 禁用
+
+```vue demo:layout-splitter-disabled title="禁用"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSplitter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const ratio = ref(40);
+</script>
+
+<template>
+  <AppSplitter v-model="ratio" disabled>
+    <template #first><div class="pane">不可拖动的面板</div></template>
+    <template #second><div class="pane">第二面板</div></template>
+  </AppSplitter>
+</template>
+
+<style scoped>
+.pane { height: 140px; display: flex; align-items: center; justify-content: center; }
+</style>
+```
+
+### 2.8 键盘步长
+
+```vue demo:layout-splitter-step title="键盘步长"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppSplitter } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const ratio = ref(50);
+</script>
+
+<template>
+  <AppSplitter v-model="ratio" :step="5">
+    <template #first><div class="pane">聚焦分隔条，用方向键调整</div></template>
+    <template #second><div class="pane">每次 5%</div></template>
+  </AppSplitter>
+</template>
+
+<style scoped>
+.pane { height: 140px; display: flex; align-items: center; justify-content: center; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

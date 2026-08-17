@@ -76,6 +76,124 @@ const columns: DataTableColumn<OrderRow>[] = [
 <template><AppDataTable v-model:selected-keys="selectedKeys" :rows="rows" :columns="columns" row-key="id" selectable show-index striped show-column-dividers aria-label="可选择的订单列表" /></template>
 ```
 
+
+### 2.3 加载状态
+
+```vue demo:data-table-loading title="加载状态"
+<script setup lang="ts">
+import { AppDataTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; sales: number; }
+const rows: Row[] = [
+  { id: 1, name: "华东大区", sales: 3200 },
+  { id: 2, name: "华南大区", sales: 2100 },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "大区" },
+  { key: "sales", label: "销售额", align: "right" },
+];
+</script>
+
+<template><AppDataTable :rows="rows" :columns="columns" row-key="id" loading /></template>
+```
+
+### 2.4 列排序
+
+```vue demo:data-table-sort title="列排序"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppDataTable, type DataTableColumn, type DataTableSort } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; score: number; }
+const rows: Row[] = [
+  { id: 1, name: "王芳", score: 92 },
+  { id: 2, name: "李强", score: 87 },
+  { id: 3, name: "赵敏", score: 95 },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "姓名" },
+  { key: "score", label: "得分", sortable: true, align: "right" },
+];
+const sort = ref<DataTableSort | null>(null);
+</script>
+
+<template>
+  <AppDataTable v-model:sort="sort" :rows="rows" :columns="columns" row-key="id" />
+</template>
+```
+
+### 2.5 操作列
+
+```vue demo:data-table-actions title="操作列"
+<script setup lang="ts">
+import { AppButton, AppDataTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; status: string; }
+const rows: Row[] = [
+  { id: 1, name: "服务器 A", status: "运行中" },
+  { id: 2, name: "服务器 B", status: "已停止" },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "实例" },
+  { key: "status", label: "状态" },
+];
+</script>
+
+<template>
+  <AppDataTable :rows="rows" :columns="columns" row-key="id" action-label="操作">
+    <template #actions="{ row }">
+      <AppButton size="small" variant="text" @click="row.status = '运行中'">启动</AppButton>
+      <AppButton size="small" variant="text" tone="danger" @click="row.status = '已停止'">停止</AppButton>
+    </template>
+  </AppDataTable>
+</template>
+```
+
+### 2.6 边框与斑马纹
+
+```vue demo:data-table-bordered title="边框与斑马纹"
+<script setup lang="ts">
+import { AppDataTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; city: string; orders: number; }
+const rows: Row[] = [
+  { id: 1, city: "上海", orders: 1280 },
+  { id: 2, city: "北京", orders: 1102 },
+  { id: 3, city: "深圳", orders: 986 },
+];
+const columns: DataTableColumn<Row>[] = [
+  { key: "city", label: "城市" },
+  { key: "orders", label: "订单数", align: "right" },
+];
+</script>
+
+<template>
+  <AppDataTable :rows="rows" :columns="columns" row-key="id" bordered striped show-column-dividers />
+</template>
+```
+
+### 2.7 空数据
+
+```vue demo:data-table-empty title="空数据"
+<script setup lang="ts">
+import { AppDataTable, type DataTableColumn } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+interface Row { id: number; name: string; }
+const rows: Row[] = [];
+const columns: DataTableColumn<Row>[] = [
+  { key: "name", label: "名称" },
+];
+</script>
+
+<template>
+  <AppDataTable :rows="rows" :columns="columns" row-key="id" empty-title="暂无数据" empty-description="调整筛选条件后再试" />
+</template>
+```
 ## 3. API 使用方式
 
 将表格交互状态定义在业务页面；当 `sort-change`、选择或列宽变化时，按业务需要更新请求参数或持久化偏好。

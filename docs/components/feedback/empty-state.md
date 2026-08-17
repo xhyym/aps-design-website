@@ -49,6 +49,45 @@ function createCourse(): void {
 </template>
 ```
 
+
+### 2.3 自定义图标
+
+```vue demo:empty-state-icon title="自定义图标"
+<script setup lang="ts">
+import { AppEmptyState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppEmptyState title="暂无订单" description="下单后会在这里展示" icon="chart" />
+</template>
+```
+
+### 2.4 说明文字
+
+```vue demo:empty-state-description title="说明文字"
+<script setup lang="ts">
+import { AppEmptyState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppEmptyState title="搜索无结果" description="换个关键词试试，或调整筛选条件。" />
+</template>
+```
+
+### 2.5 自定义操作
+
+```vue demo:empty-state-custom-action title="自定义操作"
+<script setup lang="ts">
+import { AppEmptyState } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppEmptyState title="还没有成员" description="邀请成员加入你的团队" action-text="邀请成员" @action="console.log('invite')" />
+</template>
+```
 ## 3. API 使用方式
 
 空状态由父级数据条件控制；当列表为空且不处于加载态时才显示。

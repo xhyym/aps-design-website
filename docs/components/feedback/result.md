@@ -50,6 +50,58 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 错误状态
+
+```vue demo:result-error title="错误状态"
+<script setup lang="ts">
+import { AppResult } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResult status="error" title="支付失败" description="余额不足或卡片被拒绝" action-text="重新支付" />
+</template>
+```
+
+### 2.4 警告状态
+
+```vue demo:result-warning title="警告状态"
+<script setup lang="ts">
+import { AppResult } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResult status="warning" title="待确认" description="请确认以下信息后再继续" />
+</template>
+```
+
+### 2.5 信息状态
+
+```vue demo:result-info title="信息状态"
+<script setup lang="ts">
+import { AppResult } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResult status="info" title="处理中" description="任务正在后台执行，请稍候查看结果" />
+</template>
+```
+
+### 2.6 自定义文案
+
+```vue demo:result-custom-text title="自定义文案"
+<script setup lang="ts">
+import { AppResult } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResult status="success" title="资料已更新" description="你的个人信息已经保存成功" action-text="返回个人中心" />
+</template>
+```
 ## 3. API 使用方式
 
 默认操作适合单一路径；有多个决策时通过 `actions` 插槽放置完整按钮组。

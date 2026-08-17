@@ -83,6 +83,194 @@ const items = [
 
 禁用项仍会显示在目录中，但不会触发定位或参与当前章节计算，用于告知尚未开放的内容。
 
+
+### 2.3 自定义偏移量
+
+```vue demo:nav-anchor-offset title="自定义偏移量"
+<script setup lang="ts">
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", label: "概览", targetId: "sec-a" },
+  { key: "b", label: "配置", targetId: "sec-b" },
+  { key: "c", label: "高级", targetId: "sec-c" },
+];
+</script>
+
+<template>
+  <div class="layout">
+    <AppAnchor :items="items" :offset="80" />
+    <div class="content">
+      <section id="sec-a"><h4>概览</h4><p v-for="i in 4" :key="i">概览内容 {{ i }}。</p></section>
+      <section id="sec-b"><h4>配置</h4><p v-for="i in 4" :key="i">配置内容 {{ i }}。</p></section>
+      <section id="sec-c"><h4>高级</h4><p v-for="i in 4" :key="i">高级内容 {{ i }}。</p></section>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.layout { display: flex; gap: 24px; }
+.content { flex: 1; color: var(--aps-muted); }
+.content section { scroll-margin-top: 80px; margin-bottom: 24px; }
+</style>
+```
+
+### 2.4 指定滚动容器
+
+```vue demo:nav-anchor-container title="指定滚动容器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const box = ref<HTMLElement | null>(null);
+const items = [
+  { key: "x", label: "基础", targetId: "p-x" },
+  { key: "y", label: "进阶", targetId: "p-y" },
+];
+</script>
+
+<template>
+  <div ref="box" class="scroll-box">
+    <div class="inner">
+      <AppAnchor :items="items" :scroll-container="box" />
+      <div class="content">
+        <section id="p-x"><h4>基础</h4><p v-for="i in 6" :key="i">基础段落 {{ i }}。</p></section>
+        <section id="p-y"><h4>进阶</h4><p v-for="i in 6" :key="i">进阶段落 {{ i }}。</p></section>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.scroll-box { height: 260px; overflow: auto; border: 1px solid var(--aps-line-soft); border-radius: 10px; padding: 12px; }
+.inner { display: flex; gap: 20px; }
+.content { flex: 1; color: var(--aps-muted); }
+.content section { scroll-margin-top: 12px; margin-bottom: 20px; }
+</style>
+```
+
+### 2.5 关闭粘性定位
+
+```vue demo:nav-anchor-sticky-off title="关闭粘性定位"
+<script setup lang="ts">
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "m", label: "模块一", targetId: "d-m" },
+  { key: "n", label: "模块二", targetId: "d-n" },
+];
+</script>
+
+<template>
+  <div class="layout">
+    <AppAnchor :items="items" :sticky="false" />
+    <div class="content">
+      <section id="d-m"><h4>模块一</h4><p v-for="i in 4" :key="i">内容 {{ i }}。</p></section>
+      <section id="d-n"><h4>模块二</h4><p v-for="i in 4" :key="i">内容 {{ i }}。</p></section>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.layout { display: flex; gap: 24px; }
+.content { flex: 1; color: var(--aps-muted); }
+</style>
+```
+
+### 2.6 受控当前项
+
+```vue demo:nav-anchor-controlled title="受控当前项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const current = ref("o1");
+const items = [
+  { key: "o1", label: "概览", targetId: "e-o1" },
+  { key: "o2", label: "详情", targetId: "e-o2" },
+  { key: "o3", label: "日志", targetId: "e-o3" },
+];
+</script>
+
+<template>
+  <div class="layout">
+    <AppAnchor :items="items" :offset="12" :model-value="current" @update:model-value="(k: string) => (current = k)" />
+    <div class="content">
+      <section id="e-o1"><h4>概览</h4><p v-for="i in 3" :key="i">概览 {{ i }}。</p></section>
+      <section id="e-o2"><h4>详情</h4><p v-for="i in 3" :key="i">详情 {{ i }}。</p></section>
+      <section id="e-o3"><h4>日志</h4><p v-for="i in 3" :key="i">日志 {{ i }}。</p></section>
+      <p>当前目录项：{{ current }}</p>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.layout { display: flex; gap: 24px; }
+.content { flex: 1; color: var(--aps-muted); }
+</style>
+```
+
+### 2.7 禁用某项
+
+```vue demo:nav-anchor-disabled-item title="禁用某项"
+<script setup lang="ts">
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "p", label: "可用章节", targetId: "f-p" },
+  { key: "q", label: "暂未开放", targetId: "f-q", disabled: true },
+];
+</script>
+
+<template>
+  <div class="layout">
+    <AppAnchor :items="items" />
+    <div class="content">
+      <section id="f-p"><h4>可用章节</h4><p>可点击跳转。</p></section>
+      <section id="f-q"><h4>暂未开放</h4><p>目录项被禁用，无法跳转。</p></section>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.layout { display: flex; gap: 24px; }
+.content { flex: 1; color: var(--aps-muted); }
+</style>
+```
+
+### 2.8 自定义可访问名称
+
+```vue demo:nav-anchor-label title="自定义可访问名称"
+<script setup lang="ts">
+import { AppAnchor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "r", label: "第一节", targetId: "g-r" },
+  { key: "s", label: "第二节", targetId: "g-s" },
+];
+</script>
+
+<template>
+  <div class="layout">
+    <AppAnchor :items="items" aria-label="文档目录" />
+    <div class="content">
+      <section id="g-r"><h4>第一节</h4><p>内容。</p></section>
+      <section id="g-s"><h4>第二节</h4><p>内容。</p></section>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.layout { display: flex; gap: 24px; }
+.content { flex: 1; color: var(--aps-muted); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppWorkTab } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const active = ref("a");
+const items = [
+  { key: "a", label: "概览" },
+  { key: "b", label: "详情" },
+];
+</script>
+
+<template>
+  <AppWorkTab :items="items" :model-value="active" @update:model-value="(k: string) => (active = k)" />
+</template>

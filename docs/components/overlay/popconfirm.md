@@ -60,6 +60,102 @@ function submit(): void {
 </template>
 ```
 
+
+### 2.3 危险确认
+
+```vue demo:overlay-popconfirm-danger title="危险确认"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopconfirm } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopconfirm v-model="open" title="删除记录" description="删除后不可恢复" confirm-text="删除" danger>
+    <template #trigger="{ toggle }">
+      <AppButton tone="danger" @click="toggle">删除</AppButton>
+    </template>
+  </AppPopconfirm>
+</template>
+```
+
+### 2.4 自定义文案
+
+```vue demo:overlay-popconfirm-custom-text title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopconfirm } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopconfirm v-model="open" title="提交审核" description="提交后将进入审核队列" confirm-text="提交审核" cancel-text="再想想">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">提交审核</AppButton>
+    </template>
+  </AppPopconfirm>
+</template>
+```
+
+### 2.5 确认回调
+
+```vue demo:overlay-popconfirm-confirm title="确认回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopconfirm } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const log = ref("");
+const onConfirm = () => {
+  log.value = "已确认";
+  open.value = false;
+};
+const onCancel = () => {
+  log.value = "已取消";
+  open.value = false;
+};
+</script>
+
+<template>
+  <div>
+    <AppPopconfirm v-model="open" title="是否继续？" description="操作将立即生效" @confirm="onConfirm" @cancel="onCancel">
+      <template #trigger="{ toggle }">
+        <AppButton @click="toggle">执行操作</AppButton>
+      </template>
+    </AppPopconfirm>
+    <p class="hint">{{ log || "未操作" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 浮层位置
+
+```vue demo:overlay-popconfirm-placement title="浮层位置"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppPopconfirm } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <AppPopconfirm v-model="open" title="确认操作" placement="top">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">上方弹出</AppButton>
+    </template>
+  </AppPopconfirm>
+</template>
+```
 ## 3. API 使用方式
 
 触发器使用插槽参数的 `toggle`；`confirm` 中开始请求并设置 `isConfirming`，请求结束后更新 `v-model`。取消事件适合记录用户主动放弃操作。

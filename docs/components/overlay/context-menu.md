@@ -64,6 +64,112 @@ const items = [
 </template>
 ```
 
+
+### 2.3 危险项
+
+```vue demo:overlay-context-menu-danger title="危险项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppContextMenu, type ContextMenuItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ContextMenuItem[] = [
+  { key: "edit", label: "编辑", icon: "edit" as const },
+  { key: "delete", label: "删除", icon: "trash" as const, danger: true },
+];
+</script>
+
+<template>
+  <AppContextMenu v-model="open" :items="items" menu-label="行操作">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">右键菜单</AppButton>
+    </template>
+  </AppContextMenu>
+</template>
+```
+
+### 2.4 分隔项
+
+```vue demo:overlay-context-menu-divided title="分隔项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppContextMenu, type ContextMenuItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ContextMenuItem[] = [
+  { key: "copy", label: "复制", icon: "copy" as const },
+  { key: "paste", label: "粘贴", icon: "check" as const },
+  { key: "move", label: "移动到…", icon: "drag" as const, divided: true },
+  { key: "delete", label: "删除", icon: "trash" as const, danger: true },
+];
+</script>
+
+<template>
+  <AppContextMenu v-model="open" :items="items" menu-label="更多操作">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">更多操作</AppButton>
+    </template>
+  </AppContextMenu>
+</template>
+```
+
+### 2.5 选择回调
+
+```vue demo:overlay-context-menu-select title="选择回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppContextMenu, type ContextMenuItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const picked = ref("");
+const items: ContextMenuItem[] = [
+  { key: "view", label: "查看详情" },
+  { key: "refresh", label: "刷新" },
+];
+</script>
+
+<template>
+  <div>
+    <AppContextMenu v-model="open" :items="items" menu-label="列表操作" @select="(k: string) => (picked = k)">
+      <template #trigger="{ toggle }">
+        <AppButton @click="toggle">打开菜单</AppButton>
+      </template>
+    </AppContextMenu>
+    <p class="hint">已选：{{ picked || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 禁用项
+
+```vue demo:overlay-context-menu-disabled title="禁用项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppContextMenu, type ContextMenuItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items: ContextMenuItem[] = [
+  { key: "a", label: "可用操作" },
+  { key: "b", label: "锁定操作", disabled: true },
+];
+</script>
+
+<template>
+  <AppContextMenu v-model="open" :items="items" menu-label="操作菜单">
+    <template #trigger="{ toggle }">
+      <AppButton @click="toggle">操作菜单</AppButton>
+    </template>
+  </AppContextMenu>
+</template>
+```
 ## 3. API 使用方式
 
 把实际业务入口放入 `trigger` 插槽，在 `select` 中按 key 执行动作。点击模式使用插槽暴露的 `toggle`，右键模式则由组件监听触发器事件。

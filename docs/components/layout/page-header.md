@@ -53,6 +53,44 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:layout-page-header-description title="说明文字"
+<script setup lang="ts">
+import { AppPageHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageHeader title="商品管理" description="维护商品信息、价格与库存" />
+</template>
+```
+
+### 2.4 纯标题
+
+```vue demo:layout-page-header-title title="纯标题"
+<script setup lang="ts">
+import { AppPageHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageHeader title="订单详情" />
+</template>
+```
+
+### 2.5 返回标题
+```vue demo:layout-page-header-back title="返回标题"
+<script setup lang="ts">
+import { AppPageHeader } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageHeader title="订单详情" description="返回订单列表可查看全部订单" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -47,6 +47,54 @@ const series: ChartSeries[] = [{ name: "访问量", data: [92, 118, 136, 127, 15
 </template>
 ```
 
+
+### 2.3 说明文字
+
+```vue demo:charts-chart-card-description title="说明文字"
+<script setup lang="ts">
+import { AppChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "浏览量", data: [300, 420, 380, 560] }];
+</script>
+
+<template>
+  <AppChartCard title="流量趋势" description="近四天页面浏览量" type="line" :series="series" :categories="['08-14', '08-15', '08-16', '08-17']" />
+</template>
+```
+
+### 2.4 柱状类型
+
+```vue demo:charts-chart-card-bar title="柱状类型"
+<script setup lang="ts">
+import { AppChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [
+  { name: "线上", data: [88, 120, 96] },
+  { name: "线下", data: [60, 75, 90] },
+];
+</script>
+
+<template>
+  <AppChartCard title="渠道对比" type="bar" :series="series" :categories="['华东', '华南', '华北']" />
+</template>
+```
+
+### 2.5 导出
+
+```vue demo:charts-chart-card-export title="导出"
+<script setup lang="ts">
+import { AppChartCard, type ChartSeries } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const series: ChartSeries[] = [{ name: "留存率", data: [92, 88, 85, 80] }];
+</script>
+
+<template>
+  <AppChartCard title="用户留存" type="line" :series="series" :categories="['D1', 'D7', 'D14', 'D30']" exportable />
+</template>
+```
 ## 3. API 使用方式
 
 `title` 与 `series` 必填。需要从卡片进入详情页时，把链接或按钮放入 `actions`，不要让整张卡片同时承担多种交互。

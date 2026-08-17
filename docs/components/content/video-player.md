@@ -39,6 +39,45 @@ import "aps-design-pro/style.css";
 <template><AppVideoPlayer src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" title="静音循环背景视频" muted loop :controls="false" /></template>
 ```
 
+
+### 2.3 封面图
+
+```vue demo:content-video-player-poster title="封面图"
+<script setup lang="ts">
+import { AppVideoPlayer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppVideoPlayer src="https://www.w3schools.com/html/mov_bbb.mp4" poster="https://picsum.photos/seed/poster/640/360" />
+</template>
+```
+
+### 2.4 隐藏控制栏
+
+```vue demo:content-video-player-controls title="隐藏控制栏"
+<script setup lang="ts">
+import { AppVideoPlayer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppVideoPlayer src="https://www.w3schools.com/html/mov_bbb.mp4" :controls="false" />
+</template>
+```
+
+### 2.5 循环播放
+
+```vue demo:content-video-player-loop title="循环播放"
+<script setup lang="ts">
+import { AppVideoPlayer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppVideoPlayer src="https://www.w3schools.com/html/mov_bbb.mp4" loop />
+</template>
+```
 ## 3. API 使用方式
 
 设置 `src` 即可播放。`autoplay` 建议与 `muted` 一同使用以提高浏览器允许自动播放的概率；关闭 `controls` 后只保留原生视频元素，不再显示组件自带的交互栏。

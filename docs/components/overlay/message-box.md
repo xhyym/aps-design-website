@@ -50,6 +50,95 @@ const value = ref("");
 </template>
 ```
 
+
+### 2.3 提示模式
+
+```vue demo:overlay-message-box-alert title="提示模式"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMessageBox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">弹出提示</AppButton>
+    <AppMessageBox v-model="open" mode="alert" title="操作完成" message="数据已成功保存" />
+  </div>
+</template>
+```
+
+### 2.4 危险确认
+
+```vue demo:overlay-message-box-danger title="危险确认"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMessageBox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton tone="danger" @click="open = true">注销账号</AppButton>
+    <AppMessageBox v-model="open" mode="confirm" title="确认注销" message="注销后所有数据将被清除，且不可恢复" confirm-text="注销" danger />
+  </div>
+</template>
+```
+
+### 2.5 输入校验
+
+```vue demo:overlay-message-box-validator title="输入校验"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMessageBox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const value = ref("");
+const validator = (v: string) => {
+  if (v.trim().length < 2) return "名称至少 2 个字符";
+  return undefined;
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">新建分组</AppButton>
+    <AppMessageBox v-model="open" mode="prompt" v-model:input-value="value" title="新建分组" message="请输入分组名称" :input-validator="validator" />
+  </div>
+</template>
+```
+
+### 2.6 提交中
+
+```vue demo:overlay-message-box-submitting title="提交中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMessageBox } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const submitting = ref(false);
+const onConfirm = () => {
+  submitting.value = true;
+  setTimeout(() => {
+    submitting.value = false;
+    open.value = false;
+  }, 1500);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">确认支付</AppButton>
+    <AppMessageBox v-model="open" mode="confirm" title="确认支付" message="本次支付金额为 ¥ 199.00" confirm-text="支付" :is-submitting="submitting" @confirm="onConfirm" />
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 `confirm` 事件携带最终输入值。`prompt` 模式请绑定 `v-model:input-value`，校验函数返回字符串时会阻止提交并在输入框下显示错误。

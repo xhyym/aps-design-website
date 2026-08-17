@@ -63,6 +63,109 @@ function scrollPreview(): void {
 
 `label` 会作为图标按钮的无障碍名称，应写明返回目标而不是笼统写“按钮”。
 
+
+### 2.3 调整显示阈值
+
+```vue demo:nav-back-to-top-threshold title="调整显示阈值"
+<script setup lang="ts">
+import { AppBackToTop } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 14" :key="i">滚动超过 120px 后显示回到顶部按钮。</p>
+    <AppBackToTop :threshold="120" />
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; padding: 12px; }
+</style>
+```
+
+### 2.4 较大阈值
+
+```vue demo:nav-back-to-top-large title="较大阈值"
+<script setup lang="ts">
+import { AppBackToTop } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 20" :key="i">长页面，滚动超过 600px 才出现按钮。</p>
+    <AppBackToTop :threshold="600" />
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; padding: 12px; }
+</style>
+```
+
+### 2.5 自定义名称
+
+```vue demo:nav-back-to-top-label title="自定义名称"
+<script setup lang="ts">
+import { AppBackToTop } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="flow">
+    <p v-for="i in 12" :key="i">为按钮提供更具语义的可访问名称。</p>
+    <AppBackToTop label="返回页首" />
+  </div>
+</template>
+
+<style scoped>
+.flow { color: var(--aps-muted); line-height: 1.8; padding: 12px; }
+</style>
+```
+
+### 2.6 指定滚动容器
+
+```vue demo:nav-back-to-top-target title="指定滚动容器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppBackToTop } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const box = ref<HTMLElement | null>(null);
+</script>
+
+<template>
+  <div ref="box" class="scroll-box">
+    <p v-for="i in 16" :key="i">容器内的长内容，按钮只监听该容器。</p>
+    <AppBackToTop :target="box" />
+  </div>
+</template>
+
+<style scoped>
+.scroll-box { height: 240px; overflow: auto; border: 1px solid var(--aps-line-soft); border-radius: 10px; padding: 12px; color: var(--aps-muted); }
+</style>
+```
+
+### 2.7 卡片内回到顶部
+
+```vue demo:nav-back-to-top-card title="卡片内回到顶部"
+<script setup lang="ts">
+import { AppBackToTop } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="card">
+    <p v-for="i in 12" :key="i">卡片内容 {{ i }}。</p>
+    <AppBackToTop :threshold="80" />
+  </div>
+</template>
+
+<style scoped>
+.card { height: 240px; overflow: auto; border: 1px solid var(--aps-line-soft); border-radius: 12px; padding: 12px; color: var(--aps-muted); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

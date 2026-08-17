@@ -50,6 +50,58 @@ import "aps-design-pro/style.css";
 </style>
 ```
 
+
+### 2.3 自定义名称
+
+```vue demo:layout-logo-custom-label title="自定义名称"
+<script setup lang="ts">
+import { AppLogo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppLogo label="APS Design" />
+    <AppLogo label="控制台" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 24px; align-items: center; }
+</style>
+```
+
+### 2.4 组合品牌
+
+```vue demo:layout-logo-with-brand title="组合品牌"
+<script setup lang="ts">
+import { AppBrandMark, AppLogo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppBrandMark size="small" />
+    <AppLogo label="APS Design Pro" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; align-items: center; }
+</style>
+```
+
+### 2.5 长名称
+```vue demo:layout-logo-long-label title="长名称"
+<script setup lang="ts">
+import { AppLogo } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppLogo label="APS Design System Pro" />
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

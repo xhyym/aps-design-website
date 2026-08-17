@@ -38,6 +38,52 @@ import "aps-design-pro/style.css";
 <template><AppProgressCard title="导入进度" :percentage="36" status="warning" /></template>
 ```
 
+
+### 2.3 成功状态
+
+```vue demo:progress-card-success title="成功状态"
+<script setup lang="ts">
+import { AppProgressCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppProgressCard title="年度目标" :percentage="100" description="已完成全年指标" status="success" />
+</template>
+```
+
+### 2.4 错误状态
+
+```vue demo:progress-card-error title="错误状态"
+<script setup lang="ts">
+import { AppProgressCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppProgressCard title="数据迁移" :percentage="38" description="步骤 3/5 失败，请重试" status="error" />
+</template>
+```
+
+### 2.5 任务说明
+
+```vue demo:progress-card-description title="任务说明"
+<script setup lang="ts">
+import { AppProgressCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppProgressCard title="缓存预热" :percentage="82" description="已预热 82% 的节点" />
+    <AppProgressCard title="日志归档" :percentage="50" description="正在压缩历史日志" status="warning" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; flex-wrap: wrap; }
+</style>
+```
 ## 3. API 使用方式
 
 传入 0–100 的 `percentage`，超出范围由内置进度组件收敛显示。`status` 只表达当前反馈色，不保存业务审批结论。

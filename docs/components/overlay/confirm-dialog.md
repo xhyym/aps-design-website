@@ -58,6 +58,100 @@ function submitArchive(): void {
 </template>
 ```
 
+
+### 2.3 危险确认
+
+```vue demo:overlay-confirm-dialog-danger title="危险确认"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppConfirmDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton tone="danger" @click="open = true">删除项目</AppButton>
+    <AppConfirmDialog v-model="open" title="删除项目" description="删除后不可恢复，请谨慎操作" confirm-text="删除" danger />
+  </div>
+</template>
+```
+
+### 2.4 自定义文案
+
+```vue demo:overlay-confirm-dialog-custom-text title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppConfirmDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">提交发布</AppButton>
+    <AppConfirmDialog v-model="open" title="确认发布" description="发布后将立即对全部用户生效" confirm-text="立即发布" />
+  </div>
+</template>
+```
+
+### 2.5 确认回调
+
+```vue demo:overlay-confirm-dialog-confirm title="确认回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppConfirmDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const log = ref("");
+const onConfirm = () => {
+  log.value = "已确认操作";
+  open.value = false;
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">执行操作</AppButton>
+    <AppConfirmDialog v-model="open" title="执行操作" description="是否继续执行该操作？" confirm-text="确认" @confirm="onConfirm" />
+    <p class="hint">{{ log || "尚未操作" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 提交中
+
+```vue demo:overlay-confirm-dialog-submitting title="提交中"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppConfirmDialog } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const submitting = ref(false);
+const onConfirm = () => {
+  submitting.value = true;
+  setTimeout(() => {
+    submitting.value = false;
+    open.value = false;
+  }, 1500);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">发起请求</AppButton>
+    <AppConfirmDialog v-model="open" title="提交数据" description="数据将提交到远程服务器" confirm-text="提交" :is-submitting="submitting" @confirm="onConfirm" />
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 确认按钮触发 `confirm`，业务层开始请求并把 `isSubmitting` 设为 `true`；请求完成后再关闭 `modelValue`。取消和遮罩关闭都会同步 `modelValue`。

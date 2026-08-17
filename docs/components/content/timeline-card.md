@@ -53,6 +53,65 @@ const items: TimelineItem[] = [
 <template><AppTimelineCard title="同步记录" :items="items" /></template>
 ```
 
+
+### 2.3 补充说明
+
+```vue demo:content-timeline-card-description title="补充说明"
+<script setup lang="ts">
+import { AppTimelineCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "t1", title: "创建项目", description: "初始化仓库与配置", timestamp: "08-10 09:00" },
+  { key: "t2", title: "提交代码", description: "完成首版功能", timestamp: "08-11 14:30" },
+];
+</script>
+
+<template>
+  <AppTimelineCard title="项目进展" description="最近两周的关键节点" :items="items" />
+</template>
+```
+
+### 2.4 操作区
+
+```vue demo:content-timeline-card-actions title="操作区"
+<script setup lang="ts">
+import { AppButton, AppTimelineCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "a", title: "发布 v0.2", timestamp: "08-12" },
+  { key: "b", title: "发布 v0.3", timestamp: "08-15" },
+];
+</script>
+
+<template>
+  <AppTimelineCard title="版本记录" :items="items">
+    <template #actions>
+      <AppButton size="small" variant="text">查看全部</AppButton>
+    </template>
+  </AppTimelineCard>
+</template>
+```
+
+### 2.5 状态记录
+
+```vue demo:content-timeline-card-state title="状态记录"
+<script setup lang="ts">
+import { AppTimelineCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = [
+  { key: "1", title: "已上线", description: "灰度 10%", timestamp: "08-16 10:00", tone: "green" as const },
+  { key: "2", title: "正在验证", description: "等待监控数据", timestamp: "08-16 11:20", tone: "orange" as const },
+  { key: "3", title: "计划回滚", description: "异常率上升", timestamp: "08-16 12:40", tone: "red" as const },
+];
+</script>
+
+<template>
+  <AppTimelineCard title="发布状态" :items="items" />
+</template>
+```
 ## 3. API 使用方式
 
 传入标题和 `items` 即可。右侧只有单个附加动作时使用 `actions` 插槽；复杂筛选和批量操作不适合塞进卡片标题栏。

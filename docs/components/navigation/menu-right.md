@@ -69,6 +69,124 @@ const items = [{ key: "open", label: "打开详情", icon: "arrow-right" as cons
 
 用于行内菜单时，建议让触发控件自身保留可访问名称，`label` 则描述菜单整体用途。
 
+
+### 2.3 自定义触发器
+
+```vue demo:nav-menu-right-trigger title="自定义触发器"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMenuRight } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { key: "edit", label: "编辑", icon: "edit" as const },
+  { key: "copy", label: "复制", icon: "copy" as const },
+  { key: "del", label: "删除", icon: "trash" as const, danger: true },
+];
+</script>
+
+<template>
+  <AppMenuRight v-model="visible" :items="items" label="行操作">
+    <template #trigger="{ toggle }">
+      <AppButton size="small" @click="toggle">更多操作</AppButton>
+    </template>
+  </AppMenuRight>
+</template>
+```
+
+### 2.4 危险项
+
+```vue demo:nav-menu-right-danger title="危险操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMenuRight } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { key: "share", label: "分享", icon: "copy" as const },
+  { key: "reset", label: "重置密码", icon: "refresh" as const },
+  { key: "del", label: "注销账号", icon: "trash" as const, danger: true },
+];
+</script>
+
+<template>
+  <AppButton @click="visible = true">打开菜单</AppButton>
+  <AppMenuRight v-model="visible" :items="items" label="账号操作" />
+</template>
+```
+
+### 2.5 分割线
+
+```vue demo:nav-menu-right-divided title="分隔与危险项"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMenuRight } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const items = [
+  { key: "top", label: "置顶", icon: "arrow-up" as const },
+  { key: "move", label: "移动", icon: "drag" as const },
+  { key: "sep", label: "删除", icon: "trash" as const, divided: true, danger: true },
+];
+</script>
+
+<template>
+  <AppButton @click="visible = true">打开菜单</AppButton>
+  <AppMenuRight v-model="visible" :items="items" label="列表操作" />
+</template>
+```
+
+### 2.6 受控显隐
+
+```vue demo:nav-menu-right-controlled title="受控显隐"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppMenuRight } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const items = [
+  { key: "a", label: "查看", icon: "eye" as const },
+  { key: "b", label: "编辑", icon: "edit" as const },
+];
+</script>
+
+<template>
+  <AppMenuRight v-model="open" :items="items" label="操作" />
+</template>
+```
+
+### 2.7 监听选择
+
+```vue demo:nav-menu-right-select title="选择回调"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppMenuRight } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const last = ref("");
+const visible = ref(false);
+const items = [
+  { key: "k1", label: "刷新", icon: "refresh" as const },
+  { key: "k2", label: "导出", icon: "download" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton @click="visible = true">打开菜单</AppButton>
+    <AppMenuRight v-model="visible" :items="items" label="更多" @select="(key: string) => (last = key)" />
+    <p class="hint">已选：{{ last || "无" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

@@ -46,6 +46,57 @@ function retry(task: ExportTask): void { tasks.value = tasks.value.map((item) =>
 <template><AppExportTaskPanel :tasks="tasks" @retry="retry" /></template>
 ```
 
+
+### 2.3 任务进度
+
+```vue demo:export-task-panel-progress title="任务进度"
+<script setup lang="ts">
+import { AppExportTaskPanel, type ExportTask } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const tasks: ExportTask[] = [
+  { id: "t1", title: "订单导出", status: "processing", createdAt: "2026-08-17 10:00", progress: 45 },
+  { id: "t2", title: "商品导出", status: "queued", createdAt: "2026-08-17 10:02" },
+];
+</script>
+
+<template>
+  <AppExportTaskPanel :tasks="tasks" />
+</template>
+```
+
+### 2.4 可下载任务
+
+```vue demo:export-task-panel-downloadable title="可下载任务"
+<script setup lang="ts">
+import { AppExportTaskPanel, type ExportTask } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const tasks: ExportTask[] = [
+  { id: "t1", title: "客户名单", status: "succeeded", createdAt: "2026-08-16 18:30", completedAt: "2026-08-16 18:31", downloadable: true, downloadUrl: "/files/customers.xlsx", filename: "customers.xlsx" },
+  { id: "t2", title: "库存报表", status: "failed", createdAt: "2026-08-16 19:00", errorMessage: "数据源超时" },
+];
+</script>
+
+<template>
+  <AppExportTaskPanel :tasks="tasks" />
+</template>
+```
+
+### 2.5 空状态与文案
+
+```vue demo:export-task-panel-empty title="空状态与文案"
+<script setup lang="ts">
+import { AppExportTaskPanel, type ExportTask } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const tasks: ExportTask[] = [];
+</script>
+
+<template>
+  <AppExportTaskPanel :tasks="tasks" empty-text="暂无导出任务" />
+</template>
+```
 ## 3. API 使用方式
 
 每个 `ExportTask` 需有稳定 `id`、标题、创建时间和状态。`download` 事件只表示用户请求下载，业务层必须使用有权限的地址取得文件。

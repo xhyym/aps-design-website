@@ -45,6 +45,62 @@ const content = ref("<p><strong>审批说明：</strong>该记录已归档，不
 <template><AppRichTextEditor v-model="content" disabled :min-height="120" /></template>
 ```
 
+
+### 2.3 占位文案
+
+```vue demo:content-rich-text-editor-placeholder title="占位文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRichTextEditor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const html = ref("");
+</script>
+
+<template>
+  <AppRichTextEditor v-model="html" placeholder="在这里撰写公告内容…" />
+</template>
+```
+
+### 2.4 最小高度
+
+```vue demo:content-rich-text-editor-min-height title="最小高度"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRichTextEditor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const html = ref("<p>长文编辑区域。</p>");
+</script>
+
+<template>
+  <AppRichTextEditor v-model="html" :min-height="320" />
+</template>
+```
+
+### 2.5 受控内容
+
+```vue demo:content-rich-text-editor-controlled title="受控内容"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppRichTextEditor } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const html = ref("<h2>标题</h2><p>这是一段<b>加粗</b>内容。</p>");
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppRichTextEditor v-model="html" @update:model-value="(v: string) => (log = v.length + ' 字符')" />
+    <p class="hint">{{ log || "等待输入" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 通过 `v-model` 接收已清洗的 HTML 字符串。粘贴时组件仅插入纯文本；工具栏命令依赖浏览器的原生编辑命令，因此应把复杂排版交给专业编辑器或后端内容系统。

@@ -49,6 +49,50 @@ import "aps-design-pro/style.css";
 </template>
 ```
 
+
+### 2.3 成功状态
+
+```vue demo:result-page-success title="成功状态"
+<script setup lang="ts">
+import { AppResultPage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResultPage status="success" title="发布成功" description="新版本已发布到生产环境" />
+</template>
+```
+
+### 2.4 警告状态
+
+```vue demo:result-page-warning title="警告状态"
+<script setup lang="ts">
+import { AppResultPage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResultPage status="warning" title="部分失败" description="3 条记录导入失败，请查看明细" />
+</template>
+```
+
+### 2.5 页面操作
+
+```vue demo:result-page-actions title="页面操作"
+<script setup lang="ts">
+import { AppButton, AppResultPage } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppResultPage status="success" title="订单已提交" description="我们会在 24 小时内处理">
+    <template #actions>
+      <AppButton size="small">查看订单</AppButton>
+      <AppButton size="small" variant="text">返回首页</AppButton>
+    </template>
+  </AppResultPage>
+</template>
+```
 ## 3. API 使用方式
 
 直接在路由页面中选择状态和内容，将跳转逻辑放在插槽内的按钮事件中。

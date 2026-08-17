@@ -44,6 +44,62 @@ function createExport(): void { loading.value = true; window.setTimeout(() => { 
 <template><AppExcelExport :loading="loading" @export="createExport" /></template>
 ```
 
+
+### 2.3 禁用状态
+
+```vue demo:excel-export-disabled title="禁用状态"
+<script setup lang="ts">
+import { AppExcelExport } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppExcelExport filename="月度报表.xlsx" />
+    <AppExcelExport filename="未就绪.xlsx" disabled />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 12px; }
+</style>
+```
+
+### 2.4 自定义文件名
+
+```vue demo:excel-export-custom-filename title="自定义文件名"
+<script setup lang="ts">
+import { AppExcelExport } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppExcelExport filename="2026年8月订单明细.xlsx" />
+</template>
+```
+
+### 2.5 导出事件
+
+```vue demo:excel-export-click title="导出事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppExcelExport } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const done = ref("");
+</script>
+
+<template>
+  <div>
+    <AppExcelExport filename="数据导出.xlsx" @export="done = '已触发导出：数据导出.xlsx'" />
+    <p class="hint">{{ done || "点击上方按钮触发导出" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 在 `export` 中先创建服务端导出任务，复杂任务配合 `AppExportTaskPanel` 展示进度与下载记录。

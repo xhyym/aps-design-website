@@ -51,6 +51,98 @@ const visible = ref(true);
 </template>
 ```
 
+
+### 2.3 语义色调
+
+```vue demo:alert-tones title="语义色调"
+<script setup lang="ts">
+import { AppAlert } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppAlert title="信息提示" description="这是一条普通信息。" tone="info" />
+    <AppAlert title="操作成功" description="数据已保存。" tone="success" />
+    <AppAlert title="注意" description="配置将在重启后生效。" tone="warning" />
+    <AppAlert title="操作失败" description="请稍后重试。" tone="danger" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.4 可关闭
+
+```vue demo:alert-closable title="可关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppAlert } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const show = ref(true);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppAlert v-if="show" title="可关闭提示" description="点击右侧按钮关闭" closable @close="show = false; log = '已关闭'" />
+    <p class="hint">{{ log || "提示仍显示中" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.5 深色效果
+
+```vue demo:alert-effect title="深色效果"
+<script setup lang="ts">
+import { AppAlert } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="col">
+    <AppAlert title="深色信息" description="适合深色主题场景。" effect="dark" />
+    <AppAlert title="深色警告" description="深色模式下仍有足够对比度。" tone="warning" effect="dark" />
+  </div>
+</template>
+
+<style scoped>
+.col { display: flex; flex-direction: column; gap: 12px; }
+</style>
+```
+
+### 2.6 居中布局
+
+```vue demo:alert-center title="居中布局"
+<script setup lang="ts">
+import { AppAlert } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppAlert title="居中提示" description="内容与图标水平居中展示。" center />
+</template>
+```
+
+### 2.7 自定义图标
+
+```vue demo:alert-icon title="自定义图标"
+<script setup lang="ts">
+import { AppAlert } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppAlert title="维护通知" description="系统将于周六维护" icon="warning" tone="warning" />
+</template>
+```
 ## 3. API 使用方式
 
 通过 `title` 与 `description` 提供固定文案；当说明中包含链接或强调内容时，改用默认插槽。关闭行为由业务页面决定是否隐藏组件。

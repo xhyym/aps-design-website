@@ -70,6 +70,91 @@ const columns = ["订单号", "客户名称", "支付状态", "发货状态", "�
 </style>
 ```
 
+
+### 2.3 固定高度
+
+```vue demo:layout-scrollbar-height title="固定高度"
+<script setup lang="ts">
+import { AppScrollbar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppScrollbar height="160px">
+    <ul>
+      <li v-for="i in 20" :key="i">滚动条目 {{ i }}</li>
+    </ul>
+  </AppScrollbar>
+</template>
+
+<style scoped>
+ul { margin: 0; padding: 0; list-style: none; }
+li { padding: 8px 12px; border-bottom: 1px solid var(--aps-border); }
+</style>
+```
+
+### 2.4 最大高度
+
+```vue demo:layout-scrollbar-max-height title="最大高度"
+<script setup lang="ts">
+import { AppScrollbar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppScrollbar max-height="180px">
+    <p>内容较少时不出现滚动条，超出后限制在 180px 内滚动。</p>
+    <p v-for="i in 15" :key="i">补充段落 {{ i }}</p>
+  </AppScrollbar>
+</template>
+```
+
+### 2.5 滚动事件
+
+```vue demo:layout-scrollbar-event title="滚动事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppScrollbar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const pos = ref("top: 0");
+const onScroll = (p: { top: number; left: number }) => {
+  pos.value = "top: " + p.top + "px";
+};
+</script>
+
+<template>
+  <div>
+    <AppScrollbar height="120px" @scroll="onScroll">
+      <p v-for="i in 12" :key="i">第 {{ i }} 行</p>
+    </AppScrollbar>
+    <p class="hint">{{ pos }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 长内容
+
+```vue demo:layout-scrollbar-long title="长内容"
+<script setup lang="ts">
+import { AppScrollbar } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppScrollbar height="140px">
+    <p v-for="i in 30" :key="i" class="line">日志记录 #{{ i }}</p>
+  </AppScrollbar>
+</template>
+
+<style scoped>
+.line { margin: 0; padding: 6px 12px; font-size: 13px; border-bottom: 1px solid var(--aps-border); }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue

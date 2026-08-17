@@ -54,6 +54,103 @@ const visible = ref(false);
 </template>
 ```
 
+
+### 2.3 底部操作
+
+```vue demo:overlay-drawer-footer title="底部操作"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDrawer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开抽屉</AppButton>
+    <AppDrawer v-model="open" title="新建工单" description="填写工单基础信息">
+      <p>工单表单内容。</p>
+      <template #footer>
+        <AppButton size="small" variant="text" @click="open = false">取消</AppButton>
+        <AppButton size="small" @click="open = false">提交</AppButton>
+      </template>
+    </AppDrawer>
+  </div>
+</template>
+```
+
+### 2.4 说明文字
+
+```vue demo:overlay-drawer-description title="说明文字"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDrawer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">查看详情</AppButton>
+    <AppDrawer v-model="open" title="项目详情" description="项目的基础信息与负责人">
+      <p>详细内容区域。</p>
+    </AppDrawer>
+  </div>
+</template>
+```
+
+### 2.5 关闭事件
+
+```vue demo:overlay-drawer-close-event title="关闭事件"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDrawer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+const log = ref("");
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开抽屉</AppButton>
+    <AppDrawer v-model="open" title="通知设置" @close="log = '抽屉已关闭'">
+      <p>设置项内容。</p>
+    </AppDrawer>
+    <p class="hint">{{ log || "抽屉未关闭" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
+
+### 2.6 禁止关闭
+
+```vue demo:overlay-drawer-closable-off title="禁止关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppDrawer } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const open = ref(false);
+</script>
+
+<template>
+  <div>
+    <AppButton @click="open = true">打开抽屉</AppButton>
+    <AppDrawer v-model="open" title="重要流程" description="请完成当前流程后再关闭" :closable="false" :close-on-overlay="false">
+      <p>流程步骤内容。</p>
+      <template #footer>
+        <AppButton size="small" @click="open = false">完成并关闭</AppButton>
+      </template>
+    </AppDrawer>
+  </div>
+</template>
+```
 ## 3. API 使用方式
 
 用 `v-model` 管理抽屉显示。抽屉内容放在默认插槽，固定操作放在 `footer`；异步保存时保留 `modelValue`，完成后再关闭。

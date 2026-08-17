@@ -38,6 +38,60 @@ import "aps-design-pro/style.css";
 <template><AppStatsCard title="待审核课程" :value="4" detail="需要运营人员处理" tone="neutral" icon="grid" /></template>
 ```
 
+
+### 2.3 状态色调
+
+```vue demo:stats-card-tone title="状态色调"
+<script setup lang="ts">
+import { AppStatsCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppStatsCard title="正常" value="86" tone="success" />
+    <AppStatsCard title="告警" value="12" tone="warning" />
+    <AppStatsCard title="异常" value="3" tone="danger" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; flex-wrap: wrap; }
+</style>
+```
+
+### 2.4 趋势与说明
+
+```vue demo:stats-card-trend title="趋势与说明"
+<script setup lang="ts">
+import { AppStatsCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatsCard title="月活跃用户" :value="128400" trend="+12.4%" detail="较上月增长" />
+</template>
+```
+
+### 2.5 图标
+
+```vue demo:stats-card-icon title="图标"
+<script setup lang="ts">
+import { AppStatsCard } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppStatsCard title="订单数" :value="8600" icon="chart" tone="info" />
+    <AppStatsCard title="商品数" :value="320" icon="grid" tone="neutral" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 16px; flex-wrap: wrap; }
+</style>
+```
 ## 3. API 使用方式
 
 指定 `title`、`value` 与语义色 `tone`。`trend` 应含方向和比例文字，例如 `+18.2%`，避免只传颜色没有数据。

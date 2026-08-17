@@ -56,6 +56,86 @@ const items = ref<ToastItem[]>([{ id: "undo", tone: "warning", message: "课程�
 </template>
 ```
 
+
+### 2.3 成功提示
+
+```vue demo:toast-success title="成功提示"
+<script setup lang="ts">
+import { AppToast, type ToastItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items: ToastItem[] = [
+  { id: "t1", message: "保存成功", tone: "success", closable: false, repeatCount: 1 },
+];
+</script>
+
+<template>
+  <AppToast :items="items" />
+</template>
+```
+
+### 2.4 警告提示
+
+```vue demo:toast-warning title="警告提示"
+<script setup lang="ts">
+import { AppToast, type ToastItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items: ToastItem[] = [
+  { id: "t1", message: "即将超时，请尽快提交", tone: "warning", closable: true, repeatCount: 1 },
+];
+</script>
+
+<template>
+  <AppToast :items="items" />
+</template>
+```
+
+### 2.5 受控队列
+
+```vue demo:toast-controlled title="受控队列"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppToast, type ToastItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items = ref<ToastItem[]>([]);
+const show = () => {
+  const id = "m" + Date.now();
+  items.value = [...items.value, { id, message: "这是一条新的提示", tone: "info", closable: true, repeatCount: 1 }];
+};
+const onClose = (id: string) => {
+  items.value = items.value.filter((x) => x.id !== id);
+};
+</script>
+
+<template>
+  <div>
+    <AppButton @click="show">弹出提示</AppButton>
+    <AppToast :items="items" @close="onClose" />
+  </div>
+</template>
+```
+
+### 2.6 关闭与操作
+
+```vue demo:toast-close-event title="关闭与操作"
+<script setup lang="ts">
+import { AppToast, type ToastItem } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const items: ToastItem[] = [
+  { id: "t1", message: "更新下载完成", tone: "success", closable: true, repeatCount: 1, actionText: "立即安装" },
+];
+const onAction = (id: string) => {
+  console.log("action on", id);
+};
+</script>
+
+<template>
+  <AppToast :items="items" @action="onAction" />
+</template>
+```
 ## 3. API 使用方式
 
 在应用根布局挂载一个 `AppToast`，将状态库中的消息数组传入。关闭和动作后由业务决定如何更新数组。

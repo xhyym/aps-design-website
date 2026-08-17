@@ -40,6 +40,74 @@ const deadline = Date.now() + 4 * 60 * 60 * 1000;
 <template><AppStatistic title="限时优惠结束" :value="0" :countdown-at="deadline" countdown-format="HH:mm:ss" status="活动价即将结束" tone="warning" /></template>
 ```
 
+
+### 2.3 前后缀
+
+```vue demo:statistic-prefix-suffix title="前后缀"
+<script setup lang="ts">
+import { AppStatistic } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppStatistic label="今日销售额" :value="48200" prefix="¥" />
+    <AppStatistic label="订单增长率" :value="12.5" :precision="1" suffix="%" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 48px; }
+</style>
+```
+
+### 2.4 自定义格式化
+
+```vue demo:statistic-formatter title="自定义格式化"
+<script setup lang="ts">
+import { AppStatistic } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const formatter = (value: string | number) => "约 " + Math.round(Number(value) / 10000) + " 万";
+</script>
+
+<template>
+  <AppStatistic label="累计用户" :value="1286000" :formatter="formatter" />
+</template>
+```
+
+### 2.5 状态色调
+
+```vue demo:statistic-tone title="状态色调"
+<script setup lang="ts">
+import { AppStatistic } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <div class="row">
+    <AppStatistic label="库存告警" :value="6" tone="danger" icon="warning" />
+    <AppStatistic label="在线人数" :value="328" tone="success" icon="users" />
+  </div>
+</template>
+
+<style scoped>
+.row { display: flex; gap: 48px; }
+</style>
+```
+
+### 2.6 辅助说明
+
+```vue demo:statistic-detail title="辅助说明"
+<script setup lang="ts">
+import { AppStatistic } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppStatistic title="本月毛利" :value="326000" prefix="¥" detail="较上月 +8.2%" />
+</template>
+```
 ## 3. API 使用方式
 
 传入数值可使用 `precision` 和 `groupSeparator` 格式化；传入 `countdownAt` 后 `value` 会被倒计时展示替代，并在结束时触发 `finish`。

@@ -60,6 +60,51 @@ const columns: DataTableColumn<(typeof rows)[number]>[] = [{ key: "name", label:
 </style>
 ```
 
+
+### 2.3 语义标签
+
+```vue demo:layout-page-content-as title="语义标签"
+<script setup lang="ts">
+import { AppPageContent } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageContent as="section">
+    <p>以 section 渲染的页面内容。</p>
+  </AppPageContent>
+</template>
+```
+
+### 2.4 自定义内容
+
+```vue demo:layout-page-content-custom title="自定义内容"
+<script setup lang="ts">
+import { AppPageContent } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageContent>
+    <h3>欢迎使用 APS Design</h3>
+    <p>这是一段页面主体内容示例。</p>
+  </AppPageContent>
+</template>
+```
+
+### 2.5 默认内边距
+```vue demo:layout-page-content-padded title="默认内边距"
+<script setup lang="ts">
+import { AppPageContent } from "aps-design-pro";
+import "aps-design-pro/style.css";
+</script>
+
+<template>
+  <AppPageContent>
+    <p>使用页面默认内边距的内容区。</p>
+  </AppPageContent>
+</template>
+```
 ## 3. API 使用方式
 
 ```vue

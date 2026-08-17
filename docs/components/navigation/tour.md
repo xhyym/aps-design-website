@@ -63,6 +63,161 @@ const steps = [{ key: "panel", title: "查看筛选条件", description: "先缩
 
 传入 `stepIndex` 后由父级完全管理当前进度；动态目标尚未挂载时，用户仍能完成或跳过流程。
 
+
+### 2.3 多步引导
+
+```vue demo:nav-tour-steps title="多步引导"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const steps = [
+  { key: "s1", title: "创建订单", description: "从顶部入口新建订单", target: "#tour-create", padding: 8 },
+  { key: "s2", title: "筛选列表", description: "使用左侧筛选快速定位", target: "#tour-filter", padding: 8 },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <div id="tour-create" class="box">创建订单区域</div>
+    <div id="tour-filter" class="box">筛选区域</div>
+    <AppTour v-model="visible" :steps="steps" />
+  </div>
+</template>
+
+<style scoped>
+.box { margin-top: 12px; padding: 16px; border: 1px solid var(--aps-line-soft); border-radius: 10px; color: var(--aps-muted); }
+</style>
+```
+
+### 2.4 不同方向
+
+```vue demo:nav-tour-placement title="不同方向"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const steps = [
+  { key: "p1", title: "右侧提示", description: "引导框出现在目标右侧", target: "#tour-right" as const, placement: "right" as const },
+  { key: "p2", title: "下方提示", description: "引导框出现在目标下方", target: "#tour-bottom" as const, placement: "bottom" as const },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <div id="tour-right" class="box">目标元素 A</div>
+    <div id="tour-bottom" class="box">目标元素 B</div>
+    <AppTour v-model="visible" :steps="steps" />
+  </div>
+</template>
+
+<style scoped>
+.box { margin-top: 12px; padding: 16px; border: 1px solid var(--aps-line-soft); border-radius: 10px; color: var(--aps-muted); }
+</style>
+```
+
+### 2.5 自定义文案
+
+```vue demo:nav-tour-text title="自定义文案"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const steps = [
+  { key: "t1", title: "第一步", description: "自定义按钮文案" },
+  { key: "t2", title: "第二步", description: "最后一步显示完成" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <AppTour v-model="visible" :steps="steps" next-text="继续" previous-text="返回" finish-text="我知道了" skip-text="暂不引导" />
+  </div>
+</template>
+```
+
+### 2.6 点击遮罩关闭
+
+```vue demo:nav-tour-mask title="点击遮罩关闭"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const steps = [
+  { key: "m1", title: "可跳过", description: "点击遮罩即可跳过引导" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <AppTour v-model="visible" :steps="steps" :mask-closable="true" />
+  </div>
+</template>
+```
+
+### 2.7 受控步骤
+
+```vue demo:nav-tour-step title="受控步骤"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const step = ref(0);
+const steps = [
+  { key: "c1", title: "章节一", description: "受控步骤索引" },
+  { key: "c2", title: "章节二", description: "可回退与前进" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <AppTour v-model="visible" :steps="steps" :step-index="step" @update:step-index="(i: number) => (step = i)" />
+  </div>
+</template>
+```
+
+### 2.8 监听完成
+
+```vue demo:nav-tour-finish title="监听完成"
+<script setup lang="ts">
+import { ref } from "vue";
+import { AppButton, AppTour } from "aps-design-pro";
+import "aps-design-pro/style.css";
+
+const visible = ref(false);
+const done = ref(false);
+const steps = [
+  { key: "f1", title: "引导完成", description: "完成后触发回调" },
+];
+</script>
+
+<template>
+  <div>
+    <AppButton size="small" @click="visible = true">开始引导</AppButton>
+    <AppTour v-model="visible" :steps="steps" @finish="() => (done = true)" />
+    <p class="hint">已完成：{{ done ? "是" : "否" }}</p>
+  </div>
+</template>
+
+<style scoped>
+.hint { color: var(--aps-muted); margin-top: 8px; }
+</style>
+```
 ## 3. API 使用方式
 
 ```vue
