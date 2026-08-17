@@ -64,6 +64,7 @@ const guideOrder: Record<string, number> = {
   "theming": 3,
   "i18n": 4,
   "changelog": 5,
+  "ai-coding-skill": 6,
 };
 
 /** 组件目录和左侧文档导航共用分类名称，避免同一组件在不同页面出现不同归属。 */
