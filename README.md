@@ -2,6 +2,8 @@
 
 APS Design Pro 的官方文档与组件展示站。网站用 Vue 3 + Vite 构建，组件效果直接使用 npm 上的 `aps-design-pro`，文档内容从仓库内的 Markdown 读取并渲染，方便组件源码、示例代码和发布站点一起维护。
 
+在线访问：[https://apsdesignpro.com/](https://apsdesignpro.com/)
+
 ## 在线内容
 
 官网包含五个主要板块：
@@ -76,6 +78,7 @@ import "aps-design-pro/style.css";
 
 ## 相关链接
 
+- [官网与组件文档](https://apsdesignpro.com/)
 - [组件库源码（Gitee）](https://gitee.com/xhyym/aps-design-pro)
 - [后台演示（Gitee）](https://gitee.com/xhyym/aps-design-admin-demo)
 - [npm：aps-design-pro](https://www.npmjs.com/package/aps-design-pro)

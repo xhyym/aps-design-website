@@ -1,9 +1,28 @@
 <script setup lang="ts">
-import { AppButton, AppCard, AppIcon } from "aps-design-pro";
+import { ref } from "vue";
+import { AppAvatar, AppButton, AppCard, AppIcon } from "aps-design-pro";
 import { ADMIN_DEMO_URL } from "@/data/navigation";
+import { SPONSOR_QR_CODES, SPONSORS, type SponsorItem } from "@/content/sponsors";
 
 function openGiteeProject(): void {
   window.open("https://gitee.com/xhyym/aps-design-pro", "_blank", "noopener,noreferrer");
+}
+
+/** 收款码主图加载失败时回退到占位图。 */
+function onQrError(event: Event, fallback: string): void {
+  const image = event.target as HTMLImageElement;
+  if (image.src !== fallback && !image.dataset.fallback) {
+    image.dataset.fallback = "1";
+    image.src = fallback;
+  }
+}
+
+/** 赞助墙双份渲染实现无缝滚动。 */
+const marqueeItems: SponsorItem[] = [...SPONSORS, ...SPONSORS];
+
+/** 公司赞助默认展示 Logo，个人或缺失时展示名称首字母。 */
+function initialsOf(sponsor: SponsorItem): string {
+  return sponsor.name.trim().slice(0, 1);
 }
 </script>
 
@@ -18,6 +37,69 @@ function openGiteeProject(): void {
         <a :href="ADMIN_DEMO_URL" target="_blank" rel="noopener noreferrer">
           <AppButton variant="secondary">查看最佳实践</AppButton>
         </a>
+      </div>
+    </section>
+
+    <section class="support-view__qrcode" aria-labelledby="qrcode-title">
+      <div class="support-view__section-head">
+        <p>扫码支持</p>
+        <h2 id="qrcode-title">你的每一笔支持，都会让项目走得更远。</h2>
+        <span>金额随心，备注随意。赞助记录会以公开方式展示在下方名单中。</span>
+      </div>
+      <div class="support-view__qrcode-grid">
+        <AppCard
+          v-for="code in SPONSOR_QR_CODES"
+          :key="code.label"
+          class="qr-card"
+          shadow="hover"
+          interactive
+        >
+          <div class="qr-card__body">
+            <AppIcon name="shield" :size="20" />
+            <h3>{{ code.label }}</h3>
+            <span>{{ code.hint }}</span>
+          </div>
+          <div class="qr-card__image">
+            <img :src="code.image" :alt="code.label + '收款码'" @error="onQrError($event, code.fallback)" />
+          </div>
+        </AppCard>
+      </div>
+    </section>
+
+    <section class="support-view__sponsors" aria-labelledby="sponsors-title">
+      <div class="support-view__section-head">
+        <p>赞助名单</p>
+        <h2 id="sponsors-title">感谢每一位支持者。</h2>
+        <span>点击公司卡片可前往其官网；个人赞助以首字母展示，无跳转。</span>
+      </div>
+      <div class="sponsor-marquee" aria-label="赞助列表走马灯">
+        <div class="sponsor-marquee__track">
+          <a
+            v-for="(sponsor, index) in marqueeItems"
+            :key="sponsor.name + '-' + index"
+            class="sponsor-card"
+            :class="{ 'sponsor-card--link': sponsor.url }"
+            :href="sponsor.url || undefined"
+            :target="sponsor.url ? '_blank' : undefined"
+            :rel="sponsor.url ? 'noopener noreferrer' : undefined"
+          >
+            <AppAvatar
+              :src="sponsor.avatar || undefined"
+              :initials="initialsOf(sponsor)"
+              :size="44"
+            />
+            <div class="sponsor-card__meta">
+              <strong>{{ sponsor.name }}</strong>
+              <span>{{ sponsor.description || (sponsor.tier === 'company' ? '企业赞助' : '个人赞助') }}</span>
+            </div>
+            <AppIcon
+              v-if="sponsor.url"
+              class="sponsor-card__arrow"
+              name="arrow-right"
+              :size="14"
+            />
+          </a>
+        </div>
       </div>
     </section>
 
@@ -52,7 +134,8 @@ function openGiteeProject(): void {
   max-width: 700px;
 }
 
-.support-view__hero > p {
+.support-view__hero > p,
+.support-view__section-head > p {
   margin: 0 0 14px;
   color: var(--aps-blue);
   font-size: 13px;
@@ -67,7 +150,8 @@ function openGiteeProject(): void {
   line-height: 1.08;
 }
 
-.support-view__hero > span {
+.support-view__hero > span,
+.support-view__section-head > span {
   display: block;
   max-width: 620px;
   margin-top: 20px;
@@ -83,11 +167,158 @@ function openGiteeProject(): void {
   margin-top: 28px;
 }
 
+.support-view__section-head {
+  max-width: 640px;
+}
+
+.support-view__section-head h2 {
+  margin: 0;
+  color: var(--aps-ink);
+  font-size: clamp(24px, 3vw, 32px);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.support-view__qrcode {
+  margin-top: 96px;
+}
+
+.support-view__qrcode-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 320px));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.qr-card :deep(.app-card-control) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 200px;
+  align-items: center;
+  gap: 20px;
+  min-height: 220px;
+  padding: 24px;
+}
+
+.qr-card__body {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+}
+
+.qr-card__body :deep(svg) {
+  color: var(--aps-blue);
+  margin-bottom: 8px;
+}
+
+.qr-card__body h3 {
+  margin: 0;
+  color: var(--aps-ink);
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.qr-card__body span {
+  color: var(--aps-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.qr-card__image {
+  border: 1px solid var(--aps-line-soft);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--aps-surface-soft);
+}
+
+.qr-card__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.support-view__sponsors {
+  margin-top: 96px;
+}
+
+.sponsor-marquee {
+  margin-top: 40px;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.sponsor-marquee__track {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  padding: 8px 0;
+  animation: sponsor-marquee 32s linear infinite;
+}
+
+.sponsor-marquee:hover .sponsor-marquee__track {
+  animation-play-state: paused;
+}
+
+@keyframes sponsor-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 8px));
+  }
+}
+
+.sponsor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 280px;
+  padding: 14px 18px;
+  border: 1px solid var(--aps-line-soft);
+  border-radius: 14px;
+  background: var(--aps-surface-soft);
+  text-decoration: none;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.sponsor-card--link:hover {
+  border-color: var(--aps-blue);
+  transform: translateY(-2px);
+}
+
+.sponsor-card__meta {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.sponsor-card__meta strong {
+  color: var(--aps-ink);
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sponsor-card__meta span {
+  color: var(--aps-faint);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sponsor-card__arrow {
+  margin-left: auto;
+  color: var(--aps-blue);
+  flex-shrink: 0;
+}
+
 .support-view__details {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 88px;
+  margin-top: 96px;
 }
 
 .support-view__details :deep(.app-card-control) {
@@ -128,9 +359,31 @@ function openGiteeProject(): void {
     padding-top: 58px;
   }
 
+  .support-view__qrcode {
+    margin-top: 64px;
+  }
+
+  .support-view__qrcode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-card :deep(.app-card-control) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .qr-card__body {
+    justify-items: center;
+  }
+
+  .qr-card__image {
+    width: 180px;
+  }
+
   .support-view__details {
     grid-template-columns: 1fr;
-    margin-top: 54px;
+    margin-top: 64px;
   }
 }
 </style>
